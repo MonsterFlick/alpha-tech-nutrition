@@ -103,10 +103,12 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
 
   const elements: string[] = []
 
-  // 1. Background with rounded corners
-  elements.push(
-    `<rect width="${size}" height="${totalHeight}" rx="28" fill="${backgroundColor}" />`
-  )
+  // 1. Background with rounded corners (omit if transparent)
+  if (backgroundColor && backgroundColor !== "transparent" && backgroundColor !== "none") {
+    elements.push(
+      `<rect width="${size}" height="${totalHeight}" rx="28" fill="${backgroundColor}" />`
+    )
+  }
 
   // 2. Render Data Modules (Rounded Dots / Squircles)
   for (let r = 0; r < N; r++) {
