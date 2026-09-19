@@ -26,6 +26,7 @@ import {
 import { verifyCode, type VerificationResult, DEFAULT_VERIFICATION_RECORDS } from "@/lib/verification"
 import { AestheticQRView } from "@/components/aesthetic-qr-view"
 import { getVerificationUrl } from "@/lib/qr-service"
+import { BrandLogo } from "@/components/brand-logo"
 
 function VerificationContent() {
   const searchParams = useSearchParams()
@@ -84,17 +85,16 @@ function VerificationContent() {
       {/* Top Header */}
       <header className="border-b border-white/10 bg-[#121212]/80 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <ArrowLeft className="w-5 h-5 text-white/60 group-hover:text-[#AFFF00] group-hover:-translate-x-1 transition-all" />
-            <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tight">
-                ALPHA <span className="text-[#AFFF00]">TECH</span>
-              </span>
-              <span className="text-[9px] font-mono tracking-[0.2em] text-[#AFFF00] uppercase font-bold">
-                Authenticity Portal
-              </span>
-            </div>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/60 hover:text-[#AFFF00] transition-colors flex items-center justify-center"
+              title="Return to Home"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Link>
+            <BrandLogo size="md" scrolled={true} />
+          </div>
 
           <div className="flex items-center gap-3">
             <div className="text-xs font-mono font-bold px-3.5 py-1.5 rounded-full bg-[#AFFF00]/10 border border-[#AFFF00]/30 text-[#AFFF00] flex items-center gap-1.5">

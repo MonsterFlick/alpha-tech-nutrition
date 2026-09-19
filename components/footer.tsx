@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion"
 import { useState, useRef } from "react"
 import Link from "next/link"
+import { BrandLogo } from "@/components/brand-logo"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -213,16 +214,7 @@ export function Footer() {
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
         >
-          <motion.div
-            className="flex items-center gap-2"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
-            <span className="text-xl font-black">
-              <span className="text-white">Alpha</span>
-              <span className="text-[#AFFF00]">Tech</span>
-            </span>
-          </motion.div>
+          <BrandLogo size="md" scrolled={true} />
 
           <p className="text-white/40 font-mono text-xs">© 2026 Alpha Tech Nutrition. All rights reserved.</p>
 

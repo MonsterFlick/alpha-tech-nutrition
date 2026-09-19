@@ -29,6 +29,7 @@ import { getVerificationUrl } from "@/lib/qr-service"
 import { registerNewRecord } from "@/lib/verification"
 import { generateAestheticQRSvg, svgToPngDataUrl } from "@/lib/aesthetic-qr"
 import { AestheticQRView } from "@/components/aesthetic-qr-view"
+import { BrandLogo } from "@/components/brand-logo"
 
 // Permanent official registered codes for each product - locked and cannot be deleted
 const PERMANENT_PRODUCT_CODES: Record<
@@ -335,8 +336,12 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#AFFF00]/10 blur-[180px] pointer-events-none rounded-full" />
 
         <div className="max-w-md w-full bg-[#16181f]/95 border-2 border-white/10 rounded-3xl p-8 shadow-2xl backdrop-blur-xl relative z-10 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-[#AFFF00]/15 border border-[#AFFF00]/40 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-[#AFFF00]/20">
-            <Lock className="w-8 h-8 text-[#AFFF00]" />
+          <div className="flex justify-center mb-6">
+            <BrandLogo size="md" scrolled={true} />
+          </div>
+
+          <div className="w-12 h-12 rounded-2xl bg-[#AFFF00]/15 border border-[#AFFF00]/40 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#AFFF00]/20">
+            <Lock className="w-6 h-6 text-[#AFFF00]" />
           </div>
 
           <div className="text-[10px] font-mono font-bold text-[#AFFF00] uppercase tracking-widest mb-1">
@@ -429,17 +434,16 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
       {/* Admin Top Header */}
       <header className="border-b border-white/10 bg-[#121212]/90 backdrop-blur-xl sticky top-0 z-40 print:hidden">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <ArrowLeft className="w-5 h-5 text-white/60 group-hover:text-[#AFFF00] group-hover:-translate-x-1 transition-all" />
-            <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tight">
-                ALPHA <span className="text-[#AFFF00]">TECH</span>
-              </span>
-              <span className="text-[9px] font-mono tracking-[0.2em] text-[#AFFF00] uppercase font-bold">
-                Packaging Asset Suite
-              </span>
-            </div>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="p-2 rounded-xl bg-white/5 border border-white/10 hover:border-[#AFFF00]/50 text-white/70 hover:text-white transition-all group"
+              title="Return to Store"
+            >
+              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+            </Link>
+            <BrandLogo size="sm" scrolled={true} subtitle="Packaging Asset Suite" />
+          </div>
 
           <div className="flex items-center gap-3">
             <Link

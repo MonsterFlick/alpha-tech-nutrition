@@ -1,8 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
+import { motion, AnimatePresence } from "framer-motion"
+import { BrandLogo } from "@/components/brand-logo"
 import { useLenis } from "lenis/react"
 import { Menu, X, ShieldCheck } from "lucide-react"
 
@@ -78,31 +79,7 @@ export function Navigation() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <motion.div
-            className="flex flex-col"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
-            <span className="text-xl md:text-2xl font-black tracking-tighter leading-none">
-              <span className={scrolled ? "text-white" : "text-[#121212]"}>ALPHA </span>
-              <motion.span
-                className="text-[#AFFF00]"
-                animate={{
-                  textShadow: scrolled
-                    ? ["0 0 10px rgba(175,255,0,0.5)", "0 0 20px rgba(175,255,0,0.8)", "0 0 10px rgba(175,255,0,0.5)"]
-                    : "none",
-                }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-              >
-                TECH
-              </motion.span>
-            </span>
-            <span className="text-[9px] font-mono tracking-[0.2em] text-[#AFFF00] uppercase font-bold">
-              Nutrition
-            </span>
-          </motion.div>
-        </Link>
+        <BrandLogo scrolled={scrolled} size="md" />
 
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((item, i) => (
