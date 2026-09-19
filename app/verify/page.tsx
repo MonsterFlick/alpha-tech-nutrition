@@ -77,18 +77,18 @@ function VerificationContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0e12] text-white selection:bg-[#AFFF00] selection:text-[#121212] relative overflow-hidden">
+    <div className="min-h-screen bg-[#080B1C] text-white selection:bg-blue-600 selection:text-white relative overflow-hidden">
       {/* Ambient background glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#AFFF00]/10 blur-[150px] pointer-events-none -z-10 rounded-full" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#84cc16]/5 blur-[180px] pointer-events-none -z-10 rounded-full" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-600/15 blur-[150px] pointer-events-none -z-10 rounded-full" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-600/10 blur-[180px] pointer-events-none -z-10 rounded-full" />
 
       {/* Top Header */}
-      <header className="border-b border-white/10 bg-[#121212]/80 backdrop-blur-xl sticky top-0 z-40">
+      <header className="border-b border-blue-950/60 bg-[#0B0E23]/90 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/60 hover:text-[#AFFF00] transition-colors flex items-center justify-center"
+              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/60 hover:text-blue-400 transition-colors flex items-center justify-center"
               title="Return to Home"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -97,7 +97,7 @@ function VerificationContent() {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="text-xs font-mono font-bold px-3.5 py-1.5 rounded-full bg-[#AFFF00]/10 border border-[#AFFF00]/30 text-[#AFFF00] flex items-center gap-1.5">
+            <div className="text-xs font-mono font-bold px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Official Registry</span>
             </div>
@@ -108,12 +108,12 @@ function VerificationContent() {
       <main className="max-w-4xl mx-auto px-6 py-12">
         {/* Portal Hero */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#AFFF00]/10 border border-[#AFFF00]/30 text-[#AFFF00] text-xs font-mono font-semibold uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono font-semibold uppercase tracking-wider mb-4">
             <ShieldCheck className="w-4 h-4" />
             Official Security & Verification Protocol
           </div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white uppercase">
-            Verify Product <span className="text-[#AFFF00]">Authenticity</span>
+            Verify Product <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Authenticity</span>
           </h1>
           <p className="mt-3 text-white/60 text-sm md:text-base max-w-xl mx-auto">
             Scan your Alpha Tech bottle QR code or enter the unique security serial code below to confirm your supplement
@@ -122,7 +122,7 @@ function VerificationContent() {
         </div>
 
         {/* Verification Input Box */}
-        <div className="bg-[#16181f]/90 border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur-xl relative mb-12">
+        <div className="bg-[#0E132D]/90 border border-blue-950/60 rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur-xl relative mb-12">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="relative">
               <label htmlFor="serialCode" className="block text-xs font-mono text-white/60 uppercase tracking-wider mb-2">
@@ -135,12 +135,12 @@ function VerificationContent() {
                   value={inputCode}
                   onChange={(e) => setInputCode(e.target.value.toUpperCase())}
                   placeholder="e.g. ATN-PW-2026-9842"
-                  className="w-full bg-[#0d0e12] border-2 border-white/20 focus:border-[#AFFF00] text-white font-mono text-lg md:text-xl px-5 py-4 rounded-xl focus:outline-none focus:ring-4 focus:ring-[#AFFF00]/20 transition-all uppercase placeholder:text-white/20 tracking-wider"
+                  className="w-full bg-[#080B1C] border-2 border-white/20 focus:border-blue-500 text-white font-mono text-lg md:text-xl px-5 py-4 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 transition-all uppercase placeholder:text-white/20 tracking-wider"
                 />
                 <button
                   type="submit"
                   disabled={isVerifying || !inputCode.trim()}
-                  className="absolute right-2 px-6 py-3 bg-[#AFFF00] hover:bg-[#9de600] disabled:opacity-40 disabled:hover:bg-[#AFFF00] text-[#121212] font-black rounded-lg text-sm tracking-wide flex items-center gap-2 transition-all shadow-lg hover:shadow-[#AFFF00]/25 cursor-pointer disabled:cursor-not-allowed"
+                  className="absolute right-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-40 disabled:hover:from-blue-600 disabled:hover:to-indigo-600 text-white font-black rounded-lg text-sm tracking-wide flex items-center gap-2 transition-all shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 cursor-pointer disabled:cursor-not-allowed"
                 >
                   {isVerifying ? (
                     <>
@@ -168,7 +168,7 @@ function VerificationContent() {
                     setInputCode(rec.code)
                     handlePerformVerification(rec.code)
                   }}
-                  className="px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-mono hover:text-[#AFFF00] transition-colors"
+                  className="px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-mono hover:text-blue-400 transition-colors"
                 >
                   {rec.code}
                 </button>
@@ -184,12 +184,12 @@ function VerificationContent() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-[#16181f]/80 border border-[#AFFF00]/30 rounded-2xl p-12 text-center my-8 relative overflow-hidden"
+              className="bg-[#0E132D]/80 border border-blue-500/30 rounded-2xl p-12 text-center my-8 relative overflow-hidden"
             >
               <div className="w-24 h-24 mx-auto mb-6 relative flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full border-4 border-[#AFFF00]/20 animate-ping" />
-                <div className="absolute inset-0 rounded-full border-4 border-[#AFFF00] border-t-transparent animate-spin" />
-                <ShieldCheck className="w-10 h-10 text-[#AFFF00]" />
+                <div className="absolute inset-0 rounded-full border-4 border-blue-500/20 animate-ping" />
+                <div className="absolute inset-0 rounded-full border-4 border-blue-500 border-t-transparent animate-spin" />
+                <ShieldCheck className="w-10 h-10 text-blue-400" />
               </div>
               <h3 className="text-xl font-black text-white tracking-wide uppercase">
                 Validating Cryptographic Seal
@@ -213,17 +213,17 @@ function VerificationContent() {
             >
               {/* CASE 1: GENUINE FIRST SCAN */}
               {result.status === "genuine_first_scan" && result.product && (
-                <div className="bg-gradient-to-b from-[#192613] to-[#121612] border-2 border-[#AFFF00] rounded-3xl p-6 md:p-10 shadow-[0_0_50px_rgba(175,255,0,0.2)] relative overflow-hidden">
-                  <div className="absolute top-0 right-0 transform translate-x-10 -translate-y-10 w-48 h-48 bg-[#AFFF00]/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="bg-gradient-to-b from-[#10173D] via-[#0E132D] to-[#0A0D1F] border-2 border-blue-500 rounded-3xl p-6 md:p-10 shadow-[0_0_50px_rgba(59,130,246,0.25)] relative overflow-hidden">
+                  <div className="absolute top-0 right-0 transform translate-x-10 -translate-y-10 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
 
                   {/* Genuine Banner */}
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-8 border-b border-white/10">
                     <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-[#AFFF00]/20 border border-[#AFFF00] flex items-center justify-center shrink-0 shadow-lg shadow-[#AFFF00]/20">
-                        <CheckCircle2 className="w-9 h-9 text-[#AFFF00]" />
+                      <div className="w-16 h-16 rounded-2xl bg-blue-500/20 border border-blue-400 flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/20">
+                        <CheckCircle2 className="w-9 h-9 text-blue-400" />
                       </div>
                       <div>
-                        <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#AFFF00] uppercase tracking-widest">
+                        <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-blue-400 uppercase tracking-widest">
                           <Sparkles className="w-3.5 h-3.5" /> 100% Certified Authentic
                         </div>
                         <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
@@ -236,7 +236,7 @@ function VerificationContent() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <span className="px-3.5 py-1.5 rounded-full bg-[#AFFF00] text-[#121212] font-black text-xs uppercase tracking-wider">
+                      <span className="px-3.5 py-1.5 rounded-full bg-blue-600 text-white font-black text-xs uppercase tracking-wider shadow-md shadow-blue-600/40">
                         Scan #1 (Original)
                       </span>
                     </div>
@@ -259,7 +259,7 @@ function VerificationContent() {
                     {/* Product Specs */}
                     <div className="md:col-span-2 space-y-4">
                       <div>
-                        <span className="text-xs font-mono text-[#AFFF00] uppercase font-bold">
+                        <span className="text-xs font-mono text-blue-400 uppercase font-bold">
                           {result.product.category} Formulation
                         </span>
                         <h3 className="text-2xl md:text-3xl font-black text-white">
@@ -287,7 +287,7 @@ function VerificationContent() {
 
                       {/* Nutrition Specs */}
                       <div className="flex flex-wrap gap-2 pt-2">
-                        <span className="px-3 py-1 rounded-lg bg-[#AFFF00]/10 border border-[#AFFF00]/30 text-[#AFFF00] text-xs font-bold font-mono">
+                        <span className="px-3 py-1 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold font-mono">
                           {result.product.proteinPerServing} Protein / Serving
                         </span>
                         <span className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white/80 text-xs font-bold font-mono">
@@ -303,34 +303,34 @@ function VerificationContent() {
                   {/* Certified Lab Report Section */}
                   <div className="border-t border-white/10 pt-6 space-y-4">
                     <div className="flex items-center gap-2 text-sm font-bold text-white">
-                      <Award className="w-4 h-4 text-[#AFFF00]" />
+                      <Award className="w-4 h-4 text-blue-400" />
                       <span>Certified Quality & Lab Clearance Report</span>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                       <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-[#AFFF00] shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-bold text-white block">Protein Purity Assay</span>
                           <span className="text-white/60">{result.product.labReport.proteinPurity}</span>
                         </div>
                       </div>
                       <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-[#AFFF00] shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-bold text-white block">Heavy Metals Analysis</span>
                           <span className="text-white/60">{result.product.labReport.heavyMetals}</span>
                         </div>
                       </div>
                       <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-[#AFFF00] shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-bold text-white block">WADA Compliance & Dope Test</span>
                           <span className="text-white/60">{result.product.labReport.dopingSubstances}</span>
                         </div>
                       </div>
                       <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-[#AFFF00] shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-bold text-white block">Microbiological Testing</span>
                           <span className="text-white/60">{result.product.labReport.microbiologicalQuality}</span>
@@ -340,7 +340,7 @@ function VerificationContent() {
                   </div>
 
                   {/* Digital Authenticity Passport with Rounded QR */}
-                  <div className="mt-6 p-4 rounded-2xl bg-black/40 border border-[#AFFF00]/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="mt-6 p-4 rounded-2xl bg-black/40 border border-blue-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
                       <div className="p-1.5 bg-white rounded-2xl shadow-lg shrink-0">
                         <AestheticQRView
@@ -348,13 +348,13 @@ function VerificationContent() {
                           size={84}
                           dotStyle="dots"
                           eyeStyle="smooth"
-                          theme="neon_lime"
+                          theme="royal_navy"
                           includeCenterLogo={true}
-                          centerLogoText="α"
+                          centerLogoText="AT"
                         />
                       </div>
                       <div>
-                        <span className="text-[10px] font-mono font-bold text-[#AFFF00] uppercase tracking-wider block">
+                        <span className="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-wider block">
                           Digital Authenticity Passport
                         </span>
                         <span className="text-sm font-bold text-white block">Verified QR Security Token</span>
@@ -365,8 +365,8 @@ function VerificationContent() {
                     </div>
                     <div className="text-right shrink-0">
                       <span className="text-[10px] font-mono text-white/40 block">MANUFACTURER STATUS</span>
-                      <span className="text-xs font-mono font-bold text-[#AFFF00] flex items-center gap-1">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#AFFF00]" /> 100% AUTHENTIC
+                      <span className="text-xs font-mono font-bold text-blue-400 flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" /> 100% AUTHENTIC
                       </span>
                     </div>
                   </div>
@@ -518,13 +518,13 @@ function VerificationContent() {
 
         {/* How It Works Explainer Card */}
         <div className="mt-16 pt-12 border-t border-white/10">
-          <h3 className="text-center text-sm font-mono uppercase tracking-widest text-[#AFFF00] mb-8 font-bold">
+          <h3 className="text-center text-sm font-mono uppercase tracking-widest text-blue-400 mb-8 font-bold">
             Alpha Tech Anti-Counterfeit Verification Protocol
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#16181f]/60 border border-white/5 rounded-2xl p-6 relative">
-              <div className="w-10 h-10 rounded-xl bg-[#AFFF00]/10 text-[#AFFF00] flex items-center justify-center font-black text-sm mb-4">
+            <div className="bg-[#0B0E23]/80 border border-blue-900/40 rounded-2xl p-6 relative">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center font-black text-sm mb-4">
                 01
               </div>
               <h4 className="text-base font-bold text-white mb-2">Locate the QR Sticker</h4>
@@ -533,8 +533,8 @@ function VerificationContent() {
               </p>
             </div>
 
-            <div className="bg-[#16181f]/60 border border-white/5 rounded-2xl p-6 relative">
-              <div className="w-10 h-10 rounded-xl bg-[#AFFF00]/10 text-[#AFFF00] flex items-center justify-center font-black text-sm mb-4">
+            <div className="bg-[#0B0E23]/80 border border-blue-900/40 rounded-2xl p-6 relative">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center font-black text-sm mb-4">
                 02
               </div>
               <h4 className="text-base font-bold text-white mb-2">Scan or Enter Code</h4>
@@ -543,8 +543,8 @@ function VerificationContent() {
               </p>
             </div>
 
-            <div className="bg-[#16181f]/60 border border-white/5 rounded-2xl p-6 relative">
-              <div className="w-10 h-10 rounded-xl bg-[#AFFF00]/10 text-[#AFFF00] flex items-center justify-center font-black text-sm mb-4">
+            <div className="bg-[#0B0E23]/80 border border-blue-900/40 rounded-2xl p-6 relative">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center font-black text-sm mb-4">
                 03
               </div>
               <h4 className="text-base font-bold text-white mb-2">Instant Lab Verification</h4>
@@ -563,7 +563,7 @@ export default function VerificationPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#0d0e12] flex items-center justify-center text-[#AFFF00] font-mono text-sm">
+        <div className="min-h-screen bg-[#080B1C] flex items-center justify-center text-blue-400 font-mono text-sm">
           Loading Security Protocol...
         </div>
       }

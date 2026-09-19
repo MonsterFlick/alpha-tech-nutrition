@@ -21,9 +21,10 @@ A bold, premium gym supplement landing page designed for athletes and fitness en
 3. **Alpha Super Mass Gainer** - High-Calorie Muscle Mass Matrix with 50g protein and clean carbs
 
 ### Design Highlights
-- Dark charcoal (#121212) background with electric lime (#AFFF00) accents
+- Royal Midnight Navy (#0B0E23 / #161B3D) and Cobalt Blue (#3B82F6) matched to supplement packaging
+- Metallic platinum chrome accents and authentic "AT" monogram branding
 - Compressed bold typography for headlines with monospace tech specs
-- Premium sports nutrition brand hierarchy and UX patterns
+- Premium athletic nutrition brand hierarchy and UX patterns
 - Compact, modern layout with intentional white space
 
 ### Sections Included

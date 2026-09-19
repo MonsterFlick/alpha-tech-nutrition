@@ -21,9 +21,9 @@ export function AestheticQRView({
   size = 320,
   dotStyle = "dots",
   eyeStyle = "smooth",
-  theme = "neon_lime",
+  theme = "royal_navy",
   includeCenterLogo = true,
-  centerLogoText = "α",
+  centerLogoText = "AT",
   className = "",
   productTitle,
   serialCode,
@@ -56,8 +56,8 @@ export function AestheticQRView({
         style={{ width: size, height: size + extraH }}
         className={`flex flex-col items-center justify-center bg-white/5 rounded-3xl text-white/30 font-mono text-xs ${className}`}
       >
-        <div className="w-8 h-8 rounded-full border-2 border-[#AFFF00]/30 border-t-[#AFFF00] animate-spin mb-2" />
-        <span className="text-[10px] tracking-wider">SECURE QR CODE</span>
+        <div className="w-8 h-8 rounded-full border-2 border-blue-500/30 border-t-blue-500 animate-spin mb-2" />
+        <span className="text-[10px] tracking-wider text-blue-300/70">SECURE QR CODE</span>
       </div>
     )
   }

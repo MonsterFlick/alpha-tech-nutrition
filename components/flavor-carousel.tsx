@@ -26,8 +26,8 @@ const flavors: Flavor[] = [
     tagline: "Whey Protein Concentrate • Chocolate Shots",
     description: "Advanced Whey Protein Concentrate providing 24G Protein, 6.8G BCAA, and 100% Whey Formula per serving. Promotes lean muscle support, faster recovery, and no added sugar. Net Wt. 2kg (4.4 lbs) • 66 Servings.",
     image: "/images/prime-whey.png",
-    bgColor: "from-[#84cc16]/20 via-[#84cc16]/10 to-transparent",
-    accentColor: "#84cc16",
+    bgColor: "from-blue-600/20 via-blue-500/10 to-transparent",
+    accentColor: "#3B82F6",
     badges: ["24G Protein", "6.8G BCAA", "100% Whey Formula", "Lean Muscle Support", "Faster Recovery", "No Added Sugar", "66 Servings"],
   },
   {
@@ -36,8 +36,8 @@ const flavors: Flavor[] = [
     tagline: "Lean Muscle Builder • Chocolate Shots",
     description: "Engineered performance matrix delivering 18G Protein, 4.3G BCAA, and 3G Creatine per serving. Designed to boost strength, build lean muscles, and provide fast absorption. Net Wt. 3kg (6.6 lbs) • 50 Servings.",
     image: "/images/anabolic-lean-muscle-builder.png",
-    bgColor: "from-[#f59e0b]/20 via-[#f59e0b]/10 to-transparent",
-    accentColor: "#f59e0b",
+    bgColor: "from-indigo-600/20 via-indigo-500/10 to-transparent",
+    accentColor: "#6366F1",
     badges: ["18G Protein", "4.3G BCAA", "3G Creatine", "Boost Strength", "Lean Muscles", "Fast Absorption", "50 Servings"],
   },
   {
@@ -46,8 +46,8 @@ const flavors: Flavor[] = [
     tagline: "Super Mass Gainer • Chocolate Shots",
     description: "Powerful mass-gaining formulation featuring 18G Protein, 4.3G BCAA, and 3G Creatine per serving. Targeted for explosive muscle build up, faster recovery, and fast absorption. Net Wt. 3kg (6.6 lbs) • 50 Servings.",
     image: "/images/alpha-super-mass-gainer.png",
-    bgColor: "from-[#AFFF00]/20 via-[#AFFF00]/5 to-transparent",
-    accentColor: "#AFFF00",
+    bgColor: "from-sky-600/20 via-blue-500/10 to-transparent",
+    accentColor: "#0284C7",
     badges: ["18G Protein", "4.3G BCAA", "3G Creatine", "Muscle Build Up", "Recover Faster", "Fast Absorption", "50 Servings"],
   },
 ]
@@ -302,7 +302,7 @@ export function FlavorCarousel() {
                           transition={{ delay: 0.5 }}
                         >
                           <motion.div
-                            className="w-2 h-2 bg-[#AFFF00] rounded-full"
+                            className="w-2 h-2 bg-blue-500 rounded-full"
                             animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
                             transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
                           />

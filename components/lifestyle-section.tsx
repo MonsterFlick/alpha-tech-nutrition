@@ -64,7 +64,7 @@ export function LifestyleSection() {
   const isCardsInView = useInView(cardsRef, { once: true, margin: "-50px" })
 
   return (
-    <section className="relative py-32 bg-[#121212] overflow-hidden">
+    <section className="relative py-32 bg-[#0B0E23] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -74,7 +74,7 @@ export function LifestyleSection() {
           className="text-center mb-16"
         >
           <motion.span
-            className="font-mono text-[#AFFF00] text-sm tracking-widest inline-block"
+            className="font-mono text-blue-400 text-sm tracking-widest inline-block font-bold"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -93,7 +93,7 @@ export function LifestyleSection() {
               ALPHA IN THE{" "}
             </motion.span>
             <motion.span
-              className="text-[#AFFF00] inline-block"
+              className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400 inline-block"
               initial={{ y: 100 }}
               whileInView={{ y: 0 }}
               viewport={{ once: true }}
@@ -135,7 +135,7 @@ export function LifestyleSection() {
                   transition={{ duration: 0.6 }}
                 />
                 <motion.div
-                  className="absolute inset-0 bg-[#AFFF00]/0 group-hover:bg-[#AFFF00]/20"
+                  className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20"
                   initial={{ opacity: 0 }}
                   whileHover={{ opacity: 1 }}
                   transition={{ duration: 0.4 }}
@@ -165,18 +165,18 @@ export function LifestyleSection() {
             >
               <div className="flex items-center gap-3 mb-4">
                 <motion.div
-                  className="w-10 h-10 rounded-full bg-[#AFFF00]/20 flex items-center justify-center"
+                  className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center"
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <span className="text-[#AFFF00] font-bold text-sm">{post.handle.charAt(1).toUpperCase()}</span>
+                  <span className="text-blue-400 font-bold text-sm">{post.handle.charAt(1).toUpperCase()}</span>
                 </motion.div>
                 <span className="font-mono text-white/60 text-sm">{post.handle}</span>
               </div>
               <p className="text-white text-lg leading-relaxed">{post.text}</p>
               <motion.div
                 className="flex items-center gap-2 mt-4 text-white/40 font-mono text-sm"
-                whileHover={{ color: "#AFFF00" }}
+                whileHover={{ color: "#60A5FA" }}
                 transition={{ duration: 0.2 }}
               >
                 <motion.svg

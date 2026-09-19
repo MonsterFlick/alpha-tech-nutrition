@@ -12,28 +12,28 @@ const features = [
     title: "24G",
     subtitle: "Protein Per Serving",
     description: "100% whey formula for lean muscle support",
-    accent: "#AFFF00",
+    accent: "#3B82F6",
   },
   {
     icon: Flame,
     title: "6.8G",
     subtitle: "BCAA Per Serving",
     description: "Essential amino matrix for faster recovery",
-    accent: "#FF6B35",
+    accent: "#6366F1",
   },
   {
     icon: Brain,
     title: "3G",
     subtitle: "Creatine Per Serving",
     description: "Strength & power booster with fast absorption",
-    accent: "#00D4FF",
+    accent: "#0284C7",
   },
   {
     icon: Sparkles,
     title: "Zero",
     subtitle: "Added Sugar",
     description: "Clean nutrition in delicious Chocolate Shots",
-    accent: "#AFFF00",
+    accent: "#CBD5E1",
   },
 ]
 
@@ -162,8 +162,8 @@ export function BentoGrid() {
   const isInView = useInView(ref, { once: true, margin: "-50px" })
 
   return (
-    <section id="formula" className="relative py-16 bg-[#121212] overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#121212] via-[#0a0a0a] to-[#121212]" />
+    <section id="formula" className="relative py-16 bg-[#0B0E23] overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0B0E23] via-[#0E132D] to-[#0B0E23]" />
 
       <div ref={ref} className="max-w-5xl mx-auto px-6 relative z-10">
         <motion.div
@@ -173,7 +173,7 @@ export function BentoGrid() {
           className="text-center mb-10"
         >
           <motion.span
-            className="inline-block font-mono text-[#AFFF00] text-[10px] tracking-[0.3em] uppercase"
+            className="inline-block font-mono text-blue-400 text-[10px] tracking-[0.3em] uppercase font-bold"
             initial={{ opacity: 0, y: 10 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ delay: 0.1 }}
@@ -194,7 +194,7 @@ export function BentoGrid() {
 
           {/* Animated underline */}
           <motion.div
-            className="h-[2px] w-12 bg-[#AFFF00] mx-auto mt-3 rounded-full"
+            className="h-[2px] w-12 bg-blue-500 mx-auto mt-3 rounded-full shadow-sm shadow-blue-500/50"
             initial={{ scaleX: 0 }}
             animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
             transition={{ duration: 0.6, delay: 0.4, ease: [0.25, 0.4, 0.25, 1] }}

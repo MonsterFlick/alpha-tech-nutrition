@@ -5,10 +5,10 @@ const sharp = require('sharp');
 const ARTIFACTS_DIR = 'C:\\Users\\Om\\.gemini\\antigravity-ide\\brain\\dafd1cea-1e55-4bd0-8447-5df45b84f006';
 const WORKSPACE_DIR = 'd:\\Progency\\alpha-tech-nutrition';
 
-const SOURCE_MASTER = path.join(ARTIFACTS_DIR, 'alpha_tech_master_logo_1789789756267.jpg');
-const SOURCE_EMBLEM = path.join(ARTIFACTS_DIR, 'alpha_tech_emblem_icon_1789789774261.jpg');
-const SOURCE_BANNER = path.join(ARTIFACTS_DIR, 'alpha_tech_social_banner_1789789789983.jpg');
-const SOURCE_STORY  = path.join(ARTIFACTS_DIR, 'alpha_tech_story_ad_1789789810216.jpg');
+const SOURCE_MASTER = path.join(ARTIFACTS_DIR, 'alpha_tech_navy_chrome_logo_1789801889846.jpg');
+const SOURCE_EMBLEM = path.join(ARTIFACTS_DIR, 'alpha_tech_navy_at_emblem_1789801912436.jpg');
+const SOURCE_BANNER = path.join(ARTIFACTS_DIR, 'alpha_tech_navy_banner_1789801934959.jpg');
+const SOURCE_STORY  = path.join(ARTIFACTS_DIR, 'alpha_tech_navy_story_1789801959081.jpg');
 
 const LOGO_DIR = path.join(WORKSPACE_DIR, 'logo');
 const PUBLIC_LOGO_DIR = path.join(WORKSPACE_DIR, 'public', 'logo');

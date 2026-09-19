@@ -63,10 +63,10 @@ export function HeroSection() {
       className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-white noise-overlay"
     >
       {/* Subtle gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white via-[#AFFF00]/5 to-white" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50/30 to-slate-100/50" />
 
       <motion.div
-        className="absolute top-20 left-10 w-24 h-24 rounded-full bg-[#AFFF00]/20 blur-3xl"
+        className="absolute top-20 left-10 w-28 h-28 rounded-full bg-blue-600/15 blur-3xl"
         animate={{
           x: [0, 30, 0],
           y: [0, -20, 0],
@@ -75,7 +75,7 @@ export function HeroSection() {
         transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute bottom-40 right-20 w-32 h-32 rounded-full bg-[#AFFF00]/10 blur-3xl"
+        className="absolute bottom-40 right-20 w-36 h-36 rounded-full bg-indigo-600/10 blur-3xl"
         animate={{
           x: [0, -40, 0],
           y: [0, 30, 0],
@@ -93,10 +93,10 @@ export function HeroSection() {
               initial="hidden"
               animate="visible"
               custom={0}
-              className="inline-flex items-center gap-2 bg-[#121212] text-white px-3 py-1.5 rounded-full text-xs font-mono tracking-wider"
+              className="inline-flex items-center gap-2 bg-[#10163A] text-white px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider shadow-md shadow-blue-950/20"
             >
               <motion.span
-                className="w-2 h-2 bg-[#AFFF00] rounded-full"
+                className="w-2 h-2 bg-blue-400 rounded-full"
                 animate={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
                 transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
               />
@@ -106,7 +106,7 @@ export function HeroSection() {
             <div className="space-y-1 overflow-hidden">
               <motion.h1
                 style={{ x: textX1 }}
-                className="text-5xl md:text-7xl font-black tracking-tighter text-[#121212] leading-[0.9]"
+                className="text-5xl md:text-7xl font-black tracking-tighter text-[#10163A] leading-[0.9]"
               >
                 <motion.span
                   variants={fadeUpVariants}
@@ -120,14 +120,14 @@ export function HeroSection() {
               </motion.h1>
               <motion.h1
                 style={{ x: textX2 }}
-                className="text-5xl md:text-7xl font-black tracking-tighter text-[#121212] leading-[0.9]"
+                className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9]"
               >
                 <motion.span
                   variants={fadeUpVariants}
                   initial="hidden"
                   animate="visible"
                   custom={2}
-                  className="inline-block text-[#AFFF00]"
+                  className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500"
                 >
                   GAINS
                 </motion.span>
@@ -137,7 +137,7 @@ export function HeroSection() {
                 initial="hidden"
                 animate="visible"
                 custom={3}
-                className="text-lg md:text-xl font-mono text-[#121212]/60 tracking-tight pt-2 max-w-md"
+                className="text-lg md:text-xl font-mono text-[#10163A]/70 tracking-tight pt-2 max-w-md"
               >
                 Maximum purity. Proven results. Premium supplements engineered for real muscle growth.
               </motion.p>
@@ -151,7 +151,7 @@ export function HeroSection() {
               className="flex flex-wrap gap-3 pt-2"
             >
               <motion.button
-                className="bg-[#AFFF00] text-[#121212] px-6 py-3 rounded-full font-bold text-sm tracking-wide flex items-center gap-2 group relative overflow-hidden"
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-full font-bold text-sm tracking-wide flex items-center gap-2 group relative overflow-hidden shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 transition-all"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -175,12 +175,16 @@ export function HeroSection() {
                 </motion.svg>
               </motion.button>
               <motion.button
-                className="border-2 border-[#121212] text-[#121212] px-6 py-3 rounded-full font-bold text-sm tracking-wide relative overflow-hidden"
-                whileHover={{ scale: 1.02, backgroundColor: "#121212", color: "#fff" }}
+                className="border-2 border-[#10163A] text-[#10163A] px-6 py-3 rounded-full font-bold text-sm tracking-wide relative overflow-hidden"
+                whileHover={{ scale: 1.02, backgroundColor: "#10163A", color: "#fff" }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                onClick={() => {
+                  const element = document.querySelector("#flavours")
+                  element?.scrollIntoView({ behavior: "smooth" })
+                }}
               >
-                Explore Products
+                Explore Formulas
               </motion.button>
             </motion.div>
 
@@ -194,12 +198,12 @@ export function HeroSection() {
               {["24G Protein", "6.8G BCAA", "100% Whey Formula", "No Added Sugar"].map((benefit, i) => (
                 <motion.div
                   key={benefit}
-                  className="flex items-center gap-2 text-xs font-mono text-[#121212]/60"
+                  className="flex items-center gap-2 text-xs font-mono text-[#10163A]/70"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.8 + i * 0.1 }}
                 >
-                  <div className="w-1.5 h-1.5 bg-[#AFFF00] rounded-full" />
+                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
                   {benefit}
                 </motion.div>
               ))}
@@ -209,7 +213,7 @@ export function HeroSection() {
           <motion.div style={{ y, scale }} className="relative flex justify-center">
             <motion.div variants={scaleInVariants} initial="hidden" animate="visible" className="relative">
               <motion.div
-                className="absolute inset-0 bg-[#84cc16]/30 blur-[80px] rounded-full scale-75"
+                className="absolute inset-0 bg-blue-500/25 blur-[90px] rounded-full scale-75"
                 animate={{
                   scale: [0.75, 0.85, 0.75],
                   opacity: [0.3, 0.5, 0.3],

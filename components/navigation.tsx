@@ -75,7 +75,7 @@ export function Navigation() {
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 100, damping: 20 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-[#121212]/95 backdrop-blur-md border-b border-white/10" : "bg-transparent"
+        scrolled ? "bg-[#0B0E23]/95 backdrop-blur-md border-b border-blue-950/60 shadow-lg shadow-blue-950/20" : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -87,7 +87,7 @@ export function Navigation() {
               key={item.label}
               onClick={() => scrollToSection(item.href)}
               className={`text-sm font-medium tracking-wide transition-colors relative ${
-                scrolled ? "text-white/80 hover:text-[#AFFF00]" : "text-[#121212]/80 hover:text-[#121212]"
+                scrolled ? "text-white/80 hover:text-blue-400" : "text-[#10163A]/85 hover:text-blue-600 font-semibold"
               }`}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -97,7 +97,7 @@ export function Navigation() {
             >
               {item.label}
               <motion.span
-                className="absolute -bottom-1 left-0 w-full h-0.5 bg-[#AFFF00] origin-left"
+                className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-500 origin-left"
                 initial={{ scaleX: 0 }}
                 whileHover={{ scaleX: 1 }}
                 transition={{ duration: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
@@ -109,28 +109,28 @@ export function Navigation() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/verify"
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-[#AFFF00]/40 text-[#AFFF00] hover:bg-[#AFFF00]/10 text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-sm shadow-[#AFFF00]/10"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-blue-500/40 text-blue-400 hover:bg-blue-500/10 text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-sm shadow-blue-500/10"
           >
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>Verify Product</span>
           </Link>
 
           <motion.button
-            className="hidden md:block bg-[#AFFF00] text-[#121212] px-6 py-2.5 rounded-full font-bold text-sm tracking-wide relative overflow-hidden"
+            className="hidden md:block bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2.5 rounded-full font-bold text-sm tracking-wide relative overflow-hidden shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 transition-all"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             <motion.div
-              className="absolute inset-0 bg-white/30"
+              className="absolute inset-0 bg-white/20"
               animate={{
                 boxShadow: [
-                  "0 0 20px rgba(175,255,0,0.3)",
-                  "0 0 40px rgba(175,255,0,0.6)",
-                  "0 0 20px rgba(175,255,0,0.3)",
+                  "0 0 20px rgba(59,130,246,0.3)",
+                  "0 0 40px rgba(59,130,246,0.6)",
+                  "0 0 20px rgba(59,130,246,0.3)",
                 ],
               }}
-              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
             />
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full"
@@ -179,14 +179,14 @@ export function Navigation() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
-            className="md:hidden bg-[#121212]/95 backdrop-blur-md border-t border-white/10 overflow-hidden"
+            className="md:hidden bg-[#0B0E23]/95 backdrop-blur-md border-t border-blue-950/60 overflow-hidden"
           >
             <div className="px-6 py-4 space-y-4">
               {navLinks.map((item, i) => (
                 <motion.button
                   key={item.label}
                   onClick={() => scrollToSection(item.href)}
-                  className="block w-full text-left text-white/80 hover:text-[#AFFF00] text-lg font-medium py-2"
+                  className="block w-full text-left text-white/80 hover:text-blue-400 text-lg font-medium py-2"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
@@ -194,23 +194,23 @@ export function Navigation() {
                   {item.label}
                 </motion.button>
               ))}
-              <div className="pt-2 border-t border-white/10">
+              <div className="pt-2 border-t border-blue-900/30">
                 <Link
                   href="/verify"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 text-[#AFFF00] font-mono text-sm py-2 font-bold"
+                  className="flex items-center gap-2 text-blue-400 font-mono text-sm py-2 font-bold"
                 >
                   <ShieldCheck className="w-4 h-4" />
                   <span>Verify Product Authenticity</span>
                 </Link>
               </div>
               <motion.button
-                className="w-full bg-[#AFFF00] text-[#121212] px-6 py-3 rounded-full font-bold text-sm tracking-wide mt-4"
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-full font-bold text-sm tracking-wide mt-4 shadow-lg shadow-blue-600/30"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                Get 25% Off
+                Shop Supplements
               </motion.button>
             </div>
           </motion.div>

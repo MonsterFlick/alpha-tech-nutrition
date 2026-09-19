@@ -81,7 +81,7 @@ export function Footer() {
   ]
 
   return (
-    <footer ref={footerRef} id="careers" className="relative bg-[#121212] pt-16 pb-6 overflow-hidden">
+    <footer ref={footerRef} id="careers" className="relative bg-[#080B1C] pt-16 pb-6 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
@@ -101,7 +101,7 @@ export function Footer() {
               READY TO
             </motion.span>
             <motion.span
-              className="block text-[#AFFF00]"
+              className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400"
               initial={{ y: 100 }}
               whileInView={{ y: 0 }}
               viewport={{ once: true }}
@@ -126,16 +126,16 @@ export function Footer() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="w-full bg-white/5 border-2 border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/40 font-mono text-sm focus:outline-none focus:border-[#AFFF00] transition-all duration-300"
-                whileFocus={{ borderColor: "#AFFF00" }}
+                className="w-full bg-white/5 border-2 border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/40 font-mono text-sm focus:outline-none focus:border-blue-500 transition-all duration-300"
+                whileFocus={{ borderColor: "#3B82F6" }}
               />
               <motion.div
                 className="absolute inset-0 rounded-xl pointer-events-none"
-                animate={email.length > 0 ? { boxShadow: "0 0 20px rgba(175,255,0,0.2)" } : { boxShadow: "none" }}
+                animate={email.length > 0 ? { boxShadow: "0 0 20px rgba(59,130,246,0.25)" } : { boxShadow: "none" }}
               />
             </motion.div>
             <motion.button
-              className="bg-[#AFFF00] text-[#121212] px-6 py-3 rounded-xl font-bold text-sm tracking-wide whitespace-nowrap relative overflow-hidden"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-sm tracking-wide whitespace-nowrap relative overflow-hidden shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 transition-all"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -195,7 +195,7 @@ export function Footer() {
                     <motion.div whileHover={{ x: 4 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                       <Link
                         href={item.href}
-                        className="text-white/60 hover:text-[#AFFF00] font-mono text-xs transition-colors inline-block"
+                        className="text-white/60 hover:text-blue-400 font-mono text-xs transition-colors inline-block"
                       >
                         {item.name}
                       </Link>
@@ -227,7 +227,7 @@ export function Footer() {
                 ? {
                     rotate: [0, -5, 5, -5, 5, 0],
                     scale: [1, 1.1, 1],
-                    color: "#AFFF00",
+                    color: "#60A5FA",
                   }
                 : {
                     rotate: 0,

@@ -141,9 +141,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-sans antialiased bg-[#121212] text-white">
+      <body className="font-sans antialiased bg-[#0B0E23] text-white">
         <ClickSpark
-          sparkColor="#AFFF00"
+          sparkColor="#3B82F6"
           sparkSize={12}
           sparkRadius={20}
           sparkCount={8}

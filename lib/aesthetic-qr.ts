@@ -2,7 +2,7 @@ import QRCode from "qrcode"
 
 export type DotStyle = "dots" | "rounded" | "squircle"
 export type EyeStyle = "smooth" | "circle" | "squircle"
-export type QRTheme = "classic_dark" | "neon_lime" | "print_clean" | "stealth_black"
+export type QRTheme = "royal_navy" | "cobalt_glow" | "classic_dark" | "print_clean" | "stealth_black" | "neon_lime"
 
 export interface AestheticQROptions {
   size?: number
@@ -20,23 +20,30 @@ export interface AestheticQROptions {
   serialCode?: string
 }
 
-const THEME_PRESETS: Record<
-  QRTheme,
+const THEME_COLORS: Record<
+  string,
   { dotColor: string; eyeColor: string; eyeInnerColor: string; backgroundColor: string; textColor: string }
 > = {
-  classic_dark: {
-    dotColor: "#121212",
-    eyeColor: "#121212",
-    eyeInnerColor: "#84cc16",
+  royal_navy: {
+    dotColor: "#161B3D",
+    eyeColor: "#161B3D",
+    eyeInnerColor: "#3B82F6",
     backgroundColor: "#ffffff",
-    textColor: "#121212",
+    textColor: "#161B3D",
   },
-  neon_lime: {
-    dotColor: "#121212",
-    eyeColor: "#121212",
-    eyeInnerColor: "#AFFF00",
+  cobalt_glow: {
+    dotColor: "#3B82F6",
+    eyeColor: "#3B82F6",
+    eyeInnerColor: "#ffffff",
+    backgroundColor: "#0B0E23",
+    textColor: "#60A5FA",
+  },
+  classic_dark: {
+    dotColor: "#161B3D",
+    eyeColor: "#161B3D",
+    eyeInnerColor: "#2563EB",
     backgroundColor: "#ffffff",
-    textColor: "#121212",
+    textColor: "#161B3D",
   },
   print_clean: {
     dotColor: "#000000",
@@ -46,13 +53,22 @@ const THEME_PRESETS: Record<
     textColor: "#000000",
   },
   stealth_black: {
-    dotColor: "#AFFF00",
-    eyeColor: "#AFFF00",
+    dotColor: "#3B82F6",
+    eyeColor: "#3B82F6",
     eyeInnerColor: "#ffffff",
-    backgroundColor: "#12141a",
-    textColor: "#AFFF00",
+    backgroundColor: "#0B0E23",
+    textColor: "#3B82F6",
+  },
+  neon_lime: {
+    dotColor: "#161B3D",
+    eyeColor: "#161B3D",
+    eyeInnerColor: "#3B82F6",
+    backgroundColor: "#ffffff",
+    textColor: "#161B3D",
   },
 }
+
+const THEME_PRESETS = THEME_COLORS
 
 export function generateAestheticQRSvg(text: string, options: AestheticQROptions = {}): string {
   const {
@@ -60,14 +76,14 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
     margin = 24,
     dotStyle = "dots",
     eyeStyle = "smooth",
-    theme = "neon_lime",
+    theme = "royal_navy",
     includeCenterLogo = true,
-    centerLogoText = "α",
+    centerLogoText = "AT",
     productTitle,
     serialCode,
   } = options
 
-  const palette = THEME_PRESETS[theme] || THEME_PRESETS.neon_lime
+  const palette = THEME_PRESETS[theme] || THEME_PRESETS.royal_navy
   const dotColor = options.dotColor || palette.dotColor
   const eyeColor = options.eyeColor || palette.eyeColor
   const eyeInnerColor = options.eyeInnerColor || palette.eyeInnerColor
@@ -221,12 +237,12 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
 
     // Background shield badge
     elements.push(
-      `<rect x="${logoX.toFixed(2)}" y="${logoY.toFixed(2)}" width="${centerDim.toFixed(2)}" height="${centerDim.toFixed(2)}" rx="${logoRx.toFixed(2)}" fill="#121212" stroke="#AFFF00" stroke-width="${(cellSize * 0.35).toFixed(2)}" />`
+      `<rect x="${logoX.toFixed(2)}" y="${logoY.toFixed(2)}" width="${centerDim.toFixed(2)}" height="${centerDim.toFixed(2)}" rx="${logoRx.toFixed(2)}" fill="#0B0E23" stroke="#3B82F6" stroke-width="${(cellSize * 0.35).toFixed(2)}" />`
     )
 
     // Inner glowing logo text / emblem
     elements.push(
-      `<text x="${centerX.toFixed(2)}" y="${(centerY + centerDim * 0.12).toFixed(2)}" font-family="system-ui, -apple-system, sans-serif" font-size="${(centerDim * 0.52).toFixed(2)}" font-weight="900" fill="#AFFF00" text-anchor="middle" dominant-baseline="middle">${centerLogoText}</text>`
+      `<text x="${centerX.toFixed(2)}" y="${(centerY + centerDim * 0.12).toFixed(2)}" font-family="system-ui, -apple-system, sans-serif" font-size="${(centerDim * 0.52).toFixed(2)}" font-weight="900" fill="#60A5FA" text-anchor="middle" dominant-baseline="middle">${centerLogoText}</text>`
     )
   }
 

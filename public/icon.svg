@@ -1,60 +1,61 @@
 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Vibrant Electric Performance Lime Gradient -->
-    <linearGradient id="alpha-lime-grad" x1="20" y1="20" x2="180" y2="180" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#E2FF3B"/>
-      <stop offset="45%" stop-color="#AFFF00"/>
-      <stop offset="100%" stop-color="#6DB800"/>
+    <!-- Brushed Chrome / Platinum Silver Gradient -->
+    <linearGradient id="chrome-grad" x1="40" y1="30" x2="160" y2="170" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="35%" stop-color="#E2E8F0"/>
+      <stop offset="65%" stop-color="#94A3B8"/>
+      <stop offset="100%" stop-color="#CBD5E1"/>
     </linearGradient>
 
-    <!-- Dark Carbon Fiber Background Gradient -->
-    <radialGradient id="carbon-radial" cx="50%" cy="40%" r="65%">
-      <stop offset="0%" stop-color="#1f232b"/>
-      <stop offset="60%" stop-color="#13161c"/>
-      <stop offset="100%" stop-color="#090b0e"/>
+    <!-- Deep Royal Midnight Navy Radial -->
+    <radialGradient id="navy-radial" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#222C68"/>
+      <stop offset="55%" stop-color="#141A42"/>
+      <stop offset="100%" stop-color="#0B0E23"/>
     </radialGradient>
 
-    <!-- Sleek Anodized Border Glow -->
-    <linearGradient id="border-edge" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#AFFF00" stop-opacity="0.75"/>
-      <stop offset="35%" stop-color="#AFFF00" stop-opacity="0.25"/>
-      <stop offset="70%" stop-color="#222834" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#AFFF00" stop-opacity="0.5"/>
+    <!-- Electric Cobalt Blue Glow -->
+    <linearGradient id="blue-edge" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#3B82F6" stop-opacity="0.4"/>
+      <stop offset="75%" stop-color="#1E293B" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#2563EB" stop-opacity="0.8"/>
     </linearGradient>
 
-    <!-- Athletic Neon Drop Shadow -->
-    <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#AFFF00" flood-opacity="0.42"/>
+    <!-- Royal Blue Ambient Drop Shadow -->
+    <filter id="royal-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#3B82F6" flood-opacity="0.5"/>
     </filter>
   </defs>
 
-  <!-- Base Rounded Chassis Container -->
-  <rect width="200" height="200" rx="44" fill="url(#carbon-radial)"/>
+  <!-- Deep Midnight Navy Chassis -->
+  <rect width="200" height="200" rx="44" fill="url(#navy-radial)"/>
   
-  <!-- Outer Precision Border -->
-  <rect x="2.5" y="2.5" width="195" height="195" rx="41.5" stroke="url(#border-edge)" stroke-width="2"/>
+  <!-- Outer Precision Cobalt Border -->
+  <rect x="2.5" y="2.5" width="195" height="195" rx="41.5" stroke="url(#blue-edge)" stroke-width="2"/>
 
-  <!-- Corner Alignment Indicators -->
-  <path d="M42 3H68L60 10H42V3Z" fill="#AFFF00" opacity="0.7"/>
-  <path d="M158 197H132L140 190H158V197Z" fill="#AFFF00" opacity="0.7"/>
-  <circle cx="170" cy="30" r="3" fill="#AFFF00" opacity="0.4"/>
-  <circle cx="30" cy="170" r="3" fill="#AFFF00" opacity="0.4"/>
+  <!-- Sleek Chrome Corner Ticks -->
+  <path d="M42 3H68L60 10H42V3Z" fill="#60A5FA" opacity="0.8"/>
+  <path d="M158 197H132L140 190H158V197Z" fill="#60A5FA" opacity="0.8"/>
+  <circle cx="170" cy="30" r="3" fill="#93C5FD" opacity="0.6"/>
+  <circle cx="30" cy="170" r="3" fill="#93C5FD" opacity="0.6"/>
 
-  <!-- Master Alpha Tech Athletic Performance Emblem -->
-  <g filter="url(#neon-glow)">
-    <!-- Alpha Peak Athletic Structure -->
-    <path d="M100 34L44 148H68L82 116H118L132 148H156L100 34ZM100 74L112 100H88L100 74Z" 
-          fill="url(#alpha-lime-grad)"/>
+  <!-- Official Master 'AT' Monogram Crest (Supplement Identity) -->
+  <g filter="url(#royal-glow)">
+    <!-- Main Stylized 'A' Blade -->
+    <path d="M96 38L44 152H68L82 120H112L106 104H89L101 76L116 104L136 68L96 38ZM112 120L102 140H124L134 120H112Z" 
+          fill="url(#chrome-grad)"/>
 
-    <!-- High-Tech Energy Slice (Dynamic Negative Space) -->
-    <path d="M72 104L136 82L126 92L62 114L72 104Z" 
-          fill="#0c0e12" opacity="0.95"/>
+    <!-- Integrated 'T' Crossbar & Wing -->
+    <path d="M78 54H156L150 72H130L106 120H88L108 72H74L78 54Z" 
+          fill="url(#chrome-grad)"/>
 
-    <!-- Forward Kinetic Dash Blade (Supersonic Speed Accent) -->
-    <path d="M144 108L160 148H140L130 122L144 108Z" 
-          fill="url(#alpha-lime-grad)" opacity="0.9"/>
+    <!-- Cobalt Power Energy Accent Blade -->
+    <path d="M142 94L162 140H142L128 110L142 94Z" 
+          fill="#3B82F6" opacity="0.9"/>
           
-    <!-- Core Center Fusion Spark -->
-    <circle cx="100" cy="88" r="3.5" fill="#FFFFFF"/>
+    <!-- Polished Chrome Center Spark -->
+    <circle cx="106" cy="74" r="3" fill="#FFFFFF"/>
   </g>
 </svg>

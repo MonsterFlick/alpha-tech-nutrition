@@ -1,6 +1,6 @@
 # Alpha Tech Nutrition — Official Logo & Media Asset Kit
 
-Welcome to the official brand media asset library for **Alpha Tech Nutrition**. All assets are generated at commercial ultra-high resolution with dark metallic carbon titanium textures, athletic angular bevels, and electric neon lime (`#AFFF00`) lighting.
+Welcome to the official brand media asset library for **Alpha Tech Nutrition**. All assets are generated at commercial ultra-high resolution with authentic packaging colors: Royal Midnight Navy (`#0B0E23` / `#161B3D`), Electric Cobalt Blue (`#3B82F6`), and Polished Metallic Chrome (`#E2E8F0` / `#FFFFFF`).
 
 ---
 
@@ -13,7 +13,7 @@ You can find all assets in two locations:
 ---
 
 ## 🌟 1. Master Brand Logo (Emblem + Typography Lockup)
-*Featuring the 3D metallic athletic 'A' crest, brushed titanium 'ALPHA TECH', and neon lime 'NUTRITION'.*
+*Featuring the 3D metallic italic 'AT' crest, brushed platinum 'ALPHA TECH', and cobalt blue 'NUTRITION' with deep navy aura.*
 
 | File Name | Resolution | Format | Recommended Platforms / Usage |
 | :--- | :--- | :--- | :--- |
@@ -26,7 +26,7 @@ You can find all assets in two locations:
 ---
 
 ## ⚡ 2. Standalone Athletic Crest / Icon (Emblem Only)
-*Centered 3D faceted metallic Alpha crest surrounded by an electric lime neon power ring on brushed carbon fiber.*
+*Centered 3D faceted metallic chrome 'AT' emblem surrounded by a royal midnight blue circular shield with cobalt rim glow.*
 
 | File Name | Resolution | Format | Recommended Platforms / Usage |
 | :--- | :--- | :--- | :--- |
@@ -44,7 +44,7 @@ You can find all assets in two locations:
 ---
 
 ## 📢 3. Social Media Headers & Display Advertising Banners (16:9 & Landscape)
-*Dramatic fitness gym backdrop with volumetric green lasers, carbon fiber shield, barbell equipment, and headline.*
+*Dramatic athletic backdrop with navy blue ambient glow, authentic supplement tubs, brushed chrome lettering, and gym atmosphere.*
 
 | File Name | Resolution | Format | Recommended Platforms / Usage |
 | :--- | :--- | :--- | :--- |
@@ -56,7 +56,7 @@ You can find all assets in two locations:
 ---
 
 ## 📱 4. Stories, Reels & Mobile Fullscreen Ads (9:16 Vertical)
-*Vertical billboard with glowing neon green Alpha crest, brushed steel monolith, energy lightning, and gym background.*
+*Vertical billboard with authentic royal navy supplement bottle, glowing cobalt 'AT' emblem, athletic physique, and dark navy lighting.*
 
 | File Name | Resolution | Format | Recommended Platforms / Usage |
 | :--- | :--- | :--- | :--- |
@@ -65,10 +65,10 @@ You can find all assets in two locations:
 
 ---
 
-## 🎨 Official Brand Palette Codes
+## 🎨 Official Brand Palette Codes (Matched to Product Packaging)
 
-- **Electric Lime Green**: `#AFFF00` (RGB: `175, 255, 0`)
-- **Neon Lime Highlight**: `#E2FF3B` (RGB: `226, 255, 59`)
-- **Dark Carbon Charcoal**: `#121212` (RGB: `18, 18, 18`)
-- **Deep Titanium Base**: `#0D0E12` (RGB: `13, 14, 18`)
-- **Brushed Steel Accent**: `#D1D5DB` (RGB: `209, 213, 219`)
+- **Royal Midnight Navy**: `#0B0E23` / `#161B3D` (RGB: `11, 14, 35` / `22, 27, 61`)
+- **Electric Cobalt Blue**: `#3B82F6` (RGB: `59, 130, 246`)
+- **Deep Royal Blue**: `#2563EB` (RGB: `37, 99, 235`)
+- **Metallic Chrome & Platinum**: `#E2E8F0` / `#CBD5E1` (RGB: `226, 232, 240`)
+- **Clinical White**: `#FFFFFF` (RGB: `255, 255, 255`)

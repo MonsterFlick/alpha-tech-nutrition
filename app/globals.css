@@ -38,11 +38,16 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* Custom Alpha Tech Nutrition colors */
-  --lime: oklch(0.92 0.2 128);
-  --charcoal: oklch(0.145 0 0);
-  --pineapple: oklch(0.9 0.15 90);
-  --coconut: oklch(0.95 0.03 90);
+  /* Custom Alpha Tech Nutrition brand colors (Extracted from authentic packaging) */
+  --brand-navy: #0B0E23;
+  --brand-midnight: #161B3D;
+  --brand-blue: #3B82F6;
+  --brand-cobalt: #2563EB;
+  --brand-silver: #E2E8F0;
+  --lime: #3B82F6;
+  --charcoal: #0B0E23;
+  --pineapple: #3B82F6;
+  --coconut: #F8FAFC;
 }
 
 .dark {
@@ -121,7 +126,12 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   /* Custom Alpha Tech Nutrition theme colors */
-  --color-lime: var(--lime);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-midnight: var(--brand-midnight);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-cobalt: var(--brand-cobalt);
+  --color-brand-silver: var(--brand-silver);
+  --color-lime: var(--brand-blue);
   --color-charcoal: var(--charcoal);
   --color-pineapple: var(--pineapple);
   --color-coconut: var(--coconut);
@@ -150,10 +160,10 @@
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(175, 255, 0, 0.3);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
   }
   50% {
-    box-shadow: 0 0 40px rgba(175, 255, 0, 0.6);
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.7);
   }
 }
 

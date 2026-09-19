@@ -162,9 +162,10 @@ export default function QRGeneratorPage() {
     const svgStr = generateAestheticQRSvg(verificationUrl, {
       size: 800,
       backgroundColor: "transparent",
-      dotColor: "#121212",
-      eyeColor: "#121212",
-      eyeInnerColor: "#AFFF00",
+      dotColor: "#0B0E23",
+      eyeColor: "#161B3D",
+      eyeInnerColor: "#3B82F6",
+      centerLogoText: "AT",
     })
     const pngDataUrl = await svgToPngDataUrl(svgStr, 800)
     const a = document.createElement("a")
@@ -222,27 +223,29 @@ export default function QRGeneratorPage() {
       const folderName = `AlphaTech_${safeName}_QR_Packaging_Kit`
       const folder = zip.folder(folderName) || zip
 
-      // 1. Transparent Background PNG (Dark Charcoal + Lime eyes)
+      // 1. Transparent Background PNG (Navy Midnight + Cobalt Blue eyes)
       const transSvg = generateAestheticQRSvg(verificationUrl, {
         size: 800,
         backgroundColor: "transparent",
-        dotColor: "#121212",
-        eyeColor: "#121212",
-        eyeInnerColor: "#AFFF00",
+        dotColor: "#0B0E23",
+        eyeColor: "#161B3D",
+        eyeInnerColor: "#3B82F6",
+        centerLogoText: "AT",
       })
       const transPng = await svgToPngDataUrl(transSvg, 800)
-      folder.file(`01_Transparent_QR_${safeName}.png`, transPng.split(",")[1], { base64: true })
+      folder.file(`01_Transparent_NavyBlue_QR_${safeName}.png`, transPng.split(",")[1], { base64: true })
 
-      // 2. Transparent Background PNG (Neon Electric Lime for dark packaging)
-      const transLimeSvg = generateAestheticQRSvg(verificationUrl, {
+      // 2. Transparent Background PNG (Electric Cobalt Blue for dark packaging tubs)
+      const transCobaltSvg = generateAestheticQRSvg(verificationUrl, {
         size: 800,
         backgroundColor: "transparent",
-        dotColor: "#AFFF00",
-        eyeColor: "#AFFF00",
+        dotColor: "#3B82F6",
+        eyeColor: "#60A5FA",
         eyeInnerColor: "#ffffff",
+        centerLogoText: "AT",
       })
-      const transLimePng = await svgToPngDataUrl(transLimeSvg, 800)
-      folder.file(`02_Transparent_NeonLime_QR_${safeName}.png`, transLimePng.split(",")[1], { base64: true })
+      const transCobaltPng = await svgToPngDataUrl(transCobaltSvg, 800)
+      folder.file(`02_Transparent_ElectricCobalt_QR_${safeName}.png`, transCobaltPng.split(",")[1], { base64: true })
 
       // 3. Complete Packaging Sticker Card with White Box & Product Title at Bottom
       const stickerSvg = generateAestheticQRSvg(verificationUrl, {
@@ -323,7 +326,7 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
   // Loading Session
   if (isCheckingAuth) {
     return (
-      <div className="min-h-screen bg-[#0d0e12] flex items-center justify-center text-[#AFFF00] font-mono text-sm">
+      <div className="min-h-screen bg-[#080B1C] flex items-center justify-center text-blue-400 font-mono text-sm">
         Verifying Security Credentials...
       </div>
     )
@@ -332,19 +335,19 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
   // PASSWORD LOCKOUT SCREEN
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#0d0e12] text-white flex items-center justify-center px-6 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#AFFF00]/10 blur-[180px] pointer-events-none rounded-full" />
+      <div className="min-h-screen bg-[#080B1C] text-white flex items-center justify-center px-6 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/15 blur-[180px] pointer-events-none rounded-full" />
 
-        <div className="max-w-md w-full bg-[#16181f]/95 border-2 border-white/10 rounded-3xl p-8 shadow-2xl backdrop-blur-xl relative z-10 text-center">
+        <div className="max-w-md w-full bg-[#0B0E23]/95 border-2 border-blue-900/40 rounded-3xl p-8 shadow-[0_0_50px_rgba(59,130,246,0.15)] backdrop-blur-xl relative z-10 text-center">
           <div className="flex justify-center mb-6">
             <BrandLogo size="md" scrolled={true} />
           </div>
 
-          <div className="w-12 h-12 rounded-2xl bg-[#AFFF00]/15 border border-[#AFFF00]/40 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#AFFF00]/20">
-            <Lock className="w-6 h-6 text-[#AFFF00]" />
+          <div className="w-12 h-12 rounded-2xl bg-blue-500/15 border border-blue-500/40 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/20">
+            <Lock className="w-6 h-6 text-blue-400" />
           </div>
 
-          <div className="text-[10px] font-mono font-bold text-[#AFFF00] uppercase tracking-widest mb-1">
+          <div className="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-widest mb-1">
             Restricted Production Access
           </div>
           <h1 className="text-2xl font-black uppercase tracking-tight text-white mb-2">
@@ -364,9 +367,9 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
                   setPasswordError(false)
                 }}
                 placeholder="Enter Admin Security Passcode"
-                className={`w-full bg-[#0d0e12] border-2 ${
-                  passwordError ? "border-red-500 ring-2 ring-red-500/20" : "border-white/20 focus:border-[#AFFF00]"
-                } text-white font-mono text-sm px-4 py-3.5 rounded-xl focus:outline-none focus:ring-4 focus:ring-[#AFFF00]/20 transition-all pr-10`}
+                className={`w-full bg-[#080B1C] border-2 ${
+                  passwordError ? "border-red-500 ring-2 ring-red-500/20" : "border-white/20 focus:border-blue-500"
+                } text-white font-mono text-sm px-4 py-3.5 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 transition-all pr-10`}
               />
               <button
                 type="button"
@@ -386,7 +389,7 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
 
             <button
               type="submit"
-              className="w-full bg-[#AFFF00] hover:bg-[#9de600] text-[#121212] font-black rounded-xl py-3 text-sm tracking-wider uppercase flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#AFFF00]/20 cursor-pointer"
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-black rounded-xl py-3 text-sm tracking-wider uppercase flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/25 cursor-pointer"
             >
               <KeyRound className="w-4 h-4" />
               <span>Unlock QR Suite</span>
@@ -409,7 +412,7 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
 
   // AUTHENTICATED PACKAGING SUITE
   return (
-    <div className="min-h-screen bg-[#0d0e12] text-white selection:bg-[#AFFF00] selection:text-[#121212]">
+    <div className="min-h-screen bg-[#080B1C] text-white selection:bg-blue-600 selection:text-white">
       {/* Print-specific layout */}
       <style jsx global>{`
         @media print {
@@ -432,12 +435,12 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
       `}</style>
 
       {/* Admin Top Header */}
-      <header className="border-b border-white/10 bg-[#121212]/90 backdrop-blur-xl sticky top-0 z-40 print:hidden">
+      <header className="border-b border-blue-900/30 bg-[#0B0E23]/90 backdrop-blur-xl sticky top-0 z-40 print:hidden">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="p-2 rounded-xl bg-white/5 border border-white/10 hover:border-[#AFFF00]/50 text-white/70 hover:text-white transition-all group"
+              className="p-2 rounded-xl bg-white/5 border border-white/10 hover:border-blue-500/50 text-white/70 hover:text-white transition-all group"
               title="Return to Store"
             >
               <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
@@ -449,7 +452,7 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
             <Link
               href={`/verify?code=${encodeURIComponent(serialCode)}`}
               target="_blank"
-              className="text-xs font-mono font-bold px-3.5 py-1.5 rounded-full border border-[#AFFF00]/40 text-[#AFFF00] hover:bg-[#AFFF00]/10 transition-colors flex items-center gap-1.5"
+              className="text-xs font-mono font-bold px-3.5 py-1.5 rounded-full border border-blue-500/40 text-blue-400 hover:bg-blue-500/10 transition-colors flex items-center gap-1.5"
             >
               <span>Test Customer Scan</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -470,12 +473,12 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
       <main className="max-w-6xl mx-auto px-6 py-10 print:hidden">
         {/* Title Header */}
         <div className="mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#AFFF00]/10 border border-[#AFFF00]/30 text-[#AFFF00] text-xs font-mono font-semibold uppercase tracking-wider mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono font-semibold uppercase tracking-wider mb-2">
             <ShieldCheck className="w-4 h-4" />
             Official Packaging Assets & Production Kit
           </div>
           <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tight">
-            Packaging QR <span className="text-[#AFFF00]">Asset Kit</span>
+            Packaging QR <span className="text-blue-400">Asset Kit</span>
           </h1>
           <p className="text-white/60 text-sm mt-1 max-w-2xl">
             Select a product to preview its official locked QR code and download the complete packaging asset kit
@@ -484,8 +487,8 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
         </div>
 
         {/* Product Selector Tabs */}
-        <div className="bg-[#16181f] border border-white/10 rounded-2xl p-5 mb-8">
-          <label className="block text-xs font-mono text-[#AFFF00] uppercase tracking-wider font-bold mb-3">
+        <div className="bg-[#0B0E23] border border-blue-900/40 rounded-2xl p-5 mb-8">
+          <label className="block text-xs font-mono text-blue-400 uppercase tracking-wider font-bold mb-3">
             Select Product Formulation
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -499,8 +502,8 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
                   onClick={() => setSelectedProduct(p)}
                   className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-4 ${
                     isSelected
-                      ? "bg-[#AFFF00]/15 border-[#AFFF00] shadow-[0_0_20px_rgba(175,255,0,0.15)]"
-                      : "bg-white/5 border-white/10 hover:border-white/20"
+                      ? "bg-blue-600/15 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.2)]"
+                      : "bg-white/5 border-white/10 hover:border-blue-500/30"
                   }`}
                 >
                   <div className="relative w-16 h-16 shrink-0">
@@ -508,7 +511,7 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
                   </div>
                   <div className="overflow-hidden">
                     <span className="font-black text-sm text-white block truncate">{p.name}</span>
-                    <span className="text-[11px] font-mono text-[#AFFF00] block">{p.weight}</span>
+                    <span className="text-[11px] font-mono text-blue-400 block">{p.weight}</span>
                     <span className="text-[10px] font-mono text-white/50 block font-bold mt-0.5">
                       {perm?.code}
                     </span>
@@ -523,16 +526,16 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
           {/* LEFT COLUMN: The Complete ZIP Kit Download & Assets List */}
           <div className="lg:col-span-7 space-y-6">
             {/* Primary Action Card: Download All in Single ZIP */}
-            <div className="bg-gradient-to-br from-[#16181f] via-[#1a1d26] to-[#12141a] border-2 border-[#AFFF00] rounded-3xl p-7 shadow-[0_0_40px_rgba(175,255,0,0.15)] relative overflow-hidden">
+            <div className="bg-gradient-to-br from-[#0B0E23] via-[#10173D] to-[#080B1C] border-2 border-blue-500/50 rounded-3xl p-7 shadow-[0_0_40px_rgba(59,130,246,0.2)] relative overflow-hidden">
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-xl bg-[#AFFF00]/20 border border-[#AFFF00] flex items-center justify-center text-[#AFFF00]">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500 flex items-center justify-center text-blue-400">
                   <FileArchive className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-white uppercase tracking-tight">
                     Download All Assets in Single ZIP
                   </h3>
-                  <p className="text-xs font-mono text-[#AFFF00]">
+                  <p className="text-xs font-mono text-blue-400">
                     Complete Packaging & Production Kit for {selectedProduct.name}
                   </p>
                 </div>
@@ -546,34 +549,34 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
               {/* What is in the ZIP Checklist */}
               <div className="space-y-2.5 mb-6 text-xs font-mono">
                 <div className="flex items-center gap-2.5 bg-black/40 border border-white/10 rounded-xl p-2.5">
-                  <Check className="w-4 h-4 text-[#AFFF00] shrink-0" />
-                  <span className="text-white font-bold">1. Transparent PNG</span>
+                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
+                  <span className="text-white font-bold">1. Navy Blue Transparent PNG</span>
                   <span className="text-white/50 text-[11px]">
                     — Clean transparent background for overlays & packaging tubs
                   </span>
                 </div>
                 <div className="flex items-center gap-2.5 bg-black/40 border border-white/10 rounded-xl p-2.5">
-                  <Check className="w-4 h-4 text-[#AFFF00] shrink-0" />
-                  <span className="text-white font-bold">2. Neon Lime Transparent PNG</span>
-                  <span className="text-white/50 text-[11px]">— Electric accent for dark obsidian bottles</span>
+                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
+                  <span className="text-white font-bold">2. Electric Cobalt Transparent PNG</span>
+                  <span className="text-white/50 text-[11px]">— High-contrast cobalt blue for dark obsidian bottles</span>
                 </div>
                 <div className="flex items-center gap-2.5 bg-black/40 border border-white/10 rounded-xl p-2.5">
-                  <Check className="w-4 h-4 text-[#AFFF00] shrink-0" />
+                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
                   <span className="text-white font-bold">3. Sticker Card with Info</span>
                   <span className="text-white/50 text-[11px]">— White card with product title stamped at bottom</span>
                 </div>
                 <div className="flex items-center gap-2.5 bg-black/40 border border-white/10 rounded-xl p-2.5">
-                  <Check className="w-4 h-4 text-[#AFFF00] shrink-0" />
+                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
                   <span className="text-white font-bold">4. Monochrome Print B&W</span>
                   <span className="text-white/50 text-[11px]">— High-contrast for thermal sticker printers</span>
                 </div>
                 <div className="flex items-center gap-2.5 bg-black/40 border border-white/10 rounded-xl p-2.5">
-                  <Check className="w-4 h-4 text-[#AFFF00] shrink-0" />
+                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
                   <span className="text-white font-bold">5. Scalable Vector SVG</span>
                   <span className="text-white/50 text-[11px]">— Adobe Illustrator / Prepress master</span>
                 </div>
                 <div className="flex items-center gap-2.5 bg-black/40 border border-white/10 rounded-xl p-2.5">
-                  <Check className="w-4 h-4 text-[#AFFF00] shrink-0" />
+                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
                   <span className="text-white font-bold">6. Authentication Specs (.txt)</span>
                   <span className="text-white/50 text-[11px]">— Batch, serial, and lab assay text record</span>
                 </div>
@@ -584,7 +587,7 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
                 type="button"
                 onClick={handleDownloadCompleteZip}
                 disabled={isZipping}
-                className="w-full py-4 px-6 bg-[#AFFF00] hover:bg-[#9de600] disabled:opacity-50 text-[#121212] font-black text-sm tracking-wider uppercase rounded-2xl transition-all shadow-xl shadow-[#AFFF00]/25 flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-4 px-6 bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-50 text-white font-black text-sm tracking-wider uppercase rounded-2xl transition-all shadow-xl shadow-blue-500/30 flex items-center justify-center gap-2 cursor-pointer"
               >
                 {isZipping ? (
                   <>
@@ -601,7 +604,7 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
             </div>
 
             {/* Quick Individual Downloads */}
-            <div className="bg-[#16181f] border border-white/10 rounded-2xl p-6">
+            <div className="bg-[#0B0E23] border border-blue-900/40 rounded-2xl p-6">
               <label className="block text-xs font-mono text-white/50 uppercase tracking-wider mb-4">
                 Or Download Individual Files Directly
               </label>
@@ -611,11 +614,11 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
                   type="button"
                   onClick={handleDownloadTransparentPNG}
                   disabled={exportingType === "transparent"}
-                  className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-colors flex flex-col justify-between cursor-pointer"
+                  className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/40 text-left transition-colors flex flex-col justify-between cursor-pointer"
                 >
                   <span className="text-xs font-bold text-white block mb-1">Transparent PNG</span>
                   <span className="text-[10px] font-mono text-white/40 block mb-3">No box, transparent BG</span>
-                  <span className="text-xs font-mono text-[#AFFF00] font-bold flex items-center gap-1">
+                  <span className="text-xs font-mono text-blue-400 font-bold flex items-center gap-1">
                     <Download className="w-3 h-3" />
                     {exportingType === "transparent" ? "Exporting..." : "Download"}
                   </span>
@@ -625,11 +628,11 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
                   type="button"
                   onClick={handleDownloadStickerCardPNG}
                   disabled={exportingType === "sticker"}
-                  className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-colors flex flex-col justify-between cursor-pointer"
+                  className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/40 text-left transition-colors flex flex-col justify-between cursor-pointer"
                 >
                   <span className="text-xs font-bold text-white block mb-1">Sticker Card PNG</span>
                   <span className="text-[10px] font-mono text-white/40 block mb-3">With box & title bottom</span>
-                  <span className="text-xs font-mono text-[#AFFF00] font-bold flex items-center gap-1">
+                  <span className="text-xs font-mono text-blue-400 font-bold flex items-center gap-1">
                     <Download className="w-3 h-3" />
                     {exportingType === "sticker" ? "Exporting..." : "Download"}
                   </span>
@@ -638,11 +641,11 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
                 <button
                   type="button"
                   onClick={handleDownloadSVG}
-                  className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition-colors flex flex-col justify-between cursor-pointer"
+                  className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/40 text-left transition-colors flex flex-col justify-between cursor-pointer"
                 >
                   <span className="text-xs font-bold text-white block mb-1">Vector SVG</span>
                   <span className="text-[10px] font-mono text-white/40 block mb-3">Infinitely scalable</span>
-                  <span className="text-xs font-mono text-[#AFFF00] font-bold flex items-center gap-1">
+                  <span className="text-xs font-mono text-blue-400 font-bold flex items-center gap-1">
                     <Download className="w-3 h-3" />
                     <span>Download</span>
                   </span>
@@ -659,13 +662,13 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
               </span>
 
               {/* Physical Sticker Card Preview with Product Title at Bottom */}
-              <div className="bg-[#12141a] border-2 border-[#AFFF00]/40 rounded-3xl p-6 shadow-2xl relative overflow-hidden text-center backdrop-blur-xl">
-                <div className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold text-[#AFFF00] uppercase tracking-widest mb-2 bg-[#AFFF00]/10 px-3 py-1 rounded-full border border-[#AFFF00]/30">
+              <div className="bg-[#0B0E23]/95 border-2 border-blue-500/40 rounded-3xl p-6 shadow-[0_0_30px_rgba(59,130,246,0.15)] relative overflow-hidden text-center backdrop-blur-xl">
+                <div className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold text-blue-400 uppercase tracking-widest mb-2 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/30">
                   <ShieldCheck className="w-3.5 h-3.5" /> Official Tamper-Evident Seal
                 </div>
 
                 <div className="font-black text-lg tracking-tight uppercase">
-                  ALPHA <span className="text-[#AFFF00]">TECH</span> NUTRITION
+                  ALPHA <span className="text-blue-400">TECH</span> NUTRITION
                 </div>
                 <div className="text-[10px] font-mono text-white/60 uppercase">
                   Authenticity Verification Seal
@@ -679,9 +682,9 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
                       size={240}
                       dotStyle="dots"
                       eyeStyle="smooth"
-                      theme="neon_lime"
+                      theme="royal_navy"
                       includeCenterLogo={true}
-                      centerLogoText="α"
+                      centerLogoText="AT"
                       productTitle={`${selectedProduct.name} • ${selectedProduct.weight}`}
                       serialCode={serialCode}
                     />
@@ -690,7 +693,7 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
 
                 {/* Bottom Sticker Metadata */}
                 <div className="space-y-1.5">
-                  <div className="text-[11px] font-mono font-bold text-[#AFFF00] bg-black/60 py-1.5 px-3 rounded-xl border border-white/10 tracking-wider">
+                  <div className="text-[11px] font-mono font-bold text-blue-300 bg-black/60 py-1.5 px-3 rounded-xl border border-white/10 tracking-wider">
                     BATCH: {batchNumber} • EXP: {expDate}
                   </div>
                   <div className="text-[9px] font-mono text-white/40 pt-1">
@@ -706,14 +709,14 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
                   onClick={handleCopyLink}
                   className="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-bold transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  {copied ? <Check className="w-3.5 h-3.5 text-[#AFFF00]" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copied ? <Check className="w-3.5 h-3.5 text-blue-400" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copied ? "Link Copied!" : "Copy URL"}</span>
                 </button>
 
                 <Link
                   href={`/verify?code=${encodeURIComponent(serialCode)}`}
                   target="_blank"
-                  className="px-4 py-3 rounded-xl bg-[#AFFF00] hover:bg-[#9de600] text-[#121212] font-mono text-xs font-black transition-colors flex items-center justify-center gap-1.5 shadow-lg shadow-[#AFFF00]/20"
+                  className="px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-mono text-xs font-black transition-colors flex items-center justify-center gap-1.5 shadow-lg shadow-blue-500/25"
                 >
                   <span>Test Scan</span>
                   <ExternalLink className="w-3 h-3" />

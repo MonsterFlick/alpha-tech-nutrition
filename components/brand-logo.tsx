@@ -47,7 +47,7 @@ export function BrandLogo({
     >
       {/* Official Master Icon Emblem */}
       <div
-        className="relative shrink-0 rounded-2xl overflow-hidden shadow-lg border border-[#AFFF00]/30 group-hover:border-[#AFFF00] group-hover:shadow-[0_0_20px_rgba(175,255,0,0.4)] transition-all duration-300 bg-[#0d0e12]"
+        className="relative shrink-0 rounded-2xl overflow-hidden shadow-lg border border-blue-500/30 group-hover:border-blue-400 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-300 bg-[#0B0E23]"
         style={{ width: iconDimensions.w, height: iconDimensions.h }}
       >
         <Image
@@ -63,15 +63,15 @@ export function BrandLogo({
       {showText && (
         <div className="flex flex-col">
           <span className={`${textSizeClasses} font-black tracking-tighter leading-none`}>
-            <span className={scrolled ? "text-white" : "text-[#121212] transition-colors"}>
+            <span className={scrolled ? "text-white" : "text-[#0e1330] transition-colors"}>
               ALPHA{" "}
             </span>
-            <span className="text-[#AFFF00] drop-shadow-[0_0_12px_rgba(175,255,0,0.5)]">
+            <span className="text-blue-500 drop-shadow-[0_0_12px_rgba(59,130,246,0.5)]">
               TECH
             </span>
           </span>
           <span
-            className={`${subTextSizeClasses} font-mono tracking-[0.25em] text-[#AFFF00] uppercase font-bold mt-0.5`}
+            className={`${subTextSizeClasses} font-mono tracking-[0.25em] text-blue-400 uppercase font-bold mt-0.5`}
           >
             {subtitle}
           </span>

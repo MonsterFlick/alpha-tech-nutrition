@@ -79,7 +79,7 @@ export function ActivationsSection() {
           >
             PARTNERSHIPS
           </motion.span>
-          <h2 className="text-3xl md:text-5xl font-black text-[#121212] tracking-tighter mt-2 overflow-hidden">
+          <h2 className="text-3xl md:text-5xl font-black text-[#10163A] tracking-tighter mt-2 overflow-hidden">
             <motion.span
               className="inline-block"
               initial={{ y: 100 }}
@@ -90,7 +90,7 @@ export function ActivationsSection() {
               EXPERIENCE{" "}
             </motion.span>
             <motion.span
-              className="text-[#AFFF00] inline-block"
+              className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 inline-block"
               initial={{ y: 100 }}
               whileInView={{ y: 0 }}
               viewport={{ once: true }}
@@ -100,7 +100,7 @@ export function ActivationsSection() {
             </motion.span>
           </h2>
           <motion.p
-            className="text-sm text-[#121212]/60 font-mono mt-2 max-w-xl mx-auto"
+            className="text-sm text-[#10163A]/70 font-mono mt-2 max-w-xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -126,31 +126,31 @@ export function ActivationsSection() {
                 scale: 1.02,
                 transition: { type: "spring", stiffness: 400, damping: 17 },
               }}
-              className="group bg-[#121212] rounded-2xl p-6 cursor-pointer relative overflow-hidden"
+              className="group bg-[#0B0E23] border border-blue-950/60 rounded-2xl p-6 cursor-pointer relative overflow-hidden shadow-lg shadow-blue-950/20"
             >
               <motion.div
-                className="absolute inset-0 bg-[#AFFF00]/0 group-hover:bg-[#AFFF00]"
+                className="absolute inset-0 bg-gradient-to-br from-blue-600/0 to-indigo-600/0 group-hover:from-blue-600 group-hover:to-indigo-600"
                 transition={{ duration: 0.4 }}
               />
 
               <div className="relative z-10">
                 <motion.div
-                  className="w-11 h-11 rounded-xl bg-[#AFFF00] flex items-center justify-center mb-4 group-hover:bg-[#121212] transition-colors duration-300"
+                  className="w-11 h-11 rounded-xl bg-blue-600 flex items-center justify-center mb-4 group-hover:bg-white transition-colors duration-300 shadow-md shadow-blue-600/30"
                   whileHover={{ rotate: 10, scale: 1.1 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <activation.icon className="w-5 h-5 text-[#121212] group-hover:text-[#AFFF00] transition-colors duration-300" />
+                  <activation.icon className="w-5 h-5 text-white group-hover:text-blue-600 transition-colors duration-300" />
                 </motion.div>
 
-                <h3 className="text-lg font-black text-white group-hover:text-[#121212] tracking-tight mb-2 transition-colors duration-300">
+                <h3 className="text-lg font-black text-white group-hover:text-white tracking-tight mb-2 transition-colors duration-300">
                   {activation.title}
                 </h3>
-                <p className="text-white/60 group-hover:text-[#121212]/60 font-mono text-xs leading-relaxed mb-4 transition-colors duration-300">
+                <p className="text-white/70 group-hover:text-white/80 font-mono text-xs leading-relaxed mb-4 transition-colors duration-300">
                   {activation.description}
                 </p>
 
                 <motion.button
-                  className="flex items-center gap-2 text-[#AFFF00] group-hover:text-[#121212] font-bold text-xs tracking-wide transition-colors duration-300"
+                  className="flex items-center gap-2 text-blue-400 group-hover:text-white font-bold text-xs tracking-wide transition-colors duration-300"
                   whileHover={{ x: 4 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >

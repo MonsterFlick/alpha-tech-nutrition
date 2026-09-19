@@ -44,7 +44,7 @@ export function SocialSection() {
   const isInView = useInView(ref, { once: true, margin: "-50px" })
 
   return (
-    <section id="creators" className="relative py-16 bg-[#121212] overflow-hidden">
+    <section id="creators" className="relative py-20 bg-[#0E132D] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -54,7 +54,7 @@ export function SocialSection() {
           className="text-center mb-10"
         >
           <motion.span
-            className="font-mono text-[#AFFF00] text-xs tracking-widest inline-block"
+            className="font-mono text-blue-400 text-xs tracking-widest inline-block font-bold"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -70,10 +70,10 @@ export function SocialSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1], delay: 0.2 }}
             >
-              @ALPHATECH
+              @ALPHATECH{" "}
             </motion.span>
             <motion.span
-              className="text-[#AFFF00] inline-block"
+              className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400 inline-block"
               initial={{ y: 100 }}
               whileInView={{ y: 0 }}
               viewport={{ once: true }}
@@ -100,7 +100,7 @@ export function SocialSection() {
                 zIndex: 10,
                 transition: { type: "spring", stiffness: 300, damping: 20 },
               }}
-              className="relative aspect-square rounded-xl overflow-hidden group cursor-pointer"
+              className="relative aspect-square rounded-xl overflow-hidden group cursor-pointer border border-white/10"
             >
               <Image
                 src={post.image || "/placeholder.svg"}
@@ -109,7 +109,7 @@ export function SocialSection() {
                 className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
               />
               <motion.div
-                className="absolute inset-0 bg-[#AFFF00]/0 group-hover:bg-[#AFFF00]/20 flex items-center justify-center"
+                className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 flex items-center justify-center"
                 initial={{ opacity: 0 }}
                 whileHover={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
@@ -140,7 +140,7 @@ export function SocialSection() {
             href="https://instagram.com/alphatechnutrition"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-[#AFFF00] text-[#121212] px-6 py-3 rounded-full font-bold text-sm tracking-wide relative overflow-hidden group"
+            className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-full font-bold text-sm tracking-wide relative overflow-hidden group shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 transition-all"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
