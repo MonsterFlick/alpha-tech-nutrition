@@ -55,7 +55,7 @@ export function Navigation() {
   const scrollToSection = (id: string) => {
     const element = document.querySelector(id)
     if (element && lenis) {
-      lenis.scrollTo(element, { offset: -100 })
+      lenis.scrollTo(element as HTMLElement, { offset: -100 })
     }
     setMobileMenuOpen(false)
   }

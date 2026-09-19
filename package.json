@@ -1,12 +1,13 @@
 {
-  "name": "my-v0-project",
+  "name": "alpha-tech-nutrition",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "lint": "eslint .",
-    "start": "next start"
+    "lint": "next lint",
+    "start": "next start",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",

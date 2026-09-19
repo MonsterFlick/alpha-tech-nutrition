@@ -7,7 +7,19 @@ import { useState } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
-const flavors = [
+interface Flavor {
+  id: number
+  name: string
+  tagline: string
+  description: string
+  image: string
+  bgColor: string
+  accentColor: string
+  badges: string[]
+  mystery?: boolean
+}
+
+const flavors: Flavor[] = [
   {
     id: 1,
     name: "Prime Whey",
@@ -53,7 +65,7 @@ const slideVariants = {
     scale: 1,
     rotateY: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 300,
       damping: 30,
     },
@@ -64,7 +76,7 @@ const slideVariants = {
     scale: 0.9,
     rotateY: direction > 0 ? -15 : 15,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 300,
       damping: 30,
     },
