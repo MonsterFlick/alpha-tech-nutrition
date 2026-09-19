@@ -16,35 +16,41 @@ export interface AestheticQROptions {
   backgroundColor?: string
   includeCenterLogo?: boolean
   centerLogoText?: string
+  productTitle?: string
+  serialCode?: string
 }
 
 const THEME_PRESETS: Record<
   QRTheme,
-  { dotColor: string; eyeColor: string; eyeInnerColor: string; backgroundColor: string }
+  { dotColor: string; eyeColor: string; eyeInnerColor: string; backgroundColor: string; textColor: string }
 > = {
   classic_dark: {
     dotColor: "#121212",
     eyeColor: "#121212",
     eyeInnerColor: "#84cc16",
     backgroundColor: "#ffffff",
+    textColor: "#121212",
   },
   neon_lime: {
     dotColor: "#121212",
     eyeColor: "#121212",
     eyeInnerColor: "#AFFF00",
     backgroundColor: "#ffffff",
+    textColor: "#121212",
   },
   print_clean: {
     dotColor: "#000000",
     eyeColor: "#000000",
     eyeInnerColor: "#000000",
     backgroundColor: "#ffffff",
+    textColor: "#000000",
   },
   stealth_black: {
     dotColor: "#AFFF00",
     eyeColor: "#AFFF00",
     eyeInnerColor: "#ffffff",
     backgroundColor: "#12141a",
+    textColor: "#AFFF00",
   },
 }
 
@@ -57,6 +63,8 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
     theme = "neon_lime",
     includeCenterLogo = true,
     centerLogoText = "α",
+    productTitle,
+    serialCode,
   } = options
 
   const palette = THEME_PRESETS[theme] || THEME_PRESETS.neon_lime
@@ -64,9 +72,14 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
   const eyeColor = options.eyeColor || palette.eyeColor
   const eyeInnerColor = options.eyeInnerColor || palette.eyeInnerColor
   const backgroundColor = options.backgroundColor || palette.backgroundColor
+  const textColor = palette.textColor
 
   const qr = QRCode.create(text, { errorCorrectionLevel: "H" })
   const N = qr.modules.size
+
+  // If productTitle or serialCode is provided at bottom, add extra height for bottom label
+  const extraBottomHeight = productTitle ? 56 : 0
+  const totalHeight = size + extraBottomHeight
 
   // Calculate cell dimensions
   const innerSize = size - margin * 2
@@ -90,9 +103,9 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
 
   const elements: string[] = []
 
-  // 1. Background
+  // 1. Background with rounded corners
   elements.push(
-    `<rect width="${size}" height="${size}" rx="24" fill="${backgroundColor}" />`
+    `<rect width="${size}" height="${totalHeight}" rx="28" fill="${backgroundColor}" />`
   )
 
   // 2. Render Data Modules (Rounded Dots / Squircles)
@@ -144,7 +157,6 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
     const eyeSize = 7 * cellSize
 
     if (eyeStyle === "circle") {
-      // Concentric Target Circles
       const cx = originX + eyeSize / 2
       const cy = originY + eyeSize / 2
       const outerR = (eyeSize - cellSize) / 2
@@ -216,7 +228,30 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
     )
   }
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">
+  // 5. Render Product Title and Serial at Bottom (If provided)
+  if (productTitle) {
+    const textCenterX = size / 2
+    const lineY = size + 16
+    const serialY = size + 36
+
+    elements.push(
+      `<line x1="${margin}" y1="${size - 4}" x2="${size - margin}" y2="${size - 4}" stroke="${dotColor}" stroke-opacity="0.12" stroke-width="1" />`
+    )
+
+    // Escaped title
+    const safeTitle = productTitle.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").toUpperCase()
+    elements.push(
+      `<text x="${textCenterX}" y="${lineY}" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" fill="${textColor}" text-anchor="middle" letter-spacing="0.08em">${safeTitle}</text>`
+    )
+
+    if (serialCode) {
+      elements.push(
+        `<text x="${textCenterX}" y="${serialY}" font-family="ui-monospace, monospace" font-size="9" font-weight="700" fill="${textColor}" opacity="0.65" text-anchor="middle" letter-spacing="0.1em">${serialCode}</text>`
+      )
+    }
+  }
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${totalHeight}" width="${size}" height="${totalHeight}">
     <defs>
       <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
         <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.15"/>
@@ -226,22 +261,27 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
   </svg>`
 }
 
-export async function svgToPngDataUrl(svgString: string, targetSize = 600): Promise<string> {
+export async function svgToPngDataUrl(svgString: string, targetWidth = 600): Promise<string> {
   if (typeof window === "undefined") {
-    // Server-side fallback: Return base64 encoded SVG data url
     return `data:image/svg+xml;base64,${Buffer.from(svgString).toString("base64")}`
   }
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const img = new Image()
     const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" })
     const URL = window.URL || window.webkitURL || window
     const blobURL = URL.createObjectURL(svgBlob)
 
     img.onload = () => {
+      // Extract height from aspect ratio
+      const match = svgString.match(/viewBox="0 0 (\d+) (\d+)"/)
+      const viewBoxWidth = match ? parseFloat(match[1]) : targetWidth
+      const viewBoxHeight = match ? parseFloat(match[2]) : targetWidth
+      const targetHeight = (targetWidth / viewBoxWidth) * viewBoxHeight
+
       const canvas = document.createElement("canvas")
-      canvas.width = targetSize
-      canvas.height = targetSize
+      canvas.width = targetWidth
+      canvas.height = targetHeight
       const ctx = canvas.getContext("2d")
       if (!ctx) {
         URL.revokeObjectURL(blobURL)
@@ -250,7 +290,7 @@ export async function svgToPngDataUrl(svgString: string, targetSize = 600): Prom
 
       ctx.imageSmoothingEnabled = true
       ctx.imageSmoothingQuality = "high"
-      ctx.drawImage(img, 0, 0, targetSize, targetSize)
+      ctx.drawImage(img, 0, 0, targetWidth, targetHeight)
       URL.revokeObjectURL(blobURL)
       resolve(canvas.toDataURL("image/png"))
     }

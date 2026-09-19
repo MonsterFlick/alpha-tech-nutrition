@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { generateAestheticQRSvg, type DotStyle, type EyeStyle, type QRTheme } from "@/lib/aesthetic-qr"
 
 export interface AestheticQRViewProps {
@@ -12,6 +12,8 @@ export interface AestheticQRViewProps {
   includeCenterLogo?: boolean
   centerLogoText?: string
   className?: string
+  productTitle?: string
+  serialCode?: string
 }
 
 export function AestheticQRView({
@@ -23,7 +25,15 @@ export function AestheticQRView({
   includeCenterLogo = true,
   centerLogoText = "α",
   className = "",
+  productTitle,
+  serialCode,
 }: AestheticQRViewProps) {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   const svgString = useMemo(() => {
     if (!value) return ""
     return generateAestheticQRSvg(value, {
@@ -33,16 +43,21 @@ export function AestheticQRView({
       theme,
       includeCenterLogo,
       centerLogoText,
+      productTitle,
+      serialCode,
     })
-  }, [value, size, dotStyle, eyeStyle, theme, includeCenterLogo, centerLogoText])
+  }, [value, size, dotStyle, eyeStyle, theme, includeCenterLogo, centerLogoText, productTitle, serialCode])
 
-  if (!svgString) {
+  // Before mount, render matching placeholder to prevent SSR hydration mismatch
+  if (!isMounted || !svgString) {
+    const extraH = productTitle ? 56 : 0
     return (
       <div
-        style={{ width: size, height: size }}
-        className="flex items-center justify-center bg-white/5 rounded-3xl text-white/30 font-mono text-xs"
+        style={{ width: size, height: size + extraH }}
+        className={`flex flex-col items-center justify-center bg-white/5 rounded-3xl text-white/30 font-mono text-xs ${className}`}
       >
-        Generating QR...
+        <div className="w-8 h-8 rounded-full border-2 border-[#AFFF00]/30 border-t-[#AFFF00] animate-spin mb-2" />
+        <span className="text-[10px] tracking-wider">SECURE QR CODE</span>
       </div>
     )
   }

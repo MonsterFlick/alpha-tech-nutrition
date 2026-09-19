@@ -217,7 +217,7 @@ export function Navigation() {
                   {item.label}
                 </motion.button>
               ))}
-              <div className="pt-2 border-t border-white/10 space-y-2">
+              <div className="pt-2 border-t border-white/10">
                 <Link
                   href="/verify"
                   onClick={() => setMobileMenuOpen(false)}
@@ -225,13 +225,6 @@ export function Navigation() {
                 >
                   <ShieldCheck className="w-4 h-4" />
                   <span>Verify Product Authenticity</span>
-                </Link>
-                <Link
-                  href="/qr-generator"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block text-white/60 hover:text-[#AFFF00] font-mono text-xs py-1"
-                >
-                  Packaging QR Suite →
                 </Link>
               </div>
               <motion.button

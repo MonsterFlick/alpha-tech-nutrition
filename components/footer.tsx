@@ -54,8 +54,8 @@ export function Footer() {
       title: "Authenticity & Trust",
       links: [
         { name: "Verify Product Authenticity", href: "/verify" },
-        { name: "QR Code Generator Suite", href: "/qr-generator" },
         { name: "Anti-Counterfeit Protection", href: "/verify" },
+        { name: "Tamper-Proof Hologram Seal", href: "/verify" },
         { name: "Lab Purity Certificates", href: "/verify" },
       ],
     },

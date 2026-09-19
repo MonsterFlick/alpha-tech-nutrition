@@ -97,13 +97,10 @@ function VerificationContent() {
           </Link>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/qr-generator"
-              className="text-xs font-mono font-medium px-3.5 py-1.5 rounded-full border border-[#AFFF00]/30 text-[#AFFF00] hover:bg-[#AFFF00]/10 transition-colors flex items-center gap-1.5"
-            >
-              <QrCode className="w-3.5 h-3.5" />
-              <span>QR Generator Suite</span>
-            </Link>
+            <div className="text-xs font-mono font-bold px-3.5 py-1.5 rounded-full bg-[#AFFF00]/10 border border-[#AFFF00]/30 text-[#AFFF00] flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Official Registry</span>
+            </div>
           </div>
         </div>
       </header>

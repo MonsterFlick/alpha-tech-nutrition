@@ -16,15 +16,107 @@ const _jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 })
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alphatechnutrition.com"
+
 export const metadata: Metadata = {
-  title: "Alpha Tech Nutrition | Premium Gym & Sports Supplements",
-  description: "Fuel your gains with Alpha Tech Nutrition. Premium gym supplements including Prime Whey, Anabolic Lean Muscle Builder, and Alpha Super Mass Gainer.",
-  keywords: ["Alpha Tech Nutrition", "prime whey", "anabolic lean muscle builder", "alpha super mass gainer", "gym supplements", "protein powder", "muscle recovery"],
-    generator: 'v0.app'
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Alpha Tech Nutrition | High-Performance Gym & Sports Supplements",
+    template: "%s | Alpha Tech Nutrition",
+  },
+  description:
+    "Engineered for serious gains. Discover Alpha Tech Nutrition's premium sports nutrition line: Prime Whey, Anabolic Lean Muscle Builder, and Alpha Super Mass Gainer. 100% lab certified, zero banned substances.",
+  keywords: [
+    "Alpha Tech Nutrition",
+    "Prime Whey",
+    "Anabolic Lean Muscle Builder",
+    "Alpha Super Mass Gainer",
+    "Gym Supplements",
+    "Sports Nutrition",
+    "Whey Protein Concentrate",
+    "Creatine Monohydrate",
+    "Mass Gainer",
+    "Supplement Authenticity Check",
+    "Anti Counterfeit QR Verification",
+  ],
+  authors: [{ name: "Alpha Tech Nutrition", url: siteUrl }],
+  creator: "Alpha Tech Nutrition",
+  publisher: "Alpha Tech Nutrition",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName: "Alpha Tech Nutrition",
+    title: "Alpha Tech Nutrition | High-Performance Gym & Sports Supplements",
+    description:
+      "Fuel explosive muscle growth and rapid recovery with lab-certified sports nutrition formulas. Features 100% anti-counterfeit QR code authenticity verification.",
+    images: [
+      {
+        url: "/images/image.png",
+        width: 1200,
+        height: 630,
+        alt: "Alpha Tech Nutrition - High Performance Supplements",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Alpha Tech Nutrition | High-Performance Gym & Sports Supplements",
+    description: "Lab-tested sports nutrition formulas with QR authenticity verification.",
+    images: ["/images/image.png"],
+    creator: "@AlphaTechNutr",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 }
 
 export const viewport: Viewport = {
-  themeColor: "#AFFF00",
+  themeColor: "#121212",
+  colorScheme: "dark",
+}
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Alpha Tech Nutrition",
+      url: siteUrl,
+      logo: `${siteUrl}/icon.svg`,
+      description: "Manufacturer and brand of high-performance gym and sports nutrition dietary supplements.",
+      sameAs: [
+        "https://www.instagram.com/alphatechnutrition",
+        "https://twitter.com/AlphaTechNutr",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: "Alpha Tech Nutrition",
+      publisher: {
+        "@id": `${siteUrl}/#organization`,
+      },
+    },
+  ],
 }
 
 export default function RootLayout({
@@ -33,8 +125,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>
+    <html lang="en" className="dark">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
+      <body className="font-sans antialiased bg-[#121212] text-white">
         <ClickSpark
           sparkColor="#AFFF00"
           sparkSize={12}
