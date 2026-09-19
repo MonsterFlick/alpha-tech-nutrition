@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -15,13 +15,23 @@ import {
   Sparkles,
   ArrowLeft,
   RefreshCw,
-  Layers,
-  Settings,
+  Sliders,
+  Palette,
+  Eye,
+  CircleDot,
   Plus,
 } from "lucide-react"
 import { PRODUCTS_CATALOG, type ProductItem } from "@/lib/product-catalog"
-import { generateQRCodeDataUrl, generateQRCodeSvg, getVerificationUrl } from "@/lib/qr-service"
+import { getVerificationUrl } from "@/lib/qr-service"
 import { registerNewRecord, generateRandomSerial, getAllVerificationRecords, type VerificationRecord } from "@/lib/verification"
+import {
+  generateAestheticQRSvg,
+  svgToPngDataUrl,
+  type DotStyle,
+  type EyeStyle,
+  type QRTheme,
+} from "@/lib/aesthetic-qr"
+import { AestheticQRView } from "@/components/aesthetic-qr-view"
 
 export default function QRGeneratorPage() {
   const [selectedProduct, setSelectedProduct] = useState<ProductItem>(PRODUCTS_CATALOG[0])
@@ -29,15 +39,26 @@ export default function QRGeneratorPage() {
   const [mfgDate, setMfgDate] = useState("03/2026")
   const [expDate, setExpDate] = useState("02/2028")
   const [serialCode, setSerialCode] = useState("ATN-PW-2026-7891")
-  const [qrDataUrl, setQrDataUrl] = useState("")
+
+  // Rounded QR Style Options
+  const [dotStyle, setDotStyle] = useState<DotStyle>("dots")
+  const [eyeStyle, setEyeStyle] = useState<EyeStyle>("smooth")
+  const [theme, setTheme] = useState<QRTheme>("neon_lime")
+  const [includeCenterLogo, setIncludeCenterLogo] = useState(true)
+
   const [copied, setCopied] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
   const [recentGeneratedList, setRecentGeneratedList] = useState<VerificationRecord[]>([])
 
-  // Bulk generation state
-  const [bulkCount, setBulkCount] = useState(5)
-  const [bulkList, setBulkList] = useState<{ code: string; qrUrl: string }[]>([])
+  // Multi-Label Bulk state
+  const [bulkCount, setBulkCount] = useState(4)
+  const [bulkList, setBulkList] = useState<{ code: string; svgStr: string }[]>([])
   const [isBulkGenerating, setIsBulkGenerating] = useState(false)
+
+  // Current verification URL
+  const verificationUrl = useMemo(() => {
+    return getVerificationUrl(serialCode)
+  }, [serialCode])
 
   // Update batch default prefix when product changes
   useEffect(() => {
@@ -50,35 +71,17 @@ export default function QRGeneratorPage() {
     setBatchNumber(`ATN-${prefix}-B26-05`)
   }, [selectedProduct])
 
-  // Generate QR code whenever serialCode changes
+  // Register in local database whenever serial or batch changes
   useEffect(() => {
-    async function updateQR() {
-      if (!serialCode) return
-      setIsGenerating(true)
-      const url = getVerificationUrl(serialCode)
-      const dataUrl = await generateQRCodeDataUrl(url, {
-        width: 600,
-        margin: 2,
-        darkColor: "#000000",
-        lightColor: "#ffffff",
-      })
-      setQrDataUrl(dataUrl)
-
-      // Register code into local authenticity registry
-      registerNewRecord({
-        code: serialCode,
-        productId: selectedProduct.id,
-        batchNumber,
-        mfgDate,
-        expDate,
-      })
-
-      // Refresh recent list
-      setRecentGeneratedList(getAllVerificationRecords().slice(0, 6))
-      setIsGenerating(false)
-    }
-
-    updateQR()
+    if (!serialCode) return
+    registerNewRecord({
+      code: serialCode,
+      productId: selectedProduct.id,
+      batchNumber,
+      mfgDate,
+      expDate,
+    })
+    setRecentGeneratedList(getAllVerificationRecords().slice(0, 6))
   }, [serialCode, selectedProduct, batchNumber, mfgDate, expDate])
 
   const handleGenerateNewRandomCode = () => {
@@ -90,29 +93,42 @@ export default function QRGeneratorPage() {
   }
 
   const handleCopyLink = () => {
-    const url = getVerificationUrl(serialCode)
-    navigator.clipboard.writeText(url)
+    navigator.clipboard.writeText(verificationUrl)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const handleDownloadPNG = () => {
-    if (!qrDataUrl) return
+  const handleDownloadPNG = async () => {
+    setIsGenerating(true)
+    const svgStr = generateAestheticQRSvg(verificationUrl, {
+      size: 800,
+      dotStyle,
+      eyeStyle,
+      theme,
+      includeCenterLogo,
+    })
+    const pngDataUrl = await svgToPngDataUrl(svgStr, 800)
     const a = document.createElement("a")
-    a.href = qrDataUrl
-    a.download = `QR_${serialCode}_AlphaTech.png`
+    a.href = pngDataUrl
+    a.download = `QR_${serialCode}_Rounded_AlphaTech.png`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
+    setIsGenerating(false)
   }
 
-  const handleDownloadSVG = async () => {
-    const url = getVerificationUrl(serialCode)
-    const svgStr = await generateQRCodeSvg(url, { width: 600, margin: 2 })
+  const handleDownloadSVG = () => {
+    const svgStr = generateAestheticQRSvg(verificationUrl, {
+      size: 600,
+      dotStyle,
+      eyeStyle,
+      theme,
+      includeCenterLogo,
+    })
     const blob = new Blob([svgStr], { type: "image/svg+xml" })
     const a = document.createElement("a")
     a.href = URL.createObjectURL(blob)
-    a.download = `QR_${serialCode}_AlphaTech.svg`
+    a.download = `QR_${serialCode}_Vector_AlphaTech.svg`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -122,13 +138,13 @@ export default function QRGeneratorPage() {
     window.print()
   }
 
-  const handleGenerateBulk = async () => {
+  const handleGenerateBulk = () => {
     setIsBulkGenerating(true)
     let prefix = "PW"
     if (selectedProduct.id.includes("lean")) prefix = "ALMB"
     if (selectedProduct.id.includes("mass")) prefix = "ASMG"
 
-    const items: { code: string; qrUrl: string }[] = []
+    const items: { code: string; svgStr: string }[] = []
     for (let i = 0; i < bulkCount; i++) {
       const code = generateRandomSerial("ATN", prefix)
       registerNewRecord({
@@ -139,8 +155,15 @@ export default function QRGeneratorPage() {
         expDate,
       })
       const verifyUrl = getVerificationUrl(code)
-      const dataUrl = await generateQRCodeDataUrl(verifyUrl, { width: 300, margin: 1 })
-      items.push({ code, qrUrl: dataUrl })
+      const svgStr = generateAestheticQRSvg(verifyUrl, {
+        size: 300,
+        margin: 12,
+        dotStyle,
+        eyeStyle,
+        theme: "print_clean", // standard high-contrast black for print
+        includeCenterLogo,
+      })
+      items.push({ code, svgStr })
     }
 
     setBulkList(items)
@@ -150,7 +173,7 @@ export default function QRGeneratorPage() {
 
   return (
     <div className="min-h-screen bg-[#0d0e12] text-white selection:bg-[#AFFF00] selection:text-[#121212]">
-      {/* Print-specific stylesheet */}
+      {/* Print sheet styles */}
       <style jsx global>{`
         @media print {
           body * {
@@ -171,7 +194,7 @@ export default function QRGeneratorPage() {
         }
       `}</style>
 
-      {/* Header */}
+      {/* Navigation Header */}
       <header className="border-b border-white/10 bg-[#121212]/80 backdrop-blur-xl sticky top-0 z-40 print:hidden">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
@@ -181,7 +204,7 @@ export default function QRGeneratorPage() {
                 ALPHA <span className="text-[#AFFF00]">TECH</span>
               </span>
               <span className="text-[9px] font-mono tracking-[0.2em] text-[#AFFF00] uppercase font-bold">
-                Production & QR Suite
+                Aesthetic QR & Security Suite
               </span>
             </div>
           </Link>
@@ -198,27 +221,27 @@ export default function QRGeneratorPage() {
       </header>
 
       <main className="max-w-6xl mx-auto px-6 py-10 print:hidden">
-        {/* Title */}
+        {/* Title Header */}
         <div className="mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#AFFF00]/10 border border-[#AFFF00]/30 text-[#AFFF00] text-xs font-mono font-semibold uppercase tracking-wider mb-2">
-            <QrCode className="w-4 h-4" />
-            Packaging Anti-Counterfeit Label Generator
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#AFFF00]/10 border border-[#AFFF00]/30 text-[#AFFF00] text-xs font-mono font-semibold uppercase tracking-wider mb-2">
+            <Sparkles className="w-4 h-4" />
+            Designer Rounded QR Code Suite
           </div>
           <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tight">
-            Security QR Code & <span className="text-[#AFFF00]">Packaging Sticker Generator</span>
+            Aesthetic Rounded <span className="text-[#AFFF00]">QR & Packaging Suite</span>
           </h1>
           <p className="text-white/60 text-sm mt-1">
-            Generate cryptographically registered QR labels for production containers. Each code automatically connects to the official Alpha Tech authenticity verification portal.
+            Generate modern, round-cornered QR codes with circular dots, smooth finder targets, and the official Alpha Tech center emblem.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* LEFT COLUMN: Controls */}
+          {/* LEFT COLUMN: Controls & Customization */}
           <div className="lg:col-span-7 space-y-6">
             {/* Step 1: Product Selector */}
             <div className="bg-[#16181f] border border-white/10 rounded-2xl p-6">
               <label className="block text-xs font-mono text-white/50 uppercase tracking-wider mb-3">
-                Step 1: Select Product Formulation
+                1. Select Product
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {PRODUCTS_CATALOG.map((p) => {
@@ -245,15 +268,169 @@ export default function QRGeneratorPage() {
               </div>
             </div>
 
-            {/* Step 2: Batch & Serial Number Config */}
+            {/* Step 2: Aesthetics & Rounded QR Styling */}
+            <div className="bg-[#16181f] border border-[#AFFF00]/30 rounded-2xl p-6 space-y-5">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-mono text-[#AFFF00] uppercase tracking-wider font-bold flex items-center gap-1.5">
+                  <Sliders className="w-3.5 h-3.5" />
+                  2. QR Code Aesthetics & Roundness
+                </label>
+                <span className="text-[11px] font-mono text-white/40">Custom Vector Engine</span>
+              </div>
+
+              {/* Dot Shape Selector */}
+              <div>
+                <span className="block text-xs text-white/70 mb-2 font-medium">Matrix Module Shape</span>
+                <div className="grid grid-cols-3 gap-2 text-xs font-mono">
+                  <button
+                    type="button"
+                    onClick={() => setDotStyle("dots")}
+                    className={`py-2.5 px-3 rounded-xl border transition-all cursor-pointer text-center ${
+                      dotStyle === "dots"
+                        ? "bg-[#AFFF00]/20 border-[#AFFF00] text-[#AFFF00] font-bold"
+                        : "bg-white/5 border-white/10 text-white/70 hover:border-white/20"
+                    }`}
+                  >
+                    ● Circular Dots
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDotStyle("squircle")}
+                    className={`py-2.5 px-3 rounded-xl border transition-all cursor-pointer text-center ${
+                      dotStyle === "squircle"
+                        ? "bg-[#AFFF00]/20 border-[#AFFF00] text-[#AFFF00] font-bold"
+                        : "bg-white/5 border-white/10 text-white/70 hover:border-white/20"
+                    }`}
+                  >
+                    ▢ Squircles
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDotStyle("rounded")}
+                    className={`py-2.5 px-3 rounded-xl border transition-all cursor-pointer text-center ${
+                      dotStyle === "rounded"
+                        ? "bg-[#AFFF00]/20 border-[#AFFF00] text-[#AFFF00] font-bold"
+                        : "bg-white/5 border-white/10 text-white/70 hover:border-white/20"
+                    }`}
+                  >
+                    Rounded Soft
+                  </button>
+                </div>
+              </div>
+
+              {/* Eye Shape Selector */}
+              <div>
+                <span className="block text-xs text-white/70 mb-2 font-medium">Corner Eye Finder Targets</span>
+                <div className="grid grid-cols-3 gap-2 text-xs font-mono">
+                  <button
+                    type="button"
+                    onClick={() => setEyeStyle("smooth")}
+                    className={`py-2.5 px-3 rounded-xl border transition-all cursor-pointer text-center ${
+                      eyeStyle === "smooth"
+                        ? "bg-[#AFFF00]/20 border-[#AFFF00] text-[#AFFF00] font-bold"
+                        : "bg-white/5 border-white/10 text-white/70 hover:border-white/20"
+                    }`}
+                  >
+                    Ultra Smooth
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEyeStyle("circle")}
+                    className={`py-2.5 px-3 rounded-xl border transition-all cursor-pointer text-center ${
+                      eyeStyle === "circle"
+                        ? "bg-[#AFFF00]/20 border-[#AFFF00] text-[#AFFF00] font-bold"
+                        : "bg-white/5 border-white/10 text-white/70 hover:border-white/20"
+                    }`}
+                  >
+                    Target Circles
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEyeStyle("squircle")}
+                    className={`py-2.5 px-3 rounded-xl border transition-all cursor-pointer text-center ${
+                      eyeStyle === "squircle"
+                        ? "bg-[#AFFF00]/20 border-[#AFFF00] text-[#AFFF00] font-bold"
+                        : "bg-white/5 border-white/10 text-white/70 hover:border-white/20"
+                    }`}
+                  >
+                    Squircle Eyes
+                  </button>
+                </div>
+              </div>
+
+              {/* Theme & Color Selector */}
+              <div>
+                <span className="block text-xs text-white/70 mb-2 font-medium">Color Palette</span>
+                <div className="grid grid-cols-3 gap-2 text-xs font-mono">
+                  <button
+                    type="button"
+                    onClick={() => setTheme("neon_lime")}
+                    className={`py-2.5 px-2 rounded-xl border transition-all cursor-pointer text-center ${
+                      theme === "neon_lime"
+                        ? "bg-[#AFFF00]/20 border-[#AFFF00] text-[#AFFF00] font-bold"
+                        : "bg-white/5 border-white/10 text-white/70"
+                    }`}
+                  >
+                    Electric Accent
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTheme("print_clean")}
+                    className={`py-2.5 px-2 rounded-xl border transition-all cursor-pointer text-center ${
+                      theme === "print_clean"
+                        ? "bg-[#AFFF00]/20 border-[#AFFF00] text-[#AFFF00] font-bold"
+                        : "bg-white/5 border-white/10 text-white/70"
+                    }`}
+                  >
+                    Monochrome Print
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTheme("stealth_black")}
+                    className={`py-2.5 px-2 rounded-xl border transition-all cursor-pointer text-center ${
+                      theme === "stealth_black"
+                        ? "bg-[#AFFF00]/20 border-[#AFFF00] text-[#AFFF00] font-bold"
+                        : "bg-white/5 border-white/10 text-white/70"
+                    }`}
+                  >
+                    Cyber Obsidian
+                  </button>
+                </div>
+              </div>
+
+              {/* Center Logo Toggle */}
+              <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-bold text-white block">Alpha Tech Center Emblem</span>
+                  <span className="text-[11px] text-white/50">
+                    High error-correction badge with Greek Alpha (α) monogram
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIncludeCenterLogo(!includeCenterLogo)}
+                  className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${
+                    includeCenterLogo ? "bg-[#AFFF00]" : "bg-white/20"
+                  }`}
+                >
+                  <span
+                    className={`block w-4 h-4 rounded-full bg-[#121212] transition-transform absolute top-1 ${
+                      includeCenterLogo ? "right-1" : "left-1"
+                    }`}
+                  />
+                </button>
+              </div>
+            </div>
+
+            {/* Step 3: Batch & Serial Credentials */}
             <div className="bg-[#16181f] border border-white/10 rounded-2xl p-6 space-y-4">
               <label className="block text-xs font-mono text-white/50 uppercase tracking-wider">
-                Step 2: Batch & Security Credentials
+                3. Batch & Serial Information
               </label>
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs text-white/80 font-medium">Security Serial Code</span>
+                  <span className="text-xs text-white/80 font-medium">Unique Serial Code</span>
                   <button
                     type="button"
                     onClick={handleGenerateNewRandomCode}
@@ -282,7 +459,7 @@ export default function QRGeneratorPage() {
                   />
                 </div>
                 <div>
-                  <span className="block text-xs text-white/60 mb-1">Mfg Date (MM/YYYY)</span>
+                  <span className="block text-xs text-white/60 mb-1">Mfg Date</span>
                   <input
                     type="text"
                     value={mfgDate}
@@ -291,7 +468,7 @@ export default function QRGeneratorPage() {
                   />
                 </div>
                 <div>
-                  <span className="block text-xs text-white/60 mb-1">Exp Date (MM/YYYY)</span>
+                  <span className="block text-xs text-white/60 mb-1">Exp Date</span>
                   <input
                     type="text"
                     value={expDate}
@@ -302,13 +479,13 @@ export default function QRGeneratorPage() {
               </div>
             </div>
 
-            {/* Step 3: Batch Bulk Generation */}
+            {/* Step 4: Multi-Label Bulk Generation */}
             <div className="bg-[#16181f] border border-white/10 rounded-2xl p-6">
               <label className="block text-xs font-mono text-white/50 uppercase tracking-wider mb-2">
-                Step 3: Multi-Label Bulk Generation (For Print Sheets)
+                4. Multi-Label Sheet Generator
               </label>
               <p className="text-xs text-white/60 mb-4">
-                Generate a batch of unique stickers ready to print on A4 adhesive sticker sheets.
+                Generate multiple unique registered rounded QR labels ready to print on adhesive sticker sheets.
               </p>
 
               <div className="flex items-center gap-3">
@@ -317,10 +494,10 @@ export default function QRGeneratorPage() {
                   onChange={(e) => setBulkCount(Number(e.target.value))}
                   className="bg-[#0d0e12] border border-white/20 text-white rounded-xl px-4 py-2.5 text-xs font-mono"
                 >
-                  <option value={3}>Generate 3 Unique Labels</option>
-                  <option value={6}>Generate 6 Unique Labels</option>
-                  <option value={9}>Generate 9 Unique Labels</option>
-                  <option value={12}>Generate 12 Unique Labels</option>
+                  <option value={4}>Generate 4 Labels</option>
+                  <option value={6}>Generate 6 Labels</option>
+                  <option value={8}>Generate 8 Labels</option>
+                  <option value={12}>Generate 12 Labels</option>
                 </select>
 
                 <button
@@ -334,16 +511,15 @@ export default function QRGeneratorPage() {
                   ) : (
                     <Plus className="w-3.5 h-3.5" />
                   )}
-                  <span>Generate Label Batch</span>
+                  <span>Generate Rounded Sheet</span>
                 </button>
               </div>
 
-              {/* Bulk preview grid */}
               {bulkList.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-white/10">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-mono text-[#AFFF00]">
-                      {bulkList.length} Labels Generated & Registered in System
+                      {bulkList.length} Unique Rounded Stickers Ready
                     </span>
                     <button
                       type="button"
@@ -351,21 +527,19 @@ export default function QRGeneratorPage() {
                       className="text-xs font-mono text-white bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg flex items-center gap-1.5 cursor-pointer"
                     >
                       <Printer className="w-3.5 h-3.5" />
-                      Print All Labels
+                      Print All Stickers
                     </button>
                   </div>
-                  <div className="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto pr-1">
+                  <div className="grid grid-cols-4 gap-2 max-h-48 overflow-y-auto pr-1">
                     {bulkList.map((item) => (
                       <div
                         key={item.code}
-                        className="bg-black/40 border border-white/10 rounded-lg p-2 text-center text-[10px] font-mono"
+                        className="bg-black/40 border border-white/10 rounded-xl p-2 text-center text-[10px] font-mono"
                       >
-                        {item.qrUrl && (
-                          <div className="w-16 h-16 mx-auto mb-1 bg-white p-1 rounded">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={item.qrUrl} alt={item.code} className="w-full h-full object-contain" />
-                          </div>
-                        )}
+                        <div
+                          className="w-16 h-16 mx-auto mb-1 bg-white p-1 rounded-lg flex items-center justify-center overflow-hidden"
+                          dangerouslySetInnerHTML={{ __html: item.svgStr }}
+                        />
                         <span className="text-white/80 font-bold block truncate">{item.code}</span>
                       </div>
                     ))}
@@ -375,45 +549,44 @@ export default function QRGeneratorPage() {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Live Physical Sticker & QR Preview */}
+          {/* RIGHT COLUMN: Live Physical Sticker & Rounded QR Preview */}
           <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24">
               <span className="block text-xs font-mono text-white/50 uppercase tracking-wider mb-2">
-                Live Packaging Sticker Mockup
+                Live Rounded Packaging Sticker Mockup
               </span>
 
               {/* The Physical Sticker Card */}
-              <div className="bg-[#12141a] border-2 border-[#AFFF00]/40 rounded-3xl p-6 shadow-2xl relative overflow-hidden text-center">
+              <div className="bg-[#12141a] border-2 border-[#AFFF00]/40 rounded-3xl p-6 shadow-2xl relative overflow-hidden text-center backdrop-blur-xl">
                 <div className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold text-[#AFFF00] uppercase tracking-widest mb-2 bg-[#AFFF00]/10 px-3 py-1 rounded-full border border-[#AFFF00]/30">
-                  <ShieldCheck className="w-3.5 h-3.5" /> Security Authenticity Seal
+                  <ShieldCheck className="w-3.5 h-3.5" /> Official Tamper-Evident Seal
                 </div>
 
                 <div className="font-black text-lg tracking-tight uppercase">
                   ALPHA <span className="text-[#AFFF00]">TECH</span> NUTRITION
                 </div>
                 <div className="text-[10px] font-mono text-white/60 uppercase">
-                  {selectedProduct.name} • Certified Product
+                  {selectedProduct.name} • Authenticity QR
                 </div>
 
-                {/* QR Code Container */}
+                {/* Aesthetic Rounded QR Code View */}
                 <div className="my-5 flex justify-center">
-                  <div className="w-52 h-52 bg-white p-3.5 rounded-2xl shadow-xl flex items-center justify-center relative group">
-                    {qrDataUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={qrDataUrl}
-                        alt="Alpha Tech Verification QR"
-                        className="w-full h-full object-contain"
-                      />
-                    ) : (
-                      <div className="text-black font-mono text-xs">Generating QR...</div>
-                    )}
+                  <div className="p-3 bg-white/5 border border-white/10 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] relative">
+                    <AestheticQRView
+                      value={verificationUrl}
+                      size={260}
+                      dotStyle={dotStyle}
+                      eyeStyle={eyeStyle}
+                      theme={theme}
+                      includeCenterLogo={includeCenterLogo}
+                      centerLogoText="α"
+                    />
                   </div>
                 </div>
 
                 {/* Sticker Serial & Instructions */}
                 <div className="space-y-1.5">
-                  <div className="text-[11px] font-mono font-bold text-[#AFFF00] bg-black/50 py-1.5 px-3 rounded-lg border border-white/10 tracking-wider">
+                  <div className="text-[11px] font-mono font-bold text-[#AFFF00] bg-black/60 py-1.5 px-3 rounded-xl border border-white/10 tracking-wider">
                     SERIAL: {serialCode}
                   </div>
                   <div className="text-[10px] font-mono text-white/50">
@@ -430,10 +603,11 @@ export default function QRGeneratorPage() {
                 <button
                   type="button"
                   onClick={handleDownloadPNG}
+                  disabled={isGenerating}
                   className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-bold transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" />
-                  Download PNG
+                  {isGenerating ? "Exporting..." : "Download PNG"}
                 </button>
                 <button
                   type="button"
@@ -441,7 +615,7 @@ export default function QRGeneratorPage() {
                   className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono text-xs font-bold transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" />
-                  Download SVG
+                  Download Vector SVG
                 </button>
                 <button
                   type="button"
@@ -481,33 +655,48 @@ export default function QRGeneratorPage() {
         </div>
       </main>
 
-      {/* PRINT-ONLY SECTION: Clean White Label Sheet for Adhesive Stickers */}
+      {/* PRINT-ONLY SECTION: Print-Ready Sticker Sheet */}
       <div id="print-section" className="hidden print:block p-8 bg-white text-black">
-        <h2 className="text-xl font-bold mb-4 pb-2 border-b">
-          Alpha Tech Nutrition - Official Authenticity QR Labels
+        <h2 className="text-xl font-bold mb-3 pb-2 border-b">
+          Alpha Tech Nutrition - Official Rounded Authenticity Stickers
         </h2>
         <p className="text-xs text-gray-500 mb-6">
           Product: {selectedProduct.name} ({selectedProduct.sku}) • Batch: {batchNumber} • Mfg: {mfgDate} • Exp: {expDate}
         </p>
 
         <div className="grid grid-cols-2 gap-6">
-          {(bulkList.length > 0 ? bulkList : [{ code: serialCode, qrUrl: qrDataUrl }]).map((item) => (
+          {(bulkList.length > 0
+            ? bulkList
+            : [
+                {
+                  code: serialCode,
+                  svgStr: generateAestheticQRSvg(verificationUrl, {
+                    size: 300,
+                    margin: 12,
+                    dotStyle,
+                    eyeStyle,
+                    theme: "print_clean",
+                    includeCenterLogo,
+                  }),
+                },
+              ]
+          ).map((item) => (
             <div
               key={item.code}
-              className="border-2 border-dashed border-black p-4 rounded-xl flex items-center gap-4 page-break-inside-avoid"
+              className="border-2 border-dashed border-black p-4 rounded-2xl flex items-center gap-4 page-break-inside-avoid"
             >
-              {item.qrUrl && (
-                <div className="w-28 h-28 shrink-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.qrUrl} alt={item.code} className="w-full h-full object-contain" />
-                </div>
-              )}
+              <div
+                className="w-28 h-28 shrink-0 flex items-center justify-center"
+                dangerouslySetInnerHTML={{ __html: item.svgStr }}
+              />
               <div className="space-y-1">
                 <span className="text-xs font-black tracking-tight block">ALPHA TECH NUTRITION</span>
-                <span className="text-[11px] font-bold text-gray-700 block">{selectedProduct.name}</span>
+                <span className="text-[11px] font-bold text-gray-800 block">{selectedProduct.name}</span>
                 <span className="text-[10px] font-mono font-bold block">SERIAL: {item.code}</span>
                 <span className="text-[9px] font-mono text-gray-500 block">BATCH: {batchNumber}</span>
-                <span className="text-[8px] font-mono text-gray-600 block">SCAN OR VISIT: alphatechnutrition.com/verify</span>
+                <span className="text-[8px] font-mono text-gray-600 block">
+                  SCAN WITH CAMERA TO VERIFY AUTHENTICITY
+                </span>
               </div>
             </div>
           ))}

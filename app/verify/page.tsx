@@ -24,6 +24,8 @@ import {
   Share2,
 } from "lucide-react"
 import { verifyCode, type VerificationResult, DEFAULT_VERIFICATION_RECORDS } from "@/lib/verification"
+import { AestheticQRView } from "@/components/aesthetic-qr-view"
+import { getVerificationUrl } from "@/lib/qr-service"
 
 function VerificationContent() {
   const searchParams = useSearchParams()
@@ -337,6 +339,38 @@ function VerificationContent() {
                           <span className="text-white/60">{result.product.labReport.microbiologicalQuality}</span>
                         </div>
                       </div>
+                    </div>
+                  </div>
+
+                  {/* Digital Authenticity Passport with Rounded QR */}
+                  <div className="mt-6 p-4 rounded-2xl bg-black/40 border border-[#AFFF00]/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <div className="p-1.5 bg-white rounded-2xl shadow-lg shrink-0">
+                        <AestheticQRView
+                          value={getVerificationUrl(searchedCode)}
+                          size={84}
+                          dotStyle="dots"
+                          eyeStyle="smooth"
+                          theme="neon_lime"
+                          includeCenterLogo={true}
+                          centerLogoText="α"
+                        />
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-mono font-bold text-[#AFFF00] uppercase tracking-wider block">
+                          Digital Authenticity Passport
+                        </span>
+                        <span className="text-sm font-bold text-white block">Verified QR Security Token</span>
+                        <span className="text-xs font-mono text-white/50 block">
+                          Cryptographic Hash: {searchedCode}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <span className="text-[10px] font-mono text-white/40 block">MANUFACTURER STATUS</span>
+                      <span className="text-xs font-mono font-bold text-[#AFFF00] flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#AFFF00]" /> 100% AUTHENTIC
+                      </span>
                     </div>
                   </div>
 
