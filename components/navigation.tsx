@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { useLenis } from "lenis/react"
-import { Menu, X } from "lucide-react"
+import { Menu, X, ShieldCheck } from "lucide-react"
 
 const linkVariants = {
   hidden: { opacity: 0, y: -10 },
@@ -129,30 +129,40 @@ export function Navigation() {
           ))}
         </div>
 
-        <motion.button
-          className="hidden md:block bg-[#AFFF00] text-[#121212] px-6 py-2.5 rounded-full font-bold text-sm tracking-wide relative overflow-hidden"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
-        >
-          <motion.div
-            className="absolute inset-0 bg-white/30"
-            animate={{
-              boxShadow: [
-                "0 0 20px rgba(175,255,0,0.3)",
-                "0 0 40px rgba(175,255,0,0.6)",
-                "0 0 20px rgba(175,255,0,0.3)",
-              ],
-            }}
-            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full"
-            animate={{ x: ["-100%", "200%"] }}
-            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, repeatDelay: 3 }}
-          />
-          <span className="relative z-10">Get 25% Off</span>
-        </motion.button>
+        <div className="hidden md:flex items-center gap-3">
+          <Link
+            href="/verify"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-[#AFFF00]/40 text-[#AFFF00] hover:bg-[#AFFF00]/10 text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-sm shadow-[#AFFF00]/10"
+          >
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>Verify Product</span>
+          </Link>
+
+          <motion.button
+            className="hidden md:block bg-[#AFFF00] text-[#121212] px-6 py-2.5 rounded-full font-bold text-sm tracking-wide relative overflow-hidden"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <motion.div
+              className="absolute inset-0 bg-white/30"
+              animate={{
+                boxShadow: [
+                  "0 0 20px rgba(175,255,0,0.3)",
+                  "0 0 40px rgba(175,255,0,0.6)",
+                  "0 0 20px rgba(175,255,0,0.3)",
+                ],
+              }}
+              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full"
+              animate={{ x: ["-100%", "200%"] }}
+              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, repeatDelay: 3 }}
+            />
+            <span className="relative z-10">Get 25% Off</span>
+          </motion.button>
+        </div>
 
         <motion.button
           className="md:hidden p-2"
@@ -207,6 +217,23 @@ export function Navigation() {
                   {item.label}
                 </motion.button>
               ))}
+              <div className="pt-2 border-t border-white/10 space-y-2">
+                <Link
+                  href="/verify"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-2 text-[#AFFF00] font-mono text-sm py-2 font-bold"
+                >
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>Verify Product Authenticity</span>
+                </Link>
+                <Link
+                  href="/qr-generator"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block text-white/60 hover:text-[#AFFF00] font-mono text-xs py-1"
+                >
+                  Packaging QR Suite →
+                </Link>
+              </div>
               <motion.button
                 className="w-full bg-[#AFFF00] text-[#121212] px-6 py-3 rounded-full font-bold text-sm tracking-wide mt-4"
                 initial={{ opacity: 0, y: 20 }}

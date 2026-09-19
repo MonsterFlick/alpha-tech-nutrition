@@ -43,19 +43,39 @@ export function Footer() {
   const footerLinks = [
     {
       title: "Products",
-      links: ["Prime Whey", "Anabolic Lean Muscle Builder", "Alpha Super Mass Gainer", "Stacks & Bundles"],
+      links: [
+        { name: "Prime Whey", href: "#flavours" },
+        { name: "Anabolic Lean Muscle Builder", href: "#flavours" },
+        { name: "Alpha Super Mass Gainer", href: "#flavours" },
+        { name: "Formula & Science", href: "#formula" },
+      ],
     },
     {
-      title: "Quick Links",
-      links: ["Home", "Products", "Formula", "Partners"],
+      title: "Authenticity & Trust",
+      links: [
+        { name: "Verify Product Authenticity", href: "/verify" },
+        { name: "QR Code Generator Suite", href: "/qr-generator" },
+        { name: "Anti-Counterfeit Protection", href: "/verify" },
+        { name: "Lab Purity Certificates", href: "/verify" },
+      ],
     },
     {
       title: "Company",
-      links: ["About", "Careers", "Press", "Contact"],
+      links: [
+        { name: "About Alpha Tech", href: "#" },
+        { name: "Partners & Distributors", href: "#distributors" },
+        { name: "Athletes & Creators", href: "#creators" },
+        { name: "Contact Support", href: "mailto:support@alphatechnutrition.com" },
+      ],
     },
     {
-      title: "Legal",
-      links: ["Privacy Policy", "Terms of Service", "Cookie Policy"],
+      title: "Quality Standards",
+      links: [
+        { name: "FSSAI Registered", href: "#" },
+        { name: "ISO 22000 Certified", href: "#" },
+        { name: "100% Dope Free", href: "#" },
+        { name: "Privacy Policy", href: "#" },
+      ],
     },
   ]
 
@@ -170,13 +190,13 @@ export function Footer() {
               <h4 className="font-bold text-white text-sm mb-3">{section.title}</h4>
               <ul className="space-y-2">
                 {section.links.map((item) => (
-                  <li key={item}>
+                  <li key={item.name}>
                     <motion.div whileHover={{ x: 4 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                       <Link
-                        href="#"
+                        href={item.href}
                         className="text-white/60 hover:text-[#AFFF00] font-mono text-xs transition-colors inline-block"
                       >
-                        {item}
+                        {item.name}
                       </Link>
                     </motion.div>
                   </li>
