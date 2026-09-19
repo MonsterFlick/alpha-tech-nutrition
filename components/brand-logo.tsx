@@ -47,14 +47,14 @@ export function BrandLogo({
     >
       {/* Official Master Icon Emblem */}
       <div
-        className="relative shrink-0 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-[#AFFF00]/25 transition-all duration-300"
+        className="relative shrink-0 rounded-2xl overflow-hidden shadow-lg border border-[#AFFF00]/30 group-hover:border-[#AFFF00] group-hover:shadow-[0_0_20px_rgba(175,255,0,0.4)] transition-all duration-300 bg-[#0d0e12]"
         style={{ width: iconDimensions.w, height: iconDimensions.h }}
       >
         <Image
-          src="/icon.svg"
+          src="/logo/icon-512x512.png"
           alt="Alpha Tech Nutrition"
           fill
-          className="object-contain"
+          className="object-cover scale-105"
           priority
         />
       </div>

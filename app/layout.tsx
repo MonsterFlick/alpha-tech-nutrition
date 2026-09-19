@@ -53,9 +53,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/logo/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/logo/icon-512x512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: "/icon.svg",
-    shortcut: "/icon.svg",
+    apple: "/logo/apple-touch-icon-180x180.png",
+    shortcut: "/logo/favicon-32x32.png",
   },
   openGraph: {
     type: "website",
@@ -67,7 +69,7 @@ export const metadata: Metadata = {
       "Fuel explosive muscle growth and rapid recovery with lab-certified sports nutrition formulas. Features 100% anti-counterfeit QR code authenticity verification.",
     images: [
       {
-        url: "/images/image.png",
+        url: "/logo/social-opengraph-ad-1200x630.png",
         width: 1200,
         height: 630,
         alt: "Alpha Tech Nutrition - High Performance Supplements",
@@ -78,7 +80,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Alpha Tech Nutrition | High-Performance Gym & Sports Supplements",
     description: "Lab-tested sports nutrition formulas with QR authenticity verification.",
-    images: ["/images/image.png"],
+    images: ["/logo/social-opengraph-ad-1200x630.png"],
     creator: "@AlphaTechNutr",
   },
   robots: {
