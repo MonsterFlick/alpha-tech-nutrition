@@ -22,7 +22,7 @@ interface Spark {
 }
 
 const ClickSpark: React.FC<ClickSparkProps> = ({
-  sparkColor = "#fff",
+  sparkColor = "#3B82F6",
   sparkSize = 10,
   sparkRadius = 15,
   sparkCount = 8,
@@ -33,38 +33,33 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const sparksRef = useRef<Spark[]>([])
-  const startTimeRef = useRef<number | null>(null)
+  const isRunningRef = useRef<boolean>(false)
+  const animFrameIdRef = useRef<number | null>(null)
 
+  // Fast viewport-sized canvas
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const parent = canvas.parentElement
-    if (!parent) return
-
-    let resizeTimeout: ReturnType<typeof setTimeout>
-
-    const resizeCanvas = () => {
-      const { width, height } = parent.getBoundingClientRect()
-      if (canvas.width !== width || canvas.height !== height) {
-        canvas.width = width
-        canvas.height = height
+    const updateSize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      canvas.width = Math.floor(window.innerWidth * dpr)
+      canvas.height = Math.floor(window.innerHeight * dpr)
+      canvas.style.width = `${window.innerWidth}px`
+      canvas.style.height = `${window.innerHeight}px`
+      const ctx = canvas.getContext("2d")
+      if (ctx) {
+        ctx.scale(dpr, dpr)
       }
     }
 
-    const handleResize = () => {
-      clearTimeout(resizeTimeout)
-      resizeTimeout = setTimeout(resizeCanvas, 100)
-    }
-
-    const ro = new ResizeObserver(handleResize)
-    ro.observe(parent)
-
-    resizeCanvas()
-
+    updateSize()
+    window.addEventListener("resize", updateSize, { passive: true })
     return () => {
-      ro.disconnect()
-      clearTimeout(resizeTimeout)
+      window.removeEventListener("resize", updateSize)
+      if (animFrameIdRef.current) {
+        cancelAnimationFrame(animFrameIdRef.current)
+      }
     }
   }, [])
 
@@ -84,20 +79,20 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     [easing],
   )
 
-  useEffect(() => {
+  const startAnimation = useCallback(() => {
+    if (isRunningRef.current) return
+    isRunningRef.current = true
+
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    let animationId: number
-
     const draw = (timestamp: number) => {
-      if (!startTimeRef.current) {
-        startTimeRef.current = timestamp
-      }
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      // Clear viewport
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
 
+      // Filter active sparks
       sparksRef.current = sparksRef.current.filter((spark: Spark) => {
         const elapsed = timestamp - spark.startTime
         if (elapsed >= duration) {
@@ -125,22 +120,22 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
         return true
       })
 
-      animationId = requestAnimationFrame(draw)
+      // If sparks still remain, continue loop. Otherwise STOP RAF completely!
+      if (sparksRef.current.length > 0) {
+        animFrameIdRef.current = requestAnimationFrame(draw)
+      } else {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+        isRunningRef.current = false
+        animFrameIdRef.current = null
+      }
     }
 
-    animationId = requestAnimationFrame(draw)
-
-    return () => {
-      cancelAnimationFrame(animationId)
-    }
-  }, [sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale])
+    animFrameIdRef.current = requestAnimationFrame(draw)
+  }, [duration, easeFunc, extraScale, sparkColor, sparkRadius, sparkSize])
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>): void => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const rect = canvas.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+    const x = e.clientX
+    const y = e.clientY
 
     const now = performance.now()
     const newSparks: Spark[] = Array.from({ length: sparkCount }, (_, i) => ({
@@ -151,13 +146,14 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     }))
 
     sparksRef.current.push(...newSparks)
+    startAnimation()
   }
 
   return (
     <div
       style={{
         width: "100%",
-        height: "100%",
+        minHeight: "100%",
         position: "relative",
       }}
       onClick={handleClick}
@@ -165,10 +161,10 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
       <canvas
         ref={canvasRef}
         style={{
-          position: "absolute",
+          position: "fixed",
           inset: 0,
           pointerEvents: "none",
-          zIndex: 9999,
+          zIndex: 99999,
         }}
       />
       {children}

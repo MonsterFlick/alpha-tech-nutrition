@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { motion, AnimatePresence, useSpring } from "framer-motion"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
@@ -90,18 +90,26 @@ export function FlavorCarousel() {
 
   const rotateX = useSpring(0, { stiffness: 150, damping: 20 })
   const rotateY = useSpring(0, { stiffness: 150, damping: 20 })
+  const cardRectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null)
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    cardRectRef.current = { left: r.left, top: r.top, width: r.width, height: r.height }
+  }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect()
+    const rect = cardRectRef.current
+    if (!rect) return
     const centerX = rect.left + rect.width / 2
     const centerY = rect.top + rect.height / 2
     const x = (e.clientX - centerX) / (rect.width / 2)
     const y = (e.clientY - centerY) / (rect.height / 2)
-    rotateY.set(x * 5)
-    rotateX.set(-y * 5)
+    rotateY.set(x * 4)
+    rotateX.set(-y * 4)
   }
 
   const handleMouseLeave = () => {
+    cardRectRef.current = null
     rotateX.set(0)
     rotateY.set(0)
   }
@@ -192,6 +200,7 @@ export function FlavorCarousel() {
                 <motion.div
                   className={`bg-white rounded-3xl p-6 md:p-8 border-2 border-[#121212]/10 shadow-xl ${currentFlavor.mystery ? "relative overflow-hidden" : ""}`}
                   style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                  onMouseEnter={handleMouseEnter}
                   onMouseMove={handleMouseMove}
                   onMouseLeave={handleMouseLeave}
                 >

@@ -40,28 +40,36 @@ const features = [
 function FeatureCard({ feature, index }: { feature: (typeof features)[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const [isHovered, setIsHovered] = useState(false)
+  const rectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null)
 
   const x = useMotionValue(0)
   const y = useMotionValue(0)
 
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 })
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 })
+  const mouseXSpring = useSpring(x, { stiffness: 200, damping: 25 })
+  const mouseYSpring = useSpring(y, { stiffness: 200, damping: 25 })
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["8deg", "-8deg"])
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"])
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["6deg", "-6deg"])
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-6deg", "6deg"])
+
+  const handleMouseEnter = () => {
+    if (ref.current) {
+      const r = ref.current.getBoundingClientRect()
+      rectRef.current = { left: r.left, top: r.top, width: r.width, height: r.height }
+    }
+    setIsHovered(true)
+  }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return
-    const rect = ref.current.getBoundingClientRect()
-    const width = rect.width
-    const height = rect.height
+    const rect = rectRef.current
+    if (!rect) return
     const mouseX = e.clientX - rect.left
     const mouseY = e.clientY - rect.top
-    x.set(mouseX / width - 0.5)
-    y.set(mouseY / height - 0.5)
+    x.set(mouseX / rect.width - 0.5)
+    y.set(mouseY / rect.height - 0.5)
   }
 
   const handleMouseLeave = () => {
+    rectRef.current = null
     x.set(0)
     y.set(0)
     setIsHovered(false)
@@ -75,7 +83,7 @@ function FeatureCard({ feature, index }: { feature: (typeof features)[0]; index:
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       className="relative group cursor-pointer"
