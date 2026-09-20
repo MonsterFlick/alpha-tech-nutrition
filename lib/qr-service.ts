@@ -53,6 +53,6 @@ export async function generateQRCodeSvg(
 }
 
 export function getVerificationUrl(code: string, origin?: string): string {
-  const base = origin || (typeof window !== "undefined" ? window.location.origin : "https://alphatechnutrition.com")
+  const base = origin || (typeof window !== "undefined" ? window.location.origin : "https://alphatech-nutrition.in")
   return `${base}/verify?code=${encodeURIComponent(code)}`
 }

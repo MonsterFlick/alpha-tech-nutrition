@@ -16,7 +16,7 @@ const _jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alphatechnutrition.com"
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alphatech-nutrition.in"
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

@@ -453,7 +453,7 @@ function VerificationContent() {
                       Verify Another Code
                     </button>
                     <a
-                      href="mailto:support@alphatechnutrition.com?subject=Authenticity%20Scan%20Query"
+                      href="mailto:support@alphatech-nutrition.in?subject=Authenticity%20Scan%20Query"
                       className="text-xs font-mono text-amber-400 hover:underline"
                     >
                       Report Suspicious Product →
@@ -504,7 +504,7 @@ function VerificationContent() {
                       Try Another Code
                     </button>
                     <a
-                      href="mailto:support@alphatechnutrition.com?subject=Counterfeit%20Report"
+                      href="mailto:support@alphatech-nutrition.in?subject=Counterfeit%20Report"
                       className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-mono font-bold transition-colors"
                     >
                       Report Counterfeit Vendor

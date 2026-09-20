@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Verify Product Authenticity | Alpha Tech Nutrition",
     description:
       "Instant authentication for Prime Whey, Anabolic Lean Muscle Builder, and Alpha Super Mass Gainer. Confirm 100% genuine formulation.",
-    url: "https://alphatechnutrition.com/verify",
+    url: "https://alphatech-nutrition.in/verify",
     siteName: "Alpha Tech Nutrition",
     images: [
       {
