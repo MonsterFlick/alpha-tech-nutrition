@@ -30,29 +30,21 @@ import { registerNewRecord } from "@/lib/verification"
 import { generateAestheticQRSvg, svgToPngDataUrl } from "@/lib/aesthetic-qr"
 import { AestheticQRView } from "@/components/aesthetic-qr-view"
 import { BrandLogo } from "@/components/brand-logo"
+import { ALPHA_TECH_ICON_BASE64 } from "@/lib/brand-assets"
 
 // Permanent official registered codes for each product - locked and cannot be deleted
 const PERMANENT_PRODUCT_CODES: Record<
   string,
-  { code: string; batchNumber: string; mfgDate: string; expDate: string }
+  { code: string }
 > = {
   "prime-whey": {
-    code: "ATN-PW-2026-0001",
-    batchNumber: "ATN-PW-B26-01",
-    mfgDate: "01/2026",
-    expDate: "12/2027",
+    code: "e4f9b8c2-3a5d-4e17-b6c8-9d2f1a0e5b7c",
   },
   "anabolic-lean-muscle-builder": {
-    code: "ATN-ALMB-2026-0002",
-    batchNumber: "ATN-ALMB-B26-02",
-    mfgDate: "02/2026",
-    expDate: "01/2028",
+    code: "b7c3d1e5-8f2a-4c96-a1d4-6e8b0f3a2c5e",
   },
   "alpha-super-mass-gainer": {
-    code: "ATN-ASMG-2026-0003",
-    batchNumber: "ATN-ASMG-B26-03",
-    mfgDate: "01/2026",
-    expDate: "12/2027",
+    code: "f2a8c4e0-5d1b-4f73-9e6a-8b1c3d5e7f9a",
   },
 }
 
@@ -74,18 +66,12 @@ export default function QRGeneratorPage() {
   const permanentDetails = useMemo(() => {
     return (
       PERMANENT_PRODUCT_CODES[selectedProduct.id] || {
-        code: `ATN-PROD-2026-0001`,
-        batchNumber: "ATN-B26-01",
-        mfgDate: "01/2026",
-        expDate: "12/2027",
+        code: "e4f9b8c2-3a5d-4e17-b6c8-9d2f1a0e5b7c",
       }
     )
   }, [selectedProduct])
 
   const serialCode = permanentDetails.code
-  const batchNumber = permanentDetails.batchNumber
-  const mfgDate = permanentDetails.mfgDate
-  const expDate = permanentDetails.expDate
 
   // Export States
   const [isZipping, setIsZipping] = useState(false)
@@ -113,9 +99,6 @@ export default function QRGeneratorPage() {
         registerNewRecord({
           code: perm.code,
           productId: p.id,
-          batchNumber: perm.batchNumber,
-          mfgDate: perm.mfgDate,
-          expDate: perm.expDate,
         })
       }
     })
@@ -165,7 +148,7 @@ export default function QRGeneratorPage() {
       dotColor: "#0B0E23",
       eyeColor: "#161B3D",
       eyeInnerColor: "#3B82F6",
-      centerLogoText: "AT",
+      centerLogoImage: ALPHA_TECH_ICON_BASE64,
     })
     const pngDataUrl = await svgToPngDataUrl(svgStr, 800)
     const a = document.createElement("a")
@@ -230,7 +213,7 @@ export default function QRGeneratorPage() {
         dotColor: "#0B0E23",
         eyeColor: "#161B3D",
         eyeInnerColor: "#3B82F6",
-        centerLogoText: "AT",
+        centerLogoImage: ALPHA_TECH_ICON_BASE64,
       })
       const transPng = await svgToPngDataUrl(transSvg, 800)
       folder.file(`01_Transparent_NavyBlue_QR_${safeName}.png`, transPng.split(",")[1], { base64: true })
@@ -242,7 +225,7 @@ export default function QRGeneratorPage() {
         dotColor: "#3B82F6",
         eyeColor: "#60A5FA",
         eyeInnerColor: "#ffffff",
-        centerLogoText: "AT",
+        centerLogoImage: ALPHA_TECH_ICON_BASE64,
       })
       const transCobaltPng = await svgToPngDataUrl(transCobaltSvg, 800)
       folder.file(`02_Transparent_ElectricCobalt_QR_${safeName}.png`, transCobaltPng.split(",")[1], { base64: true })
@@ -280,10 +263,7 @@ Flavor:              ${selectedProduct.flavor}
 Net Weight:          ${selectedProduct.weight}
 Servings:            ${selectedProduct.servings}
 
-Official Serial:     ${serialCode}
-Batch Number:        ${batchNumber}
-Manufacturing Date:  ${mfgDate}
-Expiry Date:         ${expDate}
+Product UUID:        ${serialCode}
 Direct Verification: ${verificationUrl}
 
 Included Assets in this Kit:
@@ -436,41 +416,42 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
 
       {/* Admin Top Header */}
       <header className="border-b border-blue-900/30 bg-[#0B0E23]/90 backdrop-blur-xl sticky top-0 z-40 print:hidden">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <Link
               href="/"
-              className="p-2 rounded-xl bg-white/5 border border-white/10 hover:border-blue-500/50 text-white/70 hover:text-white transition-all group"
+              className="p-2 rounded-xl bg-white/5 border border-white/10 hover:border-blue-500/50 text-white/70 hover:text-white transition-all group shrink-0"
               title="Return to Store"
             >
-              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-0.5 transition-transform" />
             </Link>
             <BrandLogo size="sm" scrolled={true} subtitle="Packaging Asset Suite" />
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <Link
               href={`/verify?code=${encodeURIComponent(serialCode)}`}
               target="_blank"
-              className="text-xs font-mono font-bold px-3.5 py-1.5 rounded-full border border-blue-500/40 text-blue-400 hover:bg-blue-500/10 transition-colors flex items-center gap-1.5"
+              className="text-[11px] sm:text-xs font-mono font-bold px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full border border-blue-500/40 text-blue-400 hover:bg-blue-500/10 transition-colors flex items-center gap-1.5"
             >
-              <span>Test Customer Scan</span>
+              <span className="hidden sm:inline">Test Customer Scan</span>
+              <span className="sm:hidden">Test Scan</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </Link>
 
             <button
               type="button"
               onClick={handleLogout}
-              className="text-xs font-mono text-white/60 hover:text-white px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="text-[11px] sm:text-xs font-mono text-white/60 hover:text-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-white/5 hover:bg-white/10 transition-colors flex items-center gap-1.5 cursor-pointer"
             >
               <Lock className="w-3 h-3" />
-              <span>Lock Session</span>
+              <span className="hidden sm:inline">Lock Session</span>
             </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-6 py-10 print:hidden">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 print:hidden">
         {/* Title Header */}
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono font-semibold uppercase tracking-wider mb-2">
@@ -662,12 +643,12 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
               </span>
 
               {/* Physical Sticker Card Preview with Product Title at Bottom */}
-              <div className="bg-[#0B0E23]/95 border-2 border-blue-500/40 rounded-3xl p-6 shadow-[0_0_30px_rgba(59,130,246,0.15)] relative overflow-hidden text-center backdrop-blur-xl">
+              <div className="bg-[#0B0E23]/95 border-2 border-blue-500/40 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-[0_0_30px_rgba(59,130,246,0.15)] relative overflow-hidden text-center backdrop-blur-xl">
                 <div className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold text-blue-400 uppercase tracking-widest mb-2 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/30">
                   <ShieldCheck className="w-3.5 h-3.5" /> Official Tamper-Evident Seal
                 </div>
 
-                <div className="font-black text-lg tracking-tight uppercase">
+                <div className="font-black text-base sm:text-lg tracking-tight uppercase">
                   ALPHA <span className="text-blue-400">TECH</span> NUTRITION
                 </div>
                 <div className="text-[10px] font-mono text-white/60 uppercase">
@@ -675,16 +656,18 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
                 </div>
 
                 {/* Aesthetic Rounded QR Code */}
-                <div className="my-5 flex justify-center">
-                  <div className="p-3 bg-white rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] relative">
+                <div className="my-4 sm:my-5 flex justify-center">
+                  <div className="p-2 sm:p-3 bg-white rounded-2xl sm:rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] relative max-w-full flex items-center justify-center">
                     <AestheticQRView
                       value={verificationUrl}
-                      size={240}
+                      size={220}
+                      margin={4}
+                      className="max-w-[220px] w-full"
                       dotStyle="dots"
                       eyeStyle="smooth"
                       theme="royal_navy"
                       includeCenterLogo={true}
-                      centerLogoText="AT"
+                      centerLogoImage={ALPHA_TECH_ICON_BASE64}
                       productTitle={`${selectedProduct.name} • ${selectedProduct.weight}`}
                       serialCode={serialCode}
                     />
@@ -693,10 +676,10 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
 
                 {/* Bottom Sticker Metadata */}
                 <div className="space-y-1.5">
-                  <div className="text-[11px] font-mono font-bold text-blue-300 bg-black/60 py-1.5 px-3 rounded-xl border border-white/10 tracking-wider">
-                    BATCH: {batchNumber} • EXP: {expDate}
+                  <div className="text-[10px] sm:text-[11px] font-mono font-bold text-blue-300 bg-black/60 py-1.5 px-2.5 sm:px-3 rounded-xl border border-white/10 tracking-wider break-all">
+                    UUID: {serialCode}
                   </div>
-                  <div className="text-[9px] font-mono text-white/40 pt-1">
+                  <div className="text-[9px] font-mono text-white/40 pt-1 leading-tight">
                     SCAN WITH SMARTPHONE CAMERA TO VERIFY 100% GENUINE FORMULA
                   </div>
                 </div>
@@ -744,7 +727,7 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
           Alpha Tech Nutrition - Official Packaging Labels
         </h2>
         <p className="text-xs text-gray-500 mb-6 font-mono">
-          Product: {selectedProduct.name} ({selectedProduct.sku}) • Batch: {batchNumber} • Exp: {expDate}
+          Product: {selectedProduct.name} • UUID: {serialCode}
         </p>
 
         <div className="grid grid-cols-2 gap-6">
@@ -769,8 +752,7 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
                 <div className="space-y-1 font-mono">
                   <span className="text-xs font-black tracking-tight block">ALPHA TECH NUTRITION</span>
                   <span className="text-[11px] font-bold text-gray-800 block">{selectedProduct.name}</span>
-                  <span className="text-[10px] font-bold block">SERIAL: {serialCode}</span>
-                  <span className="text-[9px] text-gray-500 block">BATCH: {batchNumber}</span>
+                  <span className="text-[10px] font-bold block">UUID: {serialCode}</span>
                   <span className="text-[8px] text-gray-600 block">SCAN TO VERIFY AUTHENTICITY</span>
                 </div>
               </div>

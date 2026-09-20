@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from "framer-motion"
 import {
   ShieldCheck,
   ShieldAlert,
-  AlertTriangle,
   QrCode,
   Search,
   CheckCircle2,
@@ -22,8 +21,10 @@ import {
   ChevronRight,
   Printer,
   Share2,
+  Copy,
+  Check,
 } from "lucide-react"
-import { verifyCode, type VerificationResult, DEFAULT_VERIFICATION_RECORDS } from "@/lib/verification"
+import { verifyCode, type VerificationResult } from "@/lib/verification"
 import { AestheticQRView } from "@/components/aesthetic-qr-view"
 import { getVerificationUrl } from "@/lib/qr-service"
 import { BrandLogo } from "@/components/brand-logo"
@@ -37,6 +38,15 @@ function VerificationContent() {
   const [isVerifying, setIsVerifying] = useState(false)
   const [result, setResult] = useState<VerificationResult | null>(null)
   const [searchedCode, setSearchedCode] = useState("")
+  const [isCopied, setIsCopied] = useState(false)
+
+  const handleCopySerial = (codeToCopy: string) => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(codeToCopy)
+      setIsCopied(true)
+      setTimeout(() => setIsCopied(false), 2000)
+    }
+  }
 
   // Auto-verify if code is in the URL query string
   useEffect(() => {
@@ -84,11 +94,11 @@ function VerificationContent() {
 
       {/* Top Header */}
       <header className="border-b border-blue-950/60 bg-[#0B0E23]/90 backdrop-blur-xl sticky top-0 z-40">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <Link
               href="/"
-              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/60 hover:text-blue-400 transition-colors flex items-center justify-center"
+              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/60 hover:text-blue-400 transition-colors flex items-center justify-center shrink-0"
               title="Return to Home"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -96,51 +106,63 @@ function VerificationContent() {
             <BrandLogo size="md" scrolled={true} />
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="text-xs font-mono font-bold px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center gap-1.5">
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="text-[11px] sm:text-xs font-mono font-bold px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Official Registry</span>
+              <span className="hidden xs:inline sm:inline">Official Registry</span>
+              <span className="xs:hidden sm:hidden">Registry</span>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 py-12">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Portal Hero */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono font-semibold uppercase tracking-wider mb-4">
-            <ShieldCheck className="w-4 h-4" />
+        <div className="text-center mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-wider mb-3 sm:mb-4">
+            <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             Official Security & Verification Protocol
           </div>
-          <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white uppercase">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase">
             Verify Product <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Authenticity</span>
           </h1>
-          <p className="mt-3 text-white/60 text-sm md:text-base max-w-xl mx-auto">
+          <p className="mt-2 sm:mt-3 text-white/60 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">
             Scan your Alpha Tech bottle QR code or enter the unique security serial code below to confirm your supplement
             is 100% genuine and certified.
           </p>
         </div>
 
         {/* Verification Input Box */}
-        <div className="bg-[#0E132D]/90 border border-blue-950/60 rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur-xl relative mb-12">
+        <div className="bg-[#0E132D]/90 border border-blue-950/60 rounded-2xl p-4 sm:p-6 md:p-8 shadow-2xl backdrop-blur-xl relative mb-8 sm:mb-12">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="relative">
-              <label htmlFor="serialCode" className="block text-xs font-mono text-white/60 uppercase tracking-wider mb-2">
-                Enter Security Serial Code (from QR Sticker / Hologram)
+            <div>
+              <label htmlFor="serialCode" className="block text-[11px] sm:text-xs font-mono text-white/60 uppercase tracking-wider mb-2">
+                Enter Product UUID (from QR sticker or packaging)
               </label>
-              <div className="relative flex items-center">
-                <input
-                  id="serialCode"
-                  type="text"
-                  value={inputCode}
-                  onChange={(e) => setInputCode(e.target.value.toUpperCase())}
-                  placeholder="e.g. ATN-PW-2026-9842"
-                  className="w-full bg-[#080B1C] border-2 border-white/20 focus:border-blue-500 text-white font-mono text-lg md:text-xl px-5 py-4 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 transition-all uppercase placeholder:text-white/20 tracking-wider"
-                />
+              <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+                <div className="relative flex-1">
+                  <input
+                    id="serialCode"
+                    type="text"
+                    value={inputCode}
+                    onChange={(e) => setInputCode(e.target.value.trim())}
+                    placeholder="Enter product UUID (e.g. e4f9b8c2-3a5d-...)"
+                    className="w-full bg-[#080B1C] border-2 border-white/20 focus:border-blue-500 text-white font-mono text-base sm:text-lg md:text-xl px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 transition-all placeholder:text-white/20 tracking-wider"
+                  />
+                  {inputCode && (
+                    <button
+                      type="button"
+                      onClick={() => setInputCode("")}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white p-1 text-[11px] font-mono"
+                    >
+                      CLEAR
+                    </button>
+                  )}
+                </div>
                 <button
                   type="submit"
                   disabled={isVerifying || !inputCode.trim()}
-                  className="absolute right-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-40 disabled:hover:from-blue-600 disabled:hover:to-indigo-600 text-white font-black rounded-lg text-sm tracking-wide flex items-center gap-2 transition-all shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 cursor-pointer disabled:cursor-not-allowed"
+                  className="w-full sm:w-auto px-6 py-3.5 sm:py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-40 disabled:hover:from-blue-600 disabled:hover:to-indigo-600 text-white font-black rounded-xl text-sm tracking-wide flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 cursor-pointer disabled:cursor-not-allowed shrink-0"
                 >
                   {isVerifying ? (
                     <>
@@ -155,24 +177,6 @@ function VerificationContent() {
                   )}
                 </button>
               </div>
-            </div>
-
-            {/* Quick Demo Test Buttons */}
-            <div className="pt-2 flex flex-wrap items-center gap-2 text-xs">
-              <span className="text-white/40 font-mono">Test Sample Codes:</span>
-              {DEFAULT_VERIFICATION_RECORDS.map((rec) => (
-                <button
-                  key={rec.code}
-                  type="button"
-                  onClick={() => {
-                    setInputCode(rec.code)
-                    handlePerformVerification(rec.code)
-                  }}
-                  className="px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-mono hover:text-blue-400 transition-colors"
-                >
-                  {rec.code}
-                </button>
-              ))}
             </div>
           </form>
         </div>
@@ -211,42 +215,43 @@ function VerificationContent() {
               transition={{ duration: 0.4 }}
               className="space-y-8"
             >
-              {/* CASE 1: GENUINE FIRST SCAN */}
-              {result.status === "genuine_first_scan" && result.product && (
-                <div className="bg-gradient-to-b from-[#10173D] via-[#0E132D] to-[#0A0D1F] border-2 border-blue-500 rounded-3xl p-6 md:p-10 shadow-[0_0_50px_rgba(59,130,246,0.25)] relative overflow-hidden">
+              {/* CASE 1: 100% GENUINE AUTHENTIC PRODUCT */}
+              {(result.status === "genuine" || result.isValid) && result.product && (
+                <div className="bg-gradient-to-b from-[#10173D] via-[#0E132D] to-[#0A0D1F] border-2 border-blue-500 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 shadow-[0_0_50px_rgba(59,130,246,0.25)] relative overflow-hidden">
                   <div className="absolute top-0 right-0 transform translate-x-10 -translate-y-10 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
 
                   {/* Genuine Banner */}
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-8 border-b border-white/10">
-                    <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-blue-500/20 border border-blue-400 flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/20">
-                        <CheckCircle2 className="w-9 h-9 text-blue-400" />
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 sm:pb-8 border-b border-white/10">
+                    <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-blue-500/20 border border-blue-400 flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/20">
+                        <CheckCircle2 className="w-7 h-7 sm:w-9 sm:h-9 text-blue-400" />
                       </div>
-                      <div>
-                        <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-blue-400 uppercase tracking-widest">
-                          <Sparkles className="w-3.5 h-3.5" /> 100% Certified Authentic
+                      <div className="min-w-0">
+                        <div className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold text-blue-400 uppercase tracking-wider">
+                          <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> 100% Certified Authentic
                         </div>
-                        <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+                        <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight">
                           Genuine Alpha Tech Product
                         </h2>
-                        <p className="text-white/60 text-xs md:text-sm font-mono mt-0.5">
-                          First Authentication Check Confirmed • Serial: {searchedCode}
+                        <p className="text-white/60 text-xs sm:text-sm font-mono mt-0.5 break-all">
+                          Product UUID: {result.record?.code || searchedCode}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <span className="px-3.5 py-1.5 rounded-full bg-blue-600 text-white font-black text-xs uppercase tracking-wider shadow-md shadow-blue-600/40">
-                        Scan #1 (Original)
+                    <div className="self-start sm:self-auto shrink-0">
+                      <span className="px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-blue-600/30 border border-blue-400 text-blue-300 font-black text-[11px] sm:text-xs uppercase tracking-wider shadow-md shadow-blue-600/20 flex items-center gap-1.5">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />
+                        Factory Certified
                       </span>
                     </div>
                   </div>
 
                   {/* Product Details Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-8 items-center">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 py-6 sm:py-8 items-center">
                     {/* Product Image */}
                     <div className="md:col-span-1 flex justify-center">
-                      <div className="relative w-48 h-48 md:w-56 md:h-56">
+                      <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56">
                         <Image
                           src={result.product.image}
                           alt={result.product.name}
@@ -262,38 +267,34 @@ function VerificationContent() {
                         <span className="text-xs font-mono text-blue-400 uppercase font-bold">
                           {result.product.category} Formulation
                         </span>
-                        <h3 className="text-2xl md:text-3xl font-black text-white">
+                        <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white">
                           {result.product.name}
                         </h3>
-                        <p className="text-white/70 text-sm mt-1">{result.product.tagline}</p>
+                        <p className="text-white/70 text-xs sm:text-sm mt-1">{result.product.tagline}</p>
                       </div>
 
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-                          <span className="text-[10px] font-mono text-white/40 uppercase block">Batch Number</span>
-                          <span className="text-sm font-bold text-white font-mono">{result.record?.batchNumber}</span>
-                        </div>
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-                          <span className="text-[10px] font-mono text-white/40 uppercase block">Mfg / Exp Date</span>
-                          <span className="text-sm font-bold text-white font-mono">
-                            {result.record?.mfgDate} - {result.record?.expDate}
-                          </span>
-                        </div>
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                      <div className="grid grid-cols-2 gap-2.5 sm:gap-3 pt-2">
+                        <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 sm:p-3">
                           <span className="text-[10px] font-mono text-white/40 uppercase block">Net Quantity</span>
-                          <span className="text-sm font-bold text-white font-mono">{result.product.weight}</span>
+                          <span className="text-xs sm:text-sm font-bold text-white font-mono">{result.product.weight}</span>
+                        </div>
+                        <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 sm:p-3">
+                          <span className="text-[10px] font-mono text-white/40 uppercase block">Servings</span>
+                          <span className="text-xs sm:text-sm font-bold text-white font-mono">
+                            {result.product.servings}
+                          </span>
                         </div>
                       </div>
 
                       {/* Nutrition Specs */}
-                      <div className="flex flex-wrap gap-2 pt-2">
-                        <span className="px-3 py-1 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold font-mono">
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-2">
+                        <span className="px-2.5 py-1 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 text-[11px] sm:text-xs font-bold font-mono">
                           {result.product.proteinPerServing} Protein / Serving
                         </span>
-                        <span className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white/80 text-xs font-bold font-mono">
+                        <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-white/80 text-[11px] sm:text-xs font-bold font-mono">
                           {result.product.bcaaPerServing} BCAAs
                         </span>
-                        <span className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white/80 text-xs font-bold font-mono">
+                        <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-white/80 text-[11px] sm:text-xs font-bold font-mono">
                           Flavor: {result.product.flavor}
                         </span>
                       </div>
@@ -301,188 +302,195 @@ function VerificationContent() {
                   </div>
 
                   {/* Certified Lab Report Section */}
-                  <div className="border-t border-white/10 pt-6 space-y-4">
-                    <div className="flex items-center gap-2 text-sm font-bold text-white">
+                  <div className="border-t border-white/10 pt-5 sm:pt-6 space-y-3 sm:space-y-4">
+                    <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-white">
                       <Award className="w-4 h-4 text-blue-400" />
                       <span>Certified Quality & Lab Clearance Report</span>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 text-xs">
                       <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-start gap-2.5">
                         <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-bold text-white block">Protein Purity Assay</span>
-                          <span className="text-white/60">{result.product.labReport.proteinPurity}</span>
+                          <span className="text-white/60 text-[11px] sm:text-xs">{result.product.labReport.proteinPurity}</span>
                         </div>
                       </div>
                       <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-start gap-2.5">
                         <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-bold text-white block">Heavy Metals Analysis</span>
-                          <span className="text-white/60">{result.product.labReport.heavyMetals}</span>
+                          <span className="text-white/60 text-[11px] sm:text-xs">{result.product.labReport.heavyMetals}</span>
                         </div>
                       </div>
                       <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-start gap-2.5">
                         <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-bold text-white block">WADA Compliance & Dope Test</span>
-                          <span className="text-white/60">{result.product.labReport.dopingSubstances}</span>
+                          <span className="text-white/60 text-[11px] sm:text-xs">{result.product.labReport.dopingSubstances}</span>
                         </div>
                       </div>
                       <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-start gap-2.5">
                         <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-bold text-white block">Microbiological Testing</span>
-                          <span className="text-white/60">{result.product.labReport.microbiologicalQuality}</span>
+                          <span className="text-white/60 text-[11px] sm:text-xs">{result.product.labReport.microbiologicalQuality}</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Digital Authenticity Passport with Rounded QR */}
-                  <div className="mt-6 p-4 rounded-2xl bg-black/40 border border-blue-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div className="flex items-center gap-4">
-                      <div className="p-1.5 bg-white rounded-2xl shadow-lg shrink-0">
-                        <AestheticQRView
-                          value={getVerificationUrl(searchedCode)}
-                          size={84}
-                          dotStyle="dots"
-                          eyeStyle="smooth"
-                          theme="royal_navy"
-                          includeCenterLogo={true}
-                          centerLogoText="AT"
-                        />
+                  {/* Digital Authenticity Passport with Prominent, Scannable QR */}
+                  <div className="mt-8 rounded-2xl sm:rounded-3xl bg-gradient-to-b from-[#0B0F2A] to-[#070A1E] border border-blue-500/30 p-5 sm:p-7 md:p-8 shadow-[0_0_40px_rgba(59,130,246,0.15)] relative overflow-hidden">
+                    {/* Glowing corner ambiance */}
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+
+                    {/* Passport Header */}
+                    <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-white/10">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-xl bg-blue-500/20 border border-blue-400/40 flex items-center justify-center text-blue-400">
+                          <ShieldCheck className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-widest block">
+                            Official Security Certificate
+                          </span>
+                          <h4 className="text-sm sm:text-base font-black text-white tracking-wide uppercase">
+                            Digital Authenticity Passport
+                          </h4>
+                        </div>
                       </div>
-                      <div>
-                        <span className="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-wider block">
-                          Digital Authenticity Passport
-                        </span>
-                        <span className="text-sm font-bold text-white block">Verified QR Security Token</span>
-                        <span className="text-xs font-mono text-white/50 block">
-                          Cryptographic Hash: {searchedCode}
-                        </span>
+
+                      <div className="flex items-center gap-2 self-start sm:self-auto px-3 py-1.5 rounded-full bg-blue-500/15 border border-blue-500/40 text-blue-300 font-mono text-xs font-bold">
+                        <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+                        <span>100% AUTHENTIC • FACTORY SEALED</span>
                       </div>
                     </div>
-                    <div className="text-right shrink-0">
-                      <span className="text-[10px] font-mono text-white/40 block">MANUFACTURER STATUS</span>
-                      <span className="text-xs font-mono font-bold text-blue-400 flex items-center gap-1">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" /> 100% AUTHENTIC
-                      </span>
+
+                    {/* Passport Content: Responsive Grid */}
+                    <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 pt-6 items-center">
+                      {/* Left: Large Showcase QR */}
+                      <div className="md:col-span-5 flex flex-col items-center text-center">
+                        <div className="p-2 sm:p-2.5 bg-white rounded-2xl sm:rounded-3xl shadow-2xl shadow-blue-500/25 border-2 border-blue-400/40 relative max-w-[230px] sm:max-w-[250px] w-full mx-auto flex items-center justify-center transition-transform hover:scale-[1.02]">
+                          <AestheticQRView
+                            value={getVerificationUrl(result.record?.code || searchedCode)}
+                            size={240}
+                            margin={4}
+                            className="w-full max-w-[240px]"
+                            dotStyle="dots"
+                            eyeStyle="smooth"
+                            theme="royal_navy"
+                            includeCenterLogo={true}
+                          />
+                        </div>
+                        <div className="mt-3 space-y-1">
+                          <div className="text-xs sm:text-sm font-black text-white uppercase tracking-wide">
+                            {result.product.name}
+                          </div>
+                          <span className="text-[10px] font-mono font-bold text-blue-300 uppercase tracking-widest block">
+                            Official Security QR
+                          </span>
+                          <p className="text-[11px] text-white/50 font-mono max-w-[240px]">
+                            Scan with any smartphone camera to verify this authentic product
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Right: Security Credentials */}
+                      <div className="md:col-span-7 space-y-3.5">
+                        <div className="bg-black/40 border border-white/10 rounded-xl p-3.5">
+                          <span className="text-[10px] font-mono text-white/40 uppercase block mb-1">
+                            Verified Product UUID (v4)
+                          </span>
+                          <div className="flex items-center justify-between gap-2 bg-[#050714] border border-white/10 px-3 py-2 rounded-lg font-mono text-xs sm:text-sm text-blue-300 font-bold">
+                            <span className="truncate">{result.record?.code || searchedCode}</span>
+                            <button
+                              type="button"
+                              onClick={() => handleCopySerial(result.record?.code || searchedCode)}
+                              className="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-white/80 hover:text-white text-[10px] transition-colors flex items-center gap-1.5 shrink-0 cursor-pointer"
+                              title="Copy Product UUID"
+                            >
+                              {isCopied ? (
+                                <>
+                                  <Check className="w-3 h-3 text-green-400" />
+                                  <span className="text-green-400">Copied</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="w-3 h-3" />
+                                  <span>Copy</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-center justify-between text-xs font-mono">
+                          <span className="text-[10px] text-white/40 uppercase">Verification State</span>
+                          <span className="font-bold text-blue-400 text-xs sm:text-sm flex items-center gap-1.5">
+                            <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-blue-400" /> 100% Genuine
+                          </span>
+                        </div>
+
+                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-3 text-[11px] font-mono text-white/70 space-y-1.5">
+                          <div className="flex items-center justify-between">
+                            <span className="text-white/40">SECURITY PROTOCOL:</span>
+                            <span className="text-blue-300 font-bold">OFFICIAL CRYPTOGRAPHIC SEAL</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-white/40">ISSUING DIVISION:</span>
+                            <span className="text-white/90">Alpha Tech Quality Control Lab</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-white/40">MANUFACTURER STATUS:</span>
+                            <span className="text-blue-400 font-black flex items-center gap-1">
+                              <CheckCircle2 className="w-3.5 h-3.5" /> 100% AUTHENTIC
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
                   {/* Action buttons */}
-                  <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-                    <div className="text-xs text-white/50 font-mono">
-                      Timestamp: {new Date(result.firstScannedAt || Date.now()).toLocaleString()}
+                  <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+                    <div className="text-[11px] sm:text-xs text-white/50 font-mono w-full sm:w-auto text-center sm:text-left">
+                      Official Certified Seal • Alpha Tech Nutrition India
                     </div>
                     <button
                       type="button"
                       onClick={handleReset}
-                      className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold font-mono transition-colors flex items-center gap-2 cursor-pointer"
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold font-mono transition-colors flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <RefreshCw className="w-3.5 h-3.5" />
-                      Verify Another Code
+                      Verify Another Product
                     </button>
-                  </div>
-                </div>
-              )}
-
-              {/* CASE 2: GENUINE BUT RE-SCANNED WARNING */}
-              {result.status === "genuine_repeated_scan" && result.product && (
-                <div className="bg-gradient-to-b from-[#2a1c0d] to-[#1a140f] border-2 border-amber-500 rounded-3xl p-6 md:p-10 shadow-[0_0_50px_rgba(245,158,11,0.2)] relative overflow-hidden">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-amber-500/20">
-                    <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500 flex items-center justify-center shrink-0">
-                        <AlertTriangle className="w-9 h-9 text-amber-400" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-mono font-bold text-amber-400 uppercase tracking-widest">
-                          ⚠️ Security Advisory
-                        </div>
-                        <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-                          Code Previously Scanned ({result.scanCount} Times)
-                        </h2>
-                        <p className="text-white/70 text-xs md:text-sm font-mono mt-0.5">
-                          Authentic Alpha Tech code, but this product has been verified before.
-                        </p>
-                      </div>
-                    </div>
-
-                    <span className="px-3.5 py-1.5 rounded-full bg-amber-500 text-black font-black text-xs uppercase tracking-wider self-start md:self-auto">
-                      Scan Count: {result.scanCount}
-                    </span>
-                  </div>
-
-                  <div className="my-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-sm">
-                    <p className="font-semibold mb-1">Notice for Buyers:</p>
-                    <p className="text-xs text-amber-300/80 leading-relaxed">
-                      This security serial was first authenticated on{" "}
-                      <strong>
-                        {result.firstScannedAt ? new Date(result.firstScannedAt).toLocaleString() : "an earlier date"}
-                      </strong>
-                      . If you are opening this tub for the first time, check that the induction seal under the cap was intact.
-                      If the seal was broken or missing, this product might have been tampered with or refilled.
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                    <div className="relative w-36 h-36 mx-auto">
-                      <Image
-                        src={result.product.image}
-                        alt={result.product.name}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                    <div className="md:col-span-2 space-y-2">
-                      <h3 className="text-xl font-bold text-white">{result.product.name}</h3>
-                      <p className="text-white/60 text-xs">{result.product.tagline}</p>
-                      <div className="text-xs font-mono text-white/50">
-                        Batch: {result.record?.batchNumber} • Exp: {result.record?.expDate}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-8 pt-6 border-t border-amber-500/20 flex items-center justify-between">
-                    <button
-                      type="button"
-                      onClick={handleReset}
-                      className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold transition-colors cursor-pointer"
-                    >
-                      Verify Another Code
-                    </button>
-                    <a
-                      href="mailto:support@alphatech-nutrition.in?subject=Authenticity%20Scan%20Query"
-                      className="text-xs font-mono text-amber-400 hover:underline"
-                    >
-                      Report Suspicious Product →
-                    </a>
                   </div>
                 </div>
               )}
 
               {/* CASE 3: INVALID / COUNTERFEIT WARNING */}
               {result.status === "invalid" && (
-                <div className="bg-gradient-to-b from-[#2b1111] to-[#180d0d] border-2 border-red-500 rounded-3xl p-6 md:p-10 shadow-[0_0_50px_rgba(239,68,68,0.2)] relative overflow-hidden">
-                  <div className="flex items-center gap-4 pb-6 border-b border-red-500/20">
-                    <div className="w-16 h-16 rounded-2xl bg-red-500/20 border border-red-500 flex items-center justify-center shrink-0">
-                      <ShieldAlert className="w-9 h-9 text-red-400" />
+                <div className="bg-gradient-to-b from-[#2b1111] to-[#180d0d] border-2 border-red-500 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 shadow-[0_0_50px_rgba(239,68,68,0.2)] relative overflow-hidden">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 pb-6 border-b border-red-500/20">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-red-500/20 border border-red-500 flex items-center justify-center shrink-0">
+                      <ShieldAlert className="w-7 h-7 sm:w-9 sm:h-9 text-red-400" />
                     </div>
-                    <div>
-                      <div className="text-xs font-mono font-bold text-red-400 uppercase tracking-widest">
+                    <div className="min-w-0">
+                      <div className="text-[11px] sm:text-xs font-mono font-bold text-red-400 uppercase tracking-widest">
                         ❌ Verification Failed
                       </div>
-                      <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+                      <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight">
                         Unregistered / Fake Serial Code
                       </h2>
-                      <p className="text-white/60 text-xs md:text-sm font-mono mt-0.5">
+                      <p className="text-white/60 text-xs sm:text-sm font-mono mt-0.5 break-all">
                         Serial: <span className="text-red-300 font-bold">{searchedCode}</span>
                       </p>
                     </div>
                   </div>
 
-                  <div className="my-6 p-5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-200 text-sm space-y-3">
+                  <div className="my-5 sm:my-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-200 text-xs sm:text-sm space-y-2 sm:space-y-3">
                     <p className="font-bold text-red-400">WARNING: POTENTIAL COUNTERFEIT SUPPLEMENT</p>
                     <p className="text-xs text-red-200/80 leading-relaxed">
                       The serial code you provided does not exist in the official Alpha Tech Nutrition manufacturer database.
@@ -495,17 +503,17 @@ function VerificationContent() {
                     </ul>
                   </div>
 
-                  <div className="mt-8 pt-6 border-t border-red-500/20 flex flex-wrap items-center justify-between gap-4">
+                  <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-red-500/20 flex flex-col sm:flex-row items-center justify-between gap-3">
                     <button
                       type="button"
                       onClick={handleReset}
-                      className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold transition-colors cursor-pointer"
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold transition-colors cursor-pointer text-center"
                     >
                       Try Another Code
                     </button>
                     <a
                       href="mailto:support@alphatech-nutrition.in?subject=Counterfeit%20Report"
-                      className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-mono font-bold transition-colors"
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-mono font-bold transition-colors text-center"
                     >
                       Report Counterfeit Vendor
                     </a>
@@ -517,37 +525,37 @@ function VerificationContent() {
         </AnimatePresence>
 
         {/* How It Works Explainer Card */}
-        <div className="mt-16 pt-12 border-t border-white/10">
-          <h3 className="text-center text-sm font-mono uppercase tracking-widest text-blue-400 mb-8 font-bold">
+        <div className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-white/10">
+          <h3 className="text-center text-xs sm:text-sm font-mono uppercase tracking-widest text-blue-400 mb-6 sm:mb-8 font-bold">
             Alpha Tech Anti-Counterfeit Verification Protocol
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#0B0E23]/80 border border-blue-900/40 rounded-2xl p-6 relative">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center font-black text-sm mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+            <div className="bg-[#0B0E23]/80 border border-blue-900/40 rounded-2xl p-5 sm:p-6 relative">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center font-black text-xs sm:text-sm mb-3 sm:mb-4">
                 01
               </div>
-              <h4 className="text-base font-bold text-white mb-2">Locate the QR Sticker</h4>
+              <h4 className="text-sm sm:text-base font-bold text-white mb-1.5 sm:mb-2">Locate the QR Sticker</h4>
               <p className="text-xs text-white/60 leading-relaxed">
                 Find the tamper-evident security seal located on the lid or neck of your Alpha Tech supplement container.
               </p>
             </div>
 
-            <div className="bg-[#0B0E23]/80 border border-blue-900/40 rounded-2xl p-6 relative">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center font-black text-sm mb-4">
+            <div className="bg-[#0B0E23]/80 border border-blue-900/40 rounded-2xl p-5 sm:p-6 relative">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center font-black text-xs sm:text-sm mb-3 sm:mb-4">
                 02
               </div>
-              <h4 className="text-base font-bold text-white mb-2">Scan or Enter Code</h4>
+              <h4 className="text-sm sm:text-base font-bold text-white mb-1.5 sm:mb-2">Scan or Enter Code</h4>
               <p className="text-xs text-white/60 leading-relaxed">
                 Scan using any smartphone camera or enter the alphanumeric serial code manually into this portal.
               </p>
             </div>
 
-            <div className="bg-[#0B0E23]/80 border border-blue-900/40 rounded-2xl p-6 relative">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center font-black text-sm mb-4">
+            <div className="bg-[#0B0E23]/80 border border-blue-900/40 rounded-2xl p-5 sm:p-6 relative sm:col-span-2 md:col-span-1">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center font-black text-xs sm:text-sm mb-3 sm:mb-4">
                 03
               </div>
-              <h4 className="text-base font-bold text-white mb-2">Instant Lab Verification</h4>
+              <h4 className="text-sm sm:text-base font-bold text-white mb-1.5 sm:mb-2">Instant Lab Verification</h4>
               <p className="text-xs text-white/60 leading-relaxed">
                 Review batch authenticity, manufacturing date, and verified third-party laboratory purity analysis.
               </p>

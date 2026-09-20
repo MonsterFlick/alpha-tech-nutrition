@@ -70,7 +70,7 @@ export function SocialSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1], delay: 0.2 }}
             >
-              @ALPHATECH{" "}
+              @ALPHATECH_
             </motion.span>
             <motion.span
               className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400 inline-block"
@@ -137,7 +137,7 @@ export function SocialSection() {
           transition={{ delay: 0.5 }}
         >
           <motion.a
-            href="https://instagram.com/alphatechnutrition"
+            href="https://instagram.com/alphatech_nutrition"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-full font-bold text-sm tracking-wide relative overflow-hidden group shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 transition-all"
@@ -151,7 +151,7 @@ export function SocialSection() {
               transition={{ duration: 0.6 }}
             />
             <Instagram className="w-4 h-4 relative z-10" />
-            <span className="relative z-10">Follow @alphatechnutrition</span>
+            <span className="relative z-10">Follow @alphatech_nutrition</span>
           </motion.a>
         </motion.div>
       </div>

@@ -112,7 +112,7 @@ const jsonLd = {
       logo: `${siteUrl}/icon.svg`,
       description: "Manufacturer and brand of high-performance gym and sports nutrition dietary supplements.",
       sameAs: [
-        "https://www.instagram.com/alphatechnutrition",
+        "https://www.instagram.com/alphatech_nutrition",
         "https://twitter.com/AlphaTechNutr",
       ],
     },

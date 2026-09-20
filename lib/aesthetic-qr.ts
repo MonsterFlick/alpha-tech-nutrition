@@ -1,4 +1,5 @@
 import QRCode from "qrcode"
+import { ALPHA_TECH_ICON_BASE64 } from "./brand-assets"
 
 export type DotStyle = "dots" | "rounded" | "squircle"
 export type EyeStyle = "smooth" | "circle" | "squircle"
@@ -16,6 +17,7 @@ export interface AestheticQROptions {
   backgroundColor?: string
   includeCenterLogo?: boolean
   centerLogoText?: string
+  centerLogoImage?: string
   productTitle?: string
   serialCode?: string
 }
@@ -73,12 +75,13 @@ const THEME_PRESETS = THEME_COLORS
 export function generateAestheticQRSvg(text: string, options: AestheticQROptions = {}): string {
   const {
     size = 400,
-    margin = 24,
+    margin = 8,
     dotStyle = "dots",
     eyeStyle = "smooth",
     theme = "royal_navy",
     includeCenterLogo = true,
     centerLogoText = "AT",
+    centerLogoImage = ALPHA_TECH_ICON_BASE64,
     productTitle,
     serialCode,
   } = options
@@ -93,8 +96,42 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
   const qr = QRCode.create(text, { errorCorrectionLevel: "H" })
   const N = qr.modules.size
 
-  // If productTitle or serialCode is provided at bottom, add extra height for bottom label
-  const extraBottomHeight = productTitle ? 56 : 0
+  // Split title into Line 1 (Product Name) and Line 2 (Weight/Variant) if needed
+  let titleLine1 = ""
+  let titleLine2 = ""
+  if (productTitle) {
+    if (productTitle.includes(" • ")) {
+      const parts = productTitle.split(" • ")
+      titleLine1 = parts[0].trim()
+      titleLine2 = parts.slice(1).join(" • ").trim()
+    } else if (productTitle.includes(" - ")) {
+      const parts = productTitle.split(" - ")
+      titleLine1 = parts[0].trim()
+      titleLine2 = parts.slice(1).join(" - ").trim()
+    } else if (productTitle.length > 22) {
+      const middle = Math.floor(productTitle.length / 2)
+      const before = productTitle.lastIndexOf(" ", middle)
+      const after = productTitle.indexOf(" ", middle)
+      const splitIdx = (before !== -1 && (middle - before <= after - middle || after === -1)) ? before : after
+      if (splitIdx !== -1) {
+        titleLine1 = productTitle.substring(0, splitIdx).trim()
+        titleLine2 = productTitle.substring(splitIdx + 1).trim()
+      } else {
+        titleLine1 = productTitle
+      }
+    } else {
+      titleLine1 = productTitle
+    }
+  }
+
+  const hasBottom = Boolean(productTitle || serialCode)
+  const hasSubtitle = Boolean(titleLine2)
+  const hasSerial = Boolean(serialCode)
+  const extraBottomHeight = !hasBottom
+    ? 0
+    : hasSubtitle
+    ? (hasSerial ? 66 : 46)
+    : (hasSerial ? 50 : 32)
   const totalHeight = size + extraBottomHeight
 
   // Calculate cell dimensions
@@ -231,45 +268,85 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
     const centerDim = (centerRadius * 2 + 1) * cellSize + cellSize * 0.4
     const logoX = margin + (centerPos - centerRadius) * cellSize - cellSize * 0.2
     const logoY = margin + (centerPos - centerRadius) * cellSize - cellSize * 0.2
-    const logoRx = centerDim * 0.35
+    const logoRx = centerDim * 0.28
     const centerX = logoX + centerDim / 2
     const centerY = logoY + centerDim / 2
+
+    const clipId = `at-logo-clip-${Math.random().toString(36).substring(2, 9)}`
+
+    // Clip path for rounded center logo image
+    elements.push(
+      `<defs>
+        <clipPath id="${clipId}">
+          <rect x="${logoX.toFixed(2)}" y="${logoY.toFixed(2)}" width="${centerDim.toFixed(2)}" height="${centerDim.toFixed(2)}" rx="${logoRx.toFixed(2)}" />
+        </clipPath>
+      </defs>`
+    )
 
     // Background shield badge
     elements.push(
       `<rect x="${logoX.toFixed(2)}" y="${logoY.toFixed(2)}" width="${centerDim.toFixed(2)}" height="${centerDim.toFixed(2)}" rx="${logoRx.toFixed(2)}" fill="#0B0E23" stroke="#3B82F6" stroke-width="${(cellSize * 0.35).toFixed(2)}" />`
     )
 
-    // Inner glowing logo text / emblem
+    if (centerLogoImage) {
+      elements.push(
+        `<image href="${centerLogoImage}" xlink:href="${centerLogoImage}" x="${logoX.toFixed(2)}" y="${logoY.toFixed(2)}" width="${centerDim.toFixed(2)}" height="${centerDim.toFixed(2)}" clip-path="url(#${clipId})" preserveAspectRatio="xMidYMid slice" />`
+      )
+    } else {
+      // Inner glowing logo text / emblem
+      elements.push(
+        `<text x="${centerX.toFixed(2)}" y="${(centerY + centerDim * 0.12).toFixed(2)}" font-family="system-ui, -apple-system, sans-serif" font-size="${(centerDim * 0.52).toFixed(2)}" font-weight="900" fill="#60A5FA" text-anchor="middle" dominant-baseline="middle">${centerLogoText}</text>`
+      )
+    }
+
+    // Outer subtle cyan/cobalt accent ring
     elements.push(
-      `<text x="${centerX.toFixed(2)}" y="${(centerY + centerDim * 0.12).toFixed(2)}" font-family="system-ui, -apple-system, sans-serif" font-size="${(centerDim * 0.52).toFixed(2)}" font-weight="900" fill="#60A5FA" text-anchor="middle" dominant-baseline="middle">${centerLogoText}</text>`
+      `<rect x="${logoX.toFixed(2)}" y="${logoY.toFixed(2)}" width="${centerDim.toFixed(2)}" height="${centerDim.toFixed(2)}" rx="${logoRx.toFixed(2)}" fill="none" stroke="#60A5FA" stroke-width="${(cellSize * 0.2).toFixed(2)}" stroke-opacity="0.8" />`
     )
   }
 
   // 5. Render Product Title and Serial at Bottom (If provided)
-  if (productTitle) {
+  if (productTitle || serialCode) {
     const textCenterX = size / 2
-    const lineY = size + 16
-    const serialY = size + 36
 
     elements.push(
-      `<line x1="${margin}" y1="${size - 4}" x2="${size - margin}" y2="${size - 4}" stroke="${dotColor}" stroke-opacity="0.12" stroke-width="1" />`
+      `<line x1="${margin + 4}" y1="${size - 4}" x2="${size - margin - 4}" y2="${size - 4}" stroke="${dotColor}" stroke-opacity="0.12" stroke-width="1" />`
     )
 
-    // Escaped title
-    const safeTitle = productTitle.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").toUpperCase()
-    elements.push(
-      `<text x="${textCenterX}" y="${lineY}" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" fill="${textColor}" text-anchor="middle" letter-spacing="0.08em">${safeTitle}</text>`
-    )
+    if (titleLine1) {
+      const safeTitle1 = titleLine1.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").toUpperCase()
+      const maxAvailableWidth = size - (margin * 2 + 12)
+      const estimatedWidth = safeTitle1.length * 7.0
+      const fontSize1 = estimatedWidth > maxAvailableWidth
+        ? Math.max(8.5, (maxAvailableWidth / safeTitle1.length) * 1.35).toFixed(1)
+        : (titleLine2 ? "10.5" : "11.5")
+
+      elements.push(
+        `<text x="${textCenterX}" y="${size + 15}" font-family="system-ui, -apple-system, sans-serif" font-size="${fontSize1}" font-weight="800" fill="${textColor}" text-anchor="middle" letter-spacing="0.04em">${safeTitle1}</text>`
+      )
+    }
+
+    if (titleLine2) {
+      const safeTitle2 = titleLine2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").toUpperCase()
+      elements.push(
+        `<text x="${textCenterX}" y="${size + 30}" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" fill="${textColor}" opacity="0.75" text-anchor="middle" letter-spacing="0.06em">${safeTitle2}</text>`
+      )
+    }
 
     if (serialCode) {
+      const serialY = titleLine2 ? size + 46 : (titleLine1 ? size + 32 : size + 18)
+      const maxAvailableWidth = size - (margin * 2 + 12)
+      const serialFontSize = serialCode.length * 5.4 > maxAvailableWidth
+        ? Math.max(7, (maxAvailableWidth / serialCode.length) * 1.6).toFixed(1)
+        : "8.5"
+
       elements.push(
-        `<text x="${textCenterX}" y="${serialY}" font-family="ui-monospace, monospace" font-size="9" font-weight="700" fill="${textColor}" opacity="0.65" text-anchor="middle" letter-spacing="0.1em">${serialCode}</text>`
+        `<text x="${textCenterX}" y="${serialY}" font-family="ui-monospace, monospace" font-size="${serialFontSize}" font-weight="700" fill="${textColor}" opacity="0.6" text-anchor="middle" letter-spacing="0.04em">${serialCode}</text>`
       )
     }
   }
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${totalHeight}" width="${size}" height="${totalHeight}">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${totalHeight}" width="${size}" height="${totalHeight}" style="max-width: 100%; height: auto; display: block;">
     <defs>
       <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
         <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.15"/>

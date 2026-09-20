@@ -65,6 +65,7 @@ export function Navigation() {
     { label: "Home", href: "#hero" },
     { label: "Products", href: "#flavours" },
     { label: "Formula", href: "#formula" },
+    { label: "Verify QR", href: "#verify-section" },
     { label: "Partners", href: "#distributors" },
     { label: "Athletes", href: "#creators" },
   ]

@@ -66,6 +66,7 @@ export function Footer() {
         { name: "About Alpha Tech", href: "#" },
         { name: "Partners & Distributors", href: "#distributors" },
         { name: "Athletes & Creators", href: "#creators" },
+        { name: "Instagram (@alphatech_nutrition)", href: "https://instagram.com/alphatech_nutrition" },
         { name: "Contact Support", href: "mailto:support@alphatech-nutrition.in" },
       ],
     },
