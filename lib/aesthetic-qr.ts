@@ -346,7 +346,7 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
     }
   }
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${totalHeight}" width="${size}" height="${totalHeight}" style="max-width: 100%; height: auto; display: block;">
+  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 ${size} ${totalHeight}" width="${size}" height="${totalHeight}" style="max-width: 100%; height: auto; display: block;">
     <defs>
       <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
         <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.15"/>
@@ -356,45 +356,126 @@ export function generateAestheticQRSvg(text: string, options: AestheticQROptions
   </svg>`
 }
 
-export async function svgToPngDataUrl(svgString: string, targetWidth = 600): Promise<string> {
+export async function svgToPngDataUrl(svgString: string, targetWidth = 800): Promise<string> {
   if (typeof window === "undefined") {
     return `data:image/svg+xml;base64,${Buffer.from(svgString).toString("base64")}`
   }
 
   return new Promise((resolve) => {
+    let cleanSvg = svgString
+    if (!cleanSvg.includes('xmlns="http://www.w3.org/2000/svg"')) {
+      cleanSvg = cleanSvg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ')
+    }
+    if (!cleanSvg.includes('xmlns:xlink=')) {
+      cleanSvg = cleanSvg.replace('<svg ', '<svg xmlns:xlink="http://www.w3.org/1999/xlink" ')
+    }
+
+    const encodedSvg = btoa(unescape(encodeURIComponent(cleanSvg)))
+    const dataUrl = `data:image/svg+xml;charset=utf-8;base64,${encodedSvg}`
     const img = new Image()
-    const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" })
-    const URL = window.URL || window.webkitURL || window
-    const blobURL = URL.createObjectURL(svgBlob)
 
     img.onload = () => {
-      // Extract height from aspect ratio
-      const match = svgString.match(/viewBox="0 0 (\d+) (\d+)"/)
+      const match = cleanSvg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/)
       const viewBoxWidth = match ? parseFloat(match[1]) : targetWidth
       const viewBoxHeight = match ? parseFloat(match[2]) : targetWidth
       const targetHeight = (targetWidth / viewBoxWidth) * viewBoxHeight
 
       const canvas = document.createElement("canvas")
-      canvas.width = targetWidth
-      canvas.height = targetHeight
+      const scale = 2
+      canvas.width = targetWidth * scale
+      canvas.height = targetHeight * scale
       const ctx = canvas.getContext("2d")
+
       if (!ctx) {
-        URL.revokeObjectURL(blobURL)
-        return resolve(`data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgString)))}`)
+        return resolve(dataUrl)
       }
 
       ctx.imageSmoothingEnabled = true
       ctx.imageSmoothingQuality = "high"
+      ctx.scale(scale, scale)
       ctx.drawImage(img, 0, 0, targetWidth, targetHeight)
-      URL.revokeObjectURL(blobURL)
-      resolve(canvas.toDataURL("image/png"))
+
+      try {
+        const pngUrl = canvas.toDataURL("image/png")
+        resolve(pngUrl)
+      } catch (e) {
+        console.error("Canvas toDataURL error:", e)
+        resolve(dataUrl)
+      }
     }
 
-    img.onerror = () => {
-      URL.revokeObjectURL(blobURL)
-      resolve(`data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgString)))}`)
+    img.onerror = (err) => {
+      console.error("SVG Image load error, trying Blob fallback:", err)
+      const svgBlob = new Blob([cleanSvg], { type: "image/svg+xml;charset=utf-8" })
+      const URL = window.URL || window.webkitURL || window
+      const blobURL = URL.createObjectURL(svgBlob)
+      const fallbackImg = new Image()
+
+      fallbackImg.onload = () => {
+        const match = cleanSvg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/)
+        const viewBoxWidth = match ? parseFloat(match[1]) : targetWidth
+        const viewBoxHeight = match ? parseFloat(match[2]) : targetWidth
+        const targetHeight = (targetWidth / viewBoxWidth) * viewBoxHeight
+
+        const canvas = document.createElement("canvas")
+        const scale = 2
+        canvas.width = targetWidth * scale
+        canvas.height = targetHeight * scale
+        const ctx = canvas.getContext("2d")
+
+        if (ctx) {
+          ctx.imageSmoothingEnabled = true
+          ctx.imageSmoothingQuality = "high"
+          ctx.scale(scale, scale)
+          ctx.drawImage(fallbackImg, 0, 0, targetWidth, targetHeight)
+          URL.revokeObjectURL(blobURL)
+          try {
+            resolve(canvas.toDataURL("image/png"))
+            return
+          } catch (e) {
+            console.error("Fallback canvas toDataURL error:", e)
+          }
+        }
+        URL.revokeObjectURL(blobURL)
+        resolve(dataUrl)
+      }
+
+      fallbackImg.onerror = () => {
+        URL.revokeObjectURL(blobURL)
+        resolve(dataUrl)
+      }
+
+      fallbackImg.src = blobURL
     }
 
-    img.src = blobURL
+    img.src = dataUrl
   })
+}
+
+export function downloadFile(content: string, fileName: string, mimeType: string = "image/png") {
+  let blob: Blob
+  if (content.startsWith("data:")) {
+    const parts = content.split(",")
+    const bstr = atob(parts[1])
+    let n = bstr.length
+    const u8arr = new Uint8Array(n)
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n)
+    }
+    const extractedMime = parts[0].match(/:(.*?);/)?.[1] || mimeType
+    blob = new Blob([u8arr], { type: extractedMime })
+  } else {
+    blob = new Blob([content], { type: mimeType })
+  }
+
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement("a")
+  a.href = url
+  a.download = fileName
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  setTimeout(() => {
+    URL.revokeObjectURL(url)
+  }, 1000)
 }

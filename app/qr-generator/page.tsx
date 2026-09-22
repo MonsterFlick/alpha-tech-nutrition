@@ -3,7 +3,6 @@
 import { useState, useEffect, useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import JSZip from "jszip"
 import {
   Lock,
   ShieldCheck,
@@ -13,21 +12,17 @@ import {
   Check,
   ExternalLink,
   ArrowLeft,
-  FileArchive,
-  RefreshCw,
   Sparkles,
   AlertCircle,
   KeyRound,
   Eye,
   EyeOff,
   Layers,
-  FileCode,
-  FileText,
 } from "lucide-react"
 import { PRODUCTS_CATALOG, type ProductItem } from "@/lib/product-catalog"
 import { getVerificationUrl } from "@/lib/qr-service"
 import { registerNewRecord } from "@/lib/verification"
-import { generateAestheticQRSvg, svgToPngDataUrl } from "@/lib/aesthetic-qr"
+import { generateAestheticQRSvg, svgToPngDataUrl, downloadFile } from "@/lib/aesthetic-qr"
 import { AestheticQRView } from "@/components/aesthetic-qr-view"
 import { BrandLogo } from "@/components/brand-logo"
 import { ALPHA_TECH_ICON_BASE64 } from "@/lib/brand-assets"
@@ -74,7 +69,6 @@ export default function QRGeneratorPage() {
   const serialCode = permanentDetails.code
 
   // Export States
-  const [isZipping, setIsZipping] = useState(false)
   const [exportingType, setExportingType] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
 
@@ -142,72 +136,8 @@ export default function QRGeneratorPage() {
   // 1. Download Transparent PNG (Just the rounded QR code, no white box)
   const handleDownloadTransparentPNG = async () => {
     setExportingType("transparent")
-    const svgStr = generateAestheticQRSvg(verificationUrl, {
-      size: 800,
-      backgroundColor: "transparent",
-      dotColor: "#0B0E23",
-      eyeColor: "#161B3D",
-      eyeInnerColor: "#3B82F6",
-      centerLogoImage: ALPHA_TECH_ICON_BASE64,
-    })
-    const pngDataUrl = await svgToPngDataUrl(svgStr, 800)
-    const a = document.createElement("a")
-    a.href = pngDataUrl
-    const safeName = selectedProduct.name.replace(/\s+/g, "_")
-    a.download = `AlphaTech_${safeName}_Transparent.png`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    setExportingType(null)
-  }
-
-  // 2. Download Sticker Card PNG (With White Box & Product Info at bottom)
-  const handleDownloadStickerCardPNG = async () => {
-    setExportingType("sticker")
-    const svgStr = generateAestheticQRSvg(verificationUrl, {
-      size: 700,
-      productTitle: `${selectedProduct.name} • ${selectedProduct.weight}`,
-      serialCode,
-    })
-    const pngDataUrl = await svgToPngDataUrl(svgStr, 700)
-    const a = document.createElement("a")
-    a.href = pngDataUrl
-    const safeName = selectedProduct.name.replace(/\s+/g, "_")
-    a.download = `AlphaTech_${safeName}_Sticker_Card.png`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    setExportingType(null)
-  }
-
-  // 3. Download Vector SVG
-  const handleDownloadSVG = () => {
-    const svgStr = generateAestheticQRSvg(verificationUrl, {
-      size: 600,
-      productTitle: `${selectedProduct.name} • ${selectedProduct.weight}`,
-      serialCode,
-    })
-    const blob = new Blob([svgStr], { type: "image/svg+xml" })
-    const a = document.createElement("a")
-    a.href = URL.createObjectURL(blob)
-    const safeName = selectedProduct.name.replace(/\s+/g, "_")
-    a.download = `AlphaTech_${safeName}_Master.svg`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-  }
-
-  // 4. Download Complete ZIP Package containing ALL types
-  const handleDownloadCompleteZip = async () => {
-    setIsZipping(true)
     try {
-      const zip = new JSZip()
-      const safeName = selectedProduct.name.replace(/\s+/g, "_")
-      const folderName = `AlphaTech_${safeName}_QR_Packaging_Kit`
-      const folder = zip.folder(folderName) || zip
-
-      // 1. Transparent Background PNG (Navy Midnight + Cobalt Blue eyes)
-      const transSvg = generateAestheticQRSvg(verificationUrl, {
+      const svgStr = generateAestheticQRSvg(verificationUrl, {
         size: 800,
         backgroundColor: "transparent",
         dotColor: "#0B0E23",
@@ -215,87 +145,57 @@ export default function QRGeneratorPage() {
         eyeInnerColor: "#3B82F6",
         centerLogoImage: ALPHA_TECH_ICON_BASE64,
       })
-      const transPng = await svgToPngDataUrl(transSvg, 800)
-      folder.file(`01_Transparent_NavyBlue_QR_${safeName}.png`, transPng.split(",")[1], { base64: true })
+      const pngDataUrl = await svgToPngDataUrl(svgStr, 800)
+      const safeName = selectedProduct.name.replace(/\s+/g, "_")
+      downloadFile(pngDataUrl, `AlphaTech_${safeName}_Transparent.png`, "image/png")
+    } finally {
+      setExportingType(null)
+    }
+  }
 
-      // 2. Transparent Background PNG (Electric Cobalt Blue for dark packaging tubs)
-      const transCobaltSvg = generateAestheticQRSvg(verificationUrl, {
+  // 2. Download Sticker Card PNG (With White Box & Product Info at bottom)
+  const handleDownloadStickerCardPNG = async () => {
+    setExportingType("sticker")
+    try {
+      const svgStr = generateAestheticQRSvg(verificationUrl, {
         size: 800,
-        backgroundColor: "transparent",
-        dotColor: "#3B82F6",
-        eyeColor: "#60A5FA",
-        eyeInnerColor: "#ffffff",
-        centerLogoImage: ALPHA_TECH_ICON_BASE64,
-      })
-      const transCobaltPng = await svgToPngDataUrl(transCobaltSvg, 800)
-      folder.file(`02_Transparent_ElectricCobalt_QR_${safeName}.png`, transCobaltPng.split(",")[1], { base64: true })
-
-      // 3. Complete Packaging Sticker Card with White Box & Product Title at Bottom
-      const stickerSvg = generateAestheticQRSvg(verificationUrl, {
-        size: 700,
         productTitle: `${selectedProduct.name} • ${selectedProduct.weight}`,
         serialCode,
       })
-      const stickerPng = await svgToPngDataUrl(stickerSvg, 700)
-      folder.file(`03_Packaging_Sticker_Card_${safeName}.png`, stickerPng.split(",")[1], { base64: true })
+      const pngDataUrl = await svgToPngDataUrl(svgStr, 800)
+      const safeName = selectedProduct.name.replace(/\s+/g, "_")
+      downloadFile(pngDataUrl, `AlphaTech_${safeName}_Sticker_Card.png`, "image/png")
+    } finally {
+      setExportingType(null)
+    }
+  }
 
-      // 4. Monochrome High-Contrast Print (Black & White for factory barcode/thermal printers)
-      const printBwSvg = generateAestheticQRSvg(verificationUrl, {
-        size: 700,
+  // 3. Download Vector SVG
+  const handleDownloadSVG = () => {
+    const svgStr = generateAestheticQRSvg(verificationUrl, {
+      size: 800,
+      productTitle: `${selectedProduct.name} • ${selectedProduct.weight}`,
+      serialCode,
+    })
+    const safeName = selectedProduct.name.replace(/\s+/g, "_")
+    downloadFile(svgStr, `AlphaTech_${safeName}_Master.svg`, "image/svg+xml")
+  }
+
+  // 4. Download Monochrome Print PNG
+  const handleDownloadMonochromePNG = async () => {
+    setExportingType("monochrome")
+    try {
+      const svgStr = generateAestheticQRSvg(verificationUrl, {
+        size: 800,
         theme: "print_clean",
         productTitle: `${selectedProduct.name} • ${selectedProduct.weight}`,
         serialCode,
       })
-      const printBwPng = await svgToPngDataUrl(printBwSvg, 700)
-      folder.file(`04_Print_Ready_Monochrome_${safeName}.png`, printBwPng.split(",")[1], { base64: true })
-
-      // 5. Scalable Vector SVG
-      folder.file(`05_Vector_Packaging_Master_${safeName}.svg`, stickerSvg)
-
-      // 6. Complete Documentation & Verification Specs (.txt)
-      const specSheet = `=====================================================
-ALPHA TECH NUTRITION - OFFICIAL PACKAGING ASSET KIT
-=====================================================
-
-Product Name:        ${selectedProduct.name}
-Category:            ${selectedProduct.category}
-Flavor:              ${selectedProduct.flavor}
-Net Weight:          ${selectedProduct.weight}
-Servings:            ${selectedProduct.servings}
-
-Product UUID:        ${serialCode}
-Direct Verification: ${verificationUrl}
-
-Included Assets in this Kit:
-- 01_Transparent_QR_${safeName}.png          -> Transparent PNG (Dark Charcoal & Lime eyes)
-- 02_Transparent_NeonLime_QR_${safeName}.png -> Transparent PNG (Neon Lime for dark bottles)
-- 03_Packaging_Sticker_Card_${safeName}.png  -> Full sticker with white box & product title
-- 04_Print_Ready_Monochrome_${safeName}.png  -> 100% Black & White for thermal label printers
-- 05_Vector_Packaging_Master_${safeName}.svg -> Scalable vector file for prepress / Illustrator
-
-Lab Clearance:
-- Protein Purity: ${selectedProduct.labReport.proteinPurity}
-- Heavy Metals:   ${selectedProduct.labReport.heavyMetals}
-- WADA Doping:    ${selectedProduct.labReport.dopingSubstances}
-- Pathogens:      ${selectedProduct.labReport.microbiologicalQuality}
-
-Quality Standards: ${selectedProduct.certifications.join(" • ")}
-=====================================================
-`
-      folder.file(`06_Authentication_Credentials_${safeName}.txt`, specSheet)
-
-      // Generate and trigger download
-      const content = await zip.generateAsync({ type: "blob" })
-      const a = document.createElement("a")
-      a.href = URL.createObjectURL(content)
-      a.download = `AlphaTech_${safeName}_Official_QR_Kit.zip`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-    } catch (err) {
-      console.error("Failed to generate ZIP", err)
+      const pngDataUrl = await svgToPngDataUrl(svgStr, 800)
+      const safeName = selectedProduct.name.replace(/\s+/g, "_")
+      downloadFile(pngDataUrl, `AlphaTech_${safeName}_Monochrome_Print.png`, "image/png")
     } finally {
-      setIsZipping(false)
+      setExportingType(null)
     }
   }
 
@@ -506,130 +406,92 @@ Quality Standards: ${selectedProduct.certifications.join(" • ")}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* LEFT COLUMN: The Complete ZIP Kit Download & Assets List */}
           <div className="lg:col-span-7 space-y-6">
-            {/* Primary Action Card: Download All in Single ZIP */}
-            <div className="bg-gradient-to-br from-[#0B0E23] via-[#10173D] to-[#080B1C] border-2 border-blue-500/50 rounded-3xl p-7 shadow-[0_0_40px_rgba(59,130,246,0.2)] relative overflow-hidden">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500 flex items-center justify-center text-blue-400">
-                  <FileArchive className="w-5 h-5" />
+            {/* Direct Packaging Asset Downloads Card */}
+            <div className="bg-gradient-to-br from-[#0B0E23] via-[#10173D] to-[#080B1C] border border-blue-900/40 rounded-3xl p-6 sm:p-7 shadow-[0_0_30px_rgba(59,130,246,0.1)] relative overflow-hidden">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400">
+                  <Download className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-white uppercase tracking-tight">
-                    Download All Assets in Single ZIP
+                  <h3 className="text-lg font-black text-white uppercase tracking-tight">
+                    Download Packaging Assets
                   </h3>
                   <p className="text-xs font-mono text-blue-400">
-                    Complete Packaging & Production Kit for {selectedProduct.name}
+                    High-resolution Lab-Certified QR Formats for {selectedProduct.name}
                   </p>
                 </div>
               </div>
 
-              <p className="text-xs text-white/70 mt-3 mb-6 leading-relaxed">
-                Click below to download all image formats, vector assets, and authentication documentation bundled
-                cleanly in one .zip archive titled for this product:
-              </p>
-
-              {/* What is in the ZIP Checklist */}
-              <div className="space-y-2.5 mb-6 text-xs font-mono">
-                <div className="flex items-center gap-2.5 bg-black/40 border border-white/10 rounded-xl p-2.5">
-                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
-                  <span className="text-white font-bold">1. Navy Blue Transparent PNG</span>
-                  <span className="text-white/50 text-[11px]">
-                    — Clean transparent background for overlays & packaging tubs
-                  </span>
-                </div>
-                <div className="flex items-center gap-2.5 bg-black/40 border border-white/10 rounded-xl p-2.5">
-                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
-                  <span className="text-white font-bold">2. Electric Cobalt Transparent PNG</span>
-                  <span className="text-white/50 text-[11px]">— High-contrast cobalt blue for dark obsidian bottles</span>
-                </div>
-                <div className="flex items-center gap-2.5 bg-black/40 border border-white/10 rounded-xl p-2.5">
-                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
-                  <span className="text-white font-bold">3. Sticker Card with Info</span>
-                  <span className="text-white/50 text-[11px]">— White card with product title stamped at bottom</span>
-                </div>
-                <div className="flex items-center gap-2.5 bg-black/40 border border-white/10 rounded-xl p-2.5">
-                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
-                  <span className="text-white font-bold">4. Monochrome Print B&W</span>
-                  <span className="text-white/50 text-[11px]">— High-contrast for thermal sticker printers</span>
-                </div>
-                <div className="flex items-center gap-2.5 bg-black/40 border border-white/10 rounded-xl p-2.5">
-                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
-                  <span className="text-white font-bold">5. Scalable Vector SVG</span>
-                  <span className="text-white/50 text-[11px]">— Adobe Illustrator / Prepress master</span>
-                </div>
-                <div className="flex items-center gap-2.5 bg-black/40 border border-white/10 rounded-xl p-2.5">
-                  <Check className="w-4 h-4 text-blue-400 shrink-0" />
-                  <span className="text-white font-bold">6. Authentication Specs (.txt)</span>
-                  <span className="text-white/50 text-[11px]">— Batch, serial, and lab assay text record</span>
-                </div>
-              </div>
-
-              {/* Big ZIP Download Button */}
-              <button
-                type="button"
-                onClick={handleDownloadCompleteZip}
-                disabled={isZipping}
-                className="w-full py-4 px-6 bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-50 text-white font-black text-sm tracking-wider uppercase rounded-2xl transition-all shadow-xl shadow-blue-500/30 flex items-center justify-center gap-2 cursor-pointer"
-              >
-                {isZipping ? (
-                  <>
-                    <RefreshCw className="w-5 h-5 animate-spin" />
-                    <span>Packaging ZIP Kit...</span>
-                  </>
-                ) : (
-                  <>
-                    <Download className="w-5 h-5" />
-                    <span>Download Complete Packaging Kit (.zip)</span>
-                  </>
-                )}
-              </button>
-            </div>
-
-            {/* Quick Individual Downloads */}
-            <div className="bg-[#0B0E23] border border-blue-900/40 rounded-2xl p-6">
-              <label className="block text-xs font-mono text-white/50 uppercase tracking-wider mb-4">
-                Or Download Individual Files Directly
-              </label>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-5">
                 <button
                   type="button"
                   onClick={handleDownloadTransparentPNG}
                   disabled={exportingType === "transparent"}
-                  className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/40 text-left transition-colors flex flex-col justify-between cursor-pointer"
+                  className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/50 text-left transition-all flex flex-col justify-between cursor-pointer group"
                 >
-                  <span className="text-xs font-bold text-white block mb-1">Transparent PNG</span>
-                  <span className="text-[10px] font-mono text-white/40 block mb-3">No box, transparent BG</span>
-                  <span className="text-xs font-mono text-blue-400 font-bold flex items-center gap-1">
-                    <Download className="w-3 h-3" />
-                    {exportingType === "transparent" ? "Exporting..." : "Download"}
-                  </span>
+                  <div>
+                    <span className="text-sm font-black text-white block mb-1">Transparent PNG</span>
+                    <span className="text-[11px] font-mono text-white/50 block leading-relaxed">
+                      Clean transparent background (800x800) for bottle & tub mockups.
+                    </span>
+                  </div>
+                  <div className="text-xs font-mono text-blue-400 font-bold flex items-center gap-1.5 mt-4 group-hover:text-blue-300">
+                    <Download className="w-4 h-4" />
+                    <span>{exportingType === "transparent" ? "Generating PNG..." : "Download High-Res PNG"}</span>
+                  </div>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleDownloadStickerCardPNG}
                   disabled={exportingType === "sticker"}
-                  className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/40 text-left transition-colors flex flex-col justify-between cursor-pointer"
+                  className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/50 text-left transition-all flex flex-col justify-between cursor-pointer group"
                 >
-                  <span className="text-xs font-bold text-white block mb-1">Sticker Card PNG</span>
-                  <span className="text-[10px] font-mono text-white/40 block mb-3">With box & title bottom</span>
-                  <span className="text-xs font-mono text-blue-400 font-bold flex items-center gap-1">
-                    <Download className="w-3 h-3" />
-                    {exportingType === "sticker" ? "Exporting..." : "Download"}
-                  </span>
+                  <div>
+                    <span className="text-sm font-black text-white block mb-1">Sticker Card PNG</span>
+                    <span className="text-[11px] font-mono text-white/50 block leading-relaxed">
+                      Complete white label seal with product title & UUID at bottom.
+                    </span>
+                  </div>
+                  <div className="text-xs font-mono text-blue-400 font-bold flex items-center gap-1.5 mt-4 group-hover:text-blue-300">
+                    <Download className="w-4 h-4" />
+                    <span>{exportingType === "sticker" ? "Generating PNG..." : "Download Sticker PNG"}</span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleDownloadMonochromePNG}
+                  disabled={exportingType === "monochrome"}
+                  className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/50 text-left transition-all flex flex-col justify-between cursor-pointer group"
+                >
+                  <div>
+                    <span className="text-sm font-black text-white block mb-1">Monochrome Print PNG</span>
+                    <span className="text-[11px] font-mono text-white/50 block leading-relaxed">
+                      100% Black & White high contrast for thermal sticker printers.
+                    </span>
+                  </div>
+                  <div className="text-xs font-mono text-blue-400 font-bold flex items-center gap-1.5 mt-4 group-hover:text-blue-300">
+                    <Download className="w-4 h-4" />
+                    <span>{exportingType === "monochrome" ? "Generating PNG..." : "Download Thermal B&W"}</span>
+                  </div>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleDownloadSVG}
-                  className="p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/40 text-left transition-colors flex flex-col justify-between cursor-pointer"
+                  className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/50 text-left transition-all flex flex-col justify-between cursor-pointer group"
                 >
-                  <span className="text-xs font-bold text-white block mb-1">Vector SVG</span>
-                  <span className="text-[10px] font-mono text-white/40 block mb-3">Infinitely scalable</span>
-                  <span className="text-xs font-mono text-blue-400 font-bold flex items-center gap-1">
-                    <Download className="w-3 h-3" />
-                    <span>Download</span>
-                  </span>
+                  <div>
+                    <span className="text-sm font-black text-white block mb-1">Vector SVG Master</span>
+                    <span className="text-[11px] font-mono text-white/50 block leading-relaxed">
+                      Scalable vector master for Adobe Illustrator & prepress printing.
+                    </span>
+                  </div>
+                  <div className="text-xs font-mono text-blue-400 font-bold flex items-center gap-1.5 mt-4 group-hover:text-blue-300">
+                    <Download className="w-4 h-4" />
+                    <span>Download Vector SVG</span>
+                  </div>
                 </button>
               </div>
             </div>
