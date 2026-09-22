@@ -23,6 +23,10 @@ import {
   Share2,
   Copy,
   Check,
+  BadgeCheck,
+  PackageCheck,
+  FlaskConical,
+  Zap,
 } from "lucide-react"
 import { verifyCode, type VerificationResult } from "@/lib/verification"
 import { AestheticQRView } from "@/components/aesthetic-qr-view"
@@ -217,303 +221,282 @@ function VerificationContent() {
             >
               {/* CASE 1: 100% GENUINE AUTHENTIC PRODUCT */}
               {(result.status === "genuine" || result.isValid) && result.product && (
-                <div className="bg-gradient-to-b from-[#10173D] via-[#0E132D] to-[#0A0D1F] border-2 border-blue-500 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 shadow-[0_0_50px_rgba(59,130,246,0.25)] relative overflow-hidden">
-                  <div className="absolute top-0 right-0 transform translate-x-10 -translate-y-10 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="bg-gradient-to-b from-[#0F1738] via-[#0D122E] to-[#080B1C] border-2 border-emerald-500/50 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 shadow-[0_0_60px_rgba(16,185,129,0.18)] relative overflow-hidden">
+                  {/* Glowing background ambiance */}
+                  <div className="absolute top-0 right-0 transform translate-x-12 -translate-y-12 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
 
-                  {/* Genuine Banner */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 sm:pb-8 border-b border-white/10">
-                    <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-blue-500/20 border border-blue-400 flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/20">
-                        <CheckCircle2 className="w-7 h-7 sm:w-9 sm:h-9 text-blue-400" />
+                  {/* Top Authenticity Banner */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 sm:pb-8 border-b border-white/10 relative z-10">
+                    <div className="flex items-start sm:items-center gap-3.5 sm:gap-4 min-w-0">
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-emerald-500/15 border-2 border-emerald-400/80 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/20">
+                        <BadgeCheck className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-400" />
                       </div>
                       <div className="min-w-0">
-                        <div className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold text-blue-400 uppercase tracking-wider">
-                          <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> 100% Certified Authentic
+                        <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest">
+                          <Sparkles className="w-3.5 h-3.5" /> 100% Certified Authentic
                         </div>
-                        <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight">
-                          Genuine Alpha Tech Product
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight uppercase">
+                          Genuine Product Verified
                         </h2>
-                        <p className="text-white/60 text-xs sm:text-sm font-mono mt-0.5 break-all">
-                          Product UUID: {result.record?.code || searchedCode}
+                        <p className="text-white/60 text-xs sm:text-sm font-mono mt-0.5">
+                          Official Security Seal • Alpha Tech Quality Clearance
                         </p>
                       </div>
                     </div>
 
                     <div className="self-start sm:self-auto shrink-0">
-                      <span className="px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-blue-600/30 border border-blue-400 text-blue-300 font-black text-[11px] sm:text-xs uppercase tracking-wider shadow-md shadow-blue-600/20 flex items-center gap-1.5">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />
-                        Factory Certified
+                      <span className="px-4 py-2 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 font-black text-xs uppercase tracking-wider shadow-md flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                        Verified Authentic
                       </span>
                     </div>
                   </div>
 
-                  {/* Product Details Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 py-6 sm:py-8 items-center">
-                    {/* Product Image */}
-                    <div className="md:col-span-1 flex justify-center">
-                      <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56">
+                  {/* Main Product Showcase Card */}
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8 py-8 items-center relative z-10">
+                    {/* Left Column: Product Image Pedestal */}
+                    <div className="md:col-span-5 flex flex-col items-center justify-center">
+                      <div className="relative w-full aspect-square max-w-[280px] sm:max-w-[320px] rounded-3xl bg-gradient-to-b from-white/5 to-white/0 border border-white/10 p-6 flex items-center justify-center shadow-2xl group">
+                        <div className="absolute inset-0 bg-blue-500/10 rounded-3xl blur-2xl group-hover:bg-emerald-500/15 transition-all pointer-events-none" />
                         <Image
                           src={result.product.image}
                           alt={result.product.name}
                           fill
-                          className="object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)]"
+                          priority
+                          className="object-contain p-4 drop-shadow-[0_20px_35px_rgba(0,0,0,0.8)] group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
+                      <div className="mt-4 text-center">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-mono font-bold">
+                          <PackageCheck className="w-3.5 h-3.5" /> SKU: {result.product.sku}
+                        </span>
+                      </div>
                     </div>
 
-                    {/* Product Specs */}
-                    <div className="md:col-span-2 space-y-4">
+                    {/* Right Column: Specifications & Verified Credentials */}
+                    <div className="md:col-span-7 space-y-5">
                       <div>
-                        <span className="text-xs font-mono text-blue-400 uppercase font-bold">
-                          {result.product.category} Formulation
-                        </span>
-                        <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white">
+                        <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-blue-400 uppercase tracking-wider">
+                          <Zap className="w-3.5 h-3.5" /> {result.product.category} Performance Formulation
+                        </div>
+                        <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight pt-1">
                           {result.product.name}
                         </h3>
-                        <p className="text-white/70 text-xs sm:text-sm mt-1">{result.product.tagline}</p>
+                        <p className="text-white/70 text-xs sm:text-sm font-mono mt-1 leading-relaxed">
+                          {result.product.tagline}
+                        </p>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2.5 sm:gap-3 pt-2">
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 sm:p-3">
-                          <span className="text-[10px] font-mono text-white/40 uppercase block">Net Quantity</span>
+                      {/* Verified Serial UUID Box */}
+                      <div className="bg-black/50 border border-white/15 rounded-2xl p-4 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[11px] font-mono text-white/50 uppercase tracking-wider">
+                            Verified Security UUID
+                          </span>
+                          <span className="text-[11px] font-mono text-emerald-400 font-bold flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3" /> MATCH FOUND
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between gap-3 bg-[#050714] border border-blue-500/30 px-3.5 py-2.5 rounded-xl font-mono text-xs sm:text-sm text-blue-300 font-bold">
+                          <span className="truncate">{result.record?.code || searchedCode}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopySerial(result.record?.code || searchedCode)}
+                            className="px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-mono transition-colors flex items-center gap-1.5 shrink-0 cursor-pointer"
+                            title="Copy Security UUID"
+                          >
+                            {isCopied ? (
+                              <>
+                                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                <span className="text-emerald-400">Copied</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3.5 h-3.5" />
+                                <span>Copy</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Key Product Metrics */}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+                        <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                          <span className="text-[10px] font-mono text-white/40 uppercase block">Net Volume</span>
                           <span className="text-xs sm:text-sm font-bold text-white font-mono">{result.product.weight}</span>
                         </div>
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 sm:p-3">
-                          <span className="text-[10px] font-mono text-white/40 uppercase block">Servings</span>
-                          <span className="text-xs sm:text-sm font-bold text-white font-mono">
-                            {result.product.servings}
-                          </span>
+                        <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                          <span className="text-[10px] font-mono text-white/40 uppercase block">Total Servings</span>
+                          <span className="text-xs sm:text-sm font-bold text-white font-mono">{result.product.servings}</span>
+                        </div>
+                        <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                          <span className="text-[10px] font-mono text-white/40 uppercase block">Active Protein</span>
+                          <span className="text-xs sm:text-sm font-bold text-emerald-400 font-mono">{result.product.proteinPerServing} / Serving</span>
+                        </div>
+                        <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+                          <span className="text-[10px] font-mono text-white/40 uppercase block">BCAAs</span>
+                          <span className="text-xs sm:text-sm font-bold text-blue-400 font-mono">{result.product.bcaaPerServing}</span>
                         </div>
                       </div>
 
-                      {/* Nutrition Specs */}
-                      <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-2">
-                        <span className="px-2.5 py-1 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 text-[11px] sm:text-xs font-bold font-mono">
-                          {result.product.proteinPerServing} Protein / Serving
-                        </span>
-                        <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-white/80 text-[11px] sm:text-xs font-bold font-mono">
-                          {result.product.bcaaPerServing} BCAAs
-                        </span>
-                        <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-white/80 text-[11px] sm:text-xs font-bold font-mono">
-                          Flavor: {result.product.flavor}
-                        </span>
+                      {/* Certification Badges */}
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        {result.product.certifications.map((cert) => (
+                          <span
+                            key={cert}
+                            className="px-3 py-1 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-mono font-bold flex items-center gap-1.5"
+                          >
+                            <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+                            {cert}
+                          </span>
+                        ))}
                       </div>
                     </div>
                   </div>
 
-                  {/* Certified Lab Report Section */}
-                  <div className="border-t border-white/10 pt-5 sm:pt-6 space-y-3 sm:space-y-4">
-                    <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-white">
-                      <Award className="w-4 h-4 text-blue-400" />
-                      <span>Certified Quality & Lab Clearance Report</span>
+                  {/* Laboratory Quality & Safety Clearance Section */}
+                  <div className="border-t border-white/10 pt-6 mt-4 space-y-4 relative z-10">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2 text-sm font-bold text-white font-mono uppercase tracking-wider">
+                        <FlaskConical className="w-4 h-4 text-emerald-400" />
+                        <span>Certified Quality & 3rd-Party Lab Assay Clearance</span>
+                      </div>
+                      <span className="text-xs font-mono text-emerald-400 font-semibold flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> All Parameters Passed
+                      </span>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 text-xs">
-                      <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                        <div>
-                          <span className="font-bold text-white block">Protein Purity Assay</span>
-                          <span className="text-white/60 text-[11px] sm:text-xs">{result.product.labReport.proteinPurity}</span>
-                        </div>
-                      </div>
-                      <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                        <div>
-                          <span className="font-bold text-white block">Heavy Metals Analysis</span>
-                          <span className="text-white/60 text-[11px] sm:text-xs">{result.product.labReport.heavyMetals}</span>
-                        </div>
-                      </div>
-                      <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                        <div>
-                          <span className="font-bold text-white block">WADA Compliance & Dope Test</span>
-                          <span className="text-white/60 text-[11px] sm:text-xs">{result.product.labReport.dopingSubstances}</span>
-                        </div>
-                      </div>
-                      <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                        <div>
-                          <span className="font-bold text-white block">Microbiological Testing</span>
-                          <span className="text-white/60 text-[11px] sm:text-xs">{result.product.labReport.microbiologicalQuality}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Digital Authenticity Passport with Prominent, Scannable QR */}
-                  <div className="mt-8 rounded-2xl sm:rounded-3xl bg-gradient-to-b from-[#0B0F2A] to-[#070A1E] border border-blue-500/30 p-5 sm:p-7 md:p-8 shadow-[0_0_40px_rgba(59,130,246,0.15)] relative overflow-hidden">
-                    {/* Glowing corner ambiance */}
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-
-                    {/* Passport Header */}
-                    <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-white/10">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-xl bg-blue-500/20 border border-blue-400/40 flex items-center justify-center text-blue-400">
-                          <ShieldCheck className="w-4 h-4" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="bg-black/40 border border-white/10 rounded-2xl p-4 flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-400/40 flex items-center justify-center shrink-0 text-emerald-400 mt-0.5">
+                          <CheckCircle2 className="w-4 h-4" />
                         </div>
                         <div>
-                          <span className="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-widest block">
-                            Official Security Certificate
-                          </span>
-                          <h4 className="text-sm sm:text-base font-black text-white tracking-wide uppercase">
-                            Digital Authenticity Passport
-                          </h4>
+                          <span className="font-mono text-xs font-bold text-white block">Protein Purity Assay</span>
+                          <span className="text-white/60 text-xs font-mono">{result.product.labReport.proteinPurity}</span>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2 self-start sm:self-auto px-3 py-1.5 rounded-full bg-blue-500/15 border border-blue-500/40 text-blue-300 font-mono text-xs font-bold">
-                        <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-                        <span>100% AUTHENTIC • FACTORY SEALED</span>
-                      </div>
-                    </div>
-
-                    {/* Passport Content: Responsive Grid */}
-                    <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 pt-6 items-center">
-                      {/* Left: Large Showcase QR */}
-                      <div className="md:col-span-5 flex flex-col items-center text-center">
-                        <div className="p-2 sm:p-2.5 bg-white rounded-2xl sm:rounded-3xl shadow-2xl shadow-blue-500/25 border-2 border-blue-400/40 relative max-w-[230px] sm:max-w-[250px] w-full mx-auto flex items-center justify-center transition-transform hover:scale-[1.02]">
-                          <AestheticQRView
-                            value={getVerificationUrl(result.record?.code || searchedCode)}
-                            size={240}
-                            margin={4}
-                            className="w-full max-w-[240px]"
-                            dotStyle="dots"
-                            eyeStyle="smooth"
-                            theme="royal_navy"
-                            includeCenterLogo={true}
-                          />
+                      <div className="bg-black/40 border border-white/10 rounded-2xl p-4 flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-400/40 flex items-center justify-center shrink-0 text-emerald-400 mt-0.5">
+                          <CheckCircle2 className="w-4 h-4" />
                         </div>
-                        <div className="mt-3 space-y-1">
-                          <div className="text-xs sm:text-sm font-black text-white uppercase tracking-wide">
-                            {result.product.name}
-                          </div>
-                          <span className="text-[10px] font-mono font-bold text-blue-300 uppercase tracking-widest block">
-                            Official Security QR
-                          </span>
-                          <p className="text-[11px] text-white/50 font-mono max-w-[240px]">
-                            Scan with any smartphone camera to verify this authentic product
-                          </p>
+                        <div>
+                          <span className="font-mono text-xs font-bold text-white block">Heavy Metals & Toxins Analysis</span>
+                          <span className="text-white/60 text-xs font-mono">{result.product.labReport.heavyMetals}</span>
                         </div>
                       </div>
 
-                      {/* Right: Security Credentials */}
-                      <div className="md:col-span-7 space-y-3.5">
-                        <div className="bg-black/40 border border-white/10 rounded-xl p-3.5">
-                          <span className="text-[10px] font-mono text-white/40 uppercase block mb-1">
-                            Verified Product UUID (v4)
-                          </span>
-                          <div className="flex items-center justify-between gap-2 bg-[#050714] border border-white/10 px-3 py-2 rounded-lg font-mono text-xs sm:text-sm text-blue-300 font-bold">
-                            <span className="truncate">{result.record?.code || searchedCode}</span>
-                            <button
-                              type="button"
-                              onClick={() => handleCopySerial(result.record?.code || searchedCode)}
-                              className="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-white/80 hover:text-white text-[10px] transition-colors flex items-center gap-1.5 shrink-0 cursor-pointer"
-                              title="Copy Product UUID"
-                            >
-                              {isCopied ? (
-                                <>
-                                  <Check className="w-3 h-3 text-green-400" />
-                                  <span className="text-green-400">Copied</span>
-                                </>
-                              ) : (
-                                <>
-                                  <Copy className="w-3 h-3" />
-                                  <span>Copy</span>
-                                </>
-                              )}
-                            </button>
-                          </div>
+                      <div className="bg-black/40 border border-white/10 rounded-2xl p-4 flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-400/40 flex items-center justify-center shrink-0 text-emerald-400 mt-0.5">
+                          <CheckCircle2 className="w-4 h-4" />
                         </div>
-
-                        <div className="bg-black/30 border border-white/5 rounded-xl p-3 flex items-center justify-between text-xs font-mono">
-                          <span className="text-[10px] text-white/40 uppercase">Verification State</span>
-                          <span className="font-bold text-blue-400 text-xs sm:text-sm flex items-center gap-1.5">
-                            <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-blue-400" /> 100% Genuine
-                          </span>
+                        <div>
+                          <span className="font-mono text-xs font-bold text-white block">WADA Compliance & Dope Test</span>
+                          <span className="text-white/60 text-xs font-mono">{result.product.labReport.dopingSubstances}</span>
                         </div>
+                      </div>
 
-                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-3 text-[11px] font-mono text-white/70 space-y-1.5">
-                          <div className="flex items-center justify-between">
-                            <span className="text-white/40">SECURITY PROTOCOL:</span>
-                            <span className="text-blue-300 font-bold">OFFICIAL CRYPTOGRAPHIC SEAL</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-white/40">ISSUING DIVISION:</span>
-                            <span className="text-white/90">Alpha Tech Quality Control Lab</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-white/40">MANUFACTURER STATUS:</span>
-                            <span className="text-blue-400 font-black flex items-center gap-1">
-                              <CheckCircle2 className="w-3.5 h-3.5" /> 100% AUTHENTIC
-                            </span>
-                          </div>
+                      <div className="bg-black/40 border border-white/10 rounded-2xl p-4 flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-400/40 flex items-center justify-center shrink-0 text-emerald-400 mt-0.5">
+                          <CheckCircle2 className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <span className="font-mono text-xs font-bold text-white block">Microbiological Testing</span>
+                          <span className="text-white/60 text-xs font-mono">{result.product.labReport.microbiologicalQuality}</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Action buttons */}
-                  <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
-                    <div className="text-[11px] sm:text-xs text-white/50 font-mono w-full sm:w-auto text-center sm:text-left">
-                      Official Certified Seal • Alpha Tech Nutrition India
+                  {/* Action Buttons */}
+                  <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
+                    <div className="text-xs text-white/50 font-mono flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                      <span>Official Authenticity Passport • Alpha Tech Quality Control</span>
                     </div>
-                    <button
-                      type="button"
-                      onClick={handleReset}
-                      className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold font-mono transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <RefreshCw className="w-3.5 h-3.5" />
-                      Verify Another Product
-                    </button>
+
+                    <div className="flex items-center gap-3 w-full sm:w-auto">
+                      <Link href={`/products/${result.product.id}`} className="flex-1 sm:flex-none">
+                        <button
+                          type="button"
+                          className="w-full px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold font-mono uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+                        >
+                          <span>Product Details</span>
+                          <ExternalLink className="w-4 h-4" />
+                        </button>
+                      </Link>
+
+                      <button
+                        type="button"
+                        onClick={handleReset}
+                        className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold font-mono transition-colors flex items-center justify-center gap-2 cursor-pointer shrink-0"
+                      >
+                        <RefreshCw className="w-4 h-4" />
+                        <span>Verify Another</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
 
-              {/* CASE 3: INVALID / COUNTERFEIT WARNING */}
+              {/* CASE 2: INVALID / COUNTERFEIT WARNING */}
               {result.status === "invalid" && (
-                <div className="bg-gradient-to-b from-[#2b1111] to-[#180d0d] border-2 border-red-500 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 shadow-[0_0_50px_rgba(239,68,68,0.2)] relative overflow-hidden">
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 pb-6 border-b border-red-500/20">
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-red-500/20 border border-red-500 flex items-center justify-center shrink-0">
-                      <ShieldAlert className="w-7 h-7 sm:w-9 sm:h-9 text-red-400" />
+                <div className="bg-gradient-to-b from-[#2b1111] to-[#180d0d] border-2 border-red-500 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 shadow-[0_0_50px_rgba(239,68,68,0.2)] relative overflow-hidden">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 pb-6 border-b border-red-500/20">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-red-500/20 border border-red-500 flex items-center justify-center shrink-0">
+                      <ShieldAlert className="w-8 h-8 sm:w-9 sm:h-9 text-red-400" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-[11px] sm:text-xs font-mono font-bold text-red-400 uppercase tracking-widest">
-                        ❌ Verification Failed
+                      <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-red-400 uppercase tracking-widest">
+                        <ShieldAlert className="w-3.5 h-3.5" /> Verification Failed
                       </div>
-                      <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight">
-                        Unregistered / Fake Serial Code
+                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight uppercase">
+                        Unregistered / Invalid Serial Code
                       </h2>
                       <p className="text-white/60 text-xs sm:text-sm font-mono mt-0.5 break-all">
-                        Serial: <span className="text-red-300 font-bold">{searchedCode}</span>
+                        Searched Serial: <span className="text-red-300 font-bold">{searchedCode}</span>
                       </p>
                     </div>
                   </div>
 
-                  <div className="my-5 sm:my-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-200 text-xs sm:text-sm space-y-2 sm:space-y-3">
-                    <p className="font-bold text-red-400">WARNING: POTENTIAL COUNTERFEIT SUPPLEMENT</p>
-                    <p className="text-xs text-red-200/80 leading-relaxed">
-                      The serial code you provided does not exist in the official Alpha Tech Nutrition manufacturer database.
+                  <div className="my-6 p-5 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-200 text-xs sm:text-sm space-y-3">
+                    <p className="font-bold text-red-400 font-mono text-sm uppercase flex items-center gap-2">
+                      <ShieldAlert className="w-4 h-4 text-red-400" /> Warning: Potential Counterfeit Supplement
+                    </p>
+                    <p className="text-xs text-red-200/90 leading-relaxed font-mono">
+                      The serial code you provided does not match any official record in the Alpha Tech Nutrition manufacturer database.
                       Counterfeit dietary supplements can pose severe health risks.
                     </p>
-                    <ul className="text-xs text-red-200/70 list-disc list-inside space-y-1">
-                      <li>Do not consume this product.</li>
-                      <li>Contact the vendor or retailer where this was purchased immediately.</li>
-                      <li>Report this batch and vendor to Alpha Tech Nutrition Brand Protection.</li>
+                    <ul className="text-xs text-red-200/80 font-mono space-y-1.5 pt-1">
+                      <li className="flex items-center gap-2">
+                        <ShieldAlert className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                        Do not consume this product.
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <ShieldAlert className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                        Contact the retailer where this container was purchased immediately.
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <ShieldAlert className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                        Report this batch and vendor to Alpha Tech Brand Protection.
+                      </li>
                     </ul>
                   </div>
 
-                  <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-red-500/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+                  <div className="mt-8 pt-6 border-t border-red-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <button
                       type="button"
                       onClick={handleReset}
-                      className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold transition-colors cursor-pointer text-center"
+                      className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold transition-colors cursor-pointer text-center"
                     >
                       Try Another Code
                     </button>
                     <a
                       href="mailto:support@alphatech-nutrition.in?subject=Counterfeit%20Report"
-                      className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-mono font-bold transition-colors text-center"
+                      className="w-full sm:w-auto px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-mono font-bold transition-colors text-center"
                     >
                       Report Counterfeit Vendor
                     </a>
