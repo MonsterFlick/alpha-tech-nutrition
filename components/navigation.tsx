@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { BrandLogo } from "@/components/brand-logo"
 import { useLenis } from "lenis/react"
@@ -43,6 +44,8 @@ const mobileMenuVariants = {
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const router = useRouter()
   const lenis = useLenis()
 
   useEffect(() => {
@@ -53,21 +56,26 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const scrollToSection = (id: string) => {
-    const element = document.querySelector(id)
+  const handleNavClick = (href: string) => {
+    setMobileMenuOpen(false)
+    if (href.startsWith("/")) {
+      router.push(href)
+      return
+    }
+    if (pathname !== "/") {
+      router.push(`/${href}`)
+      return
+    }
+    const element = document.querySelector(href)
     if (element && lenis) {
       lenis.scrollTo(element as HTMLElement, { offset: -100 })
     }
-    setMobileMenuOpen(false)
   }
 
   const navLinks = [
-    { label: "Home", href: "#hero" },
-    { label: "Products", href: "#flavours" },
-    { label: "Formula", href: "#formula" },
-    { label: "Verify QR", href: "#verify-section" },
+    { label: "Home", href: "/" },
+    { label: "Products Catalog", href: "/products" },
     { label: "Partners", href: "#distributors" },
-    { label: "Athletes", href: "#creators" },
   ]
 
   return (
@@ -76,19 +84,19 @@ export function Navigation() {
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 100, damping: 20 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-[#0B0E23]/95 backdrop-blur-md border-b border-blue-950/60 shadow-lg shadow-blue-950/20" : "bg-transparent"
+        scrolled || pathname !== "/" ? "bg-[#0B0E23]/95 backdrop-blur-md border-b border-blue-950/60 shadow-lg shadow-blue-950/20" : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <BrandLogo scrolled={scrolled} size="md" />
+        <BrandLogo scrolled={scrolled || pathname !== "/"} size="md" />
 
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((item, i) => (
             <motion.button
               key={item.label}
-              onClick={() => scrollToSection(item.href)}
-              className={`text-sm font-medium tracking-wide transition-colors relative ${
-                scrolled ? "text-white/80 hover:text-blue-400" : "text-[#10163A]/85 hover:text-blue-600 font-semibold"
+              onClick={() => handleNavClick(item.href)}
+              className={`text-sm font-medium tracking-wide transition-colors relative cursor-pointer ${
+                scrolled || pathname !== "/" ? "text-white/80 hover:text-blue-400" : "text-[#10163A]/85 hover:text-blue-600 font-semibold"
               }`}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -105,41 +113,6 @@ export function Navigation() {
               />
             </motion.button>
           ))}
-        </div>
-
-        <div className="hidden md:flex items-center gap-3">
-          <Link
-            href="/verify"
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-blue-500/40 text-blue-400 hover:bg-blue-500/10 text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-sm shadow-blue-500/10"
-          >
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Verify Product</span>
-          </Link>
-
-          <motion.button
-            className="hidden md:block bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2.5 rounded-full font-bold text-sm tracking-wide relative overflow-hidden shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 transition-all"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
-            <motion.div
-              className="absolute inset-0 bg-white/20"
-              animate={{
-                boxShadow: [
-                  "0 0 20px rgba(59,130,246,0.3)",
-                  "0 0 40px rgba(59,130,246,0.6)",
-                  "0 0 20px rgba(59,130,246,0.3)",
-                ],
-              }}
-              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-            />
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full"
-              animate={{ x: ["-100%", "200%"] }}
-              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, repeatDelay: 3 }}
-            />
-            <span className="relative z-10">Get 25% Off</span>
-          </motion.button>
         </div>
 
         <motion.button
@@ -186,8 +159,8 @@ export function Navigation() {
               {navLinks.map((item, i) => (
                 <motion.button
                   key={item.label}
-                  onClick={() => scrollToSection(item.href)}
-                  className="block w-full text-left text-white/80 hover:text-blue-400 text-lg font-medium py-2"
+                  onClick={() => handleNavClick(item.href)}
+                  className="block w-full text-left text-white/80 hover:text-blue-400 text-lg font-medium py-2 cursor-pointer"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
@@ -195,24 +168,6 @@ export function Navigation() {
                   {item.label}
                 </motion.button>
               ))}
-              <div className="pt-2 border-t border-blue-900/30">
-                <Link
-                  href="/verify"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 text-blue-400 font-mono text-sm py-2 font-bold"
-                >
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>Verify Product Authenticity</span>
-                </Link>
-              </div>
-              <motion.button
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-full font-bold text-sm tracking-wide mt-4 shadow-lg shadow-blue-600/30"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                Shop Supplements
-              </motion.button>
             </div>
           </motion.div>
         )}

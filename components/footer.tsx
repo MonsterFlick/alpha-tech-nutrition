@@ -45,19 +45,10 @@ export function Footer() {
     {
       title: "Products",
       links: [
-        { name: "Prime Whey", href: "#flavours" },
-        { name: "Anabolic Lean Muscle Builder", href: "#flavours" },
-        { name: "Alpha Super Mass Gainer", href: "#flavours" },
-        { name: "Formula & Science", href: "#formula" },
-      ],
-    },
-    {
-      title: "Authenticity & Trust",
-      links: [
-        { name: "Verify Product Authenticity", href: "/verify" },
-        { name: "Anti-Counterfeit Protection", href: "/verify" },
-        { name: "Tamper-Proof Hologram Seal", href: "/verify" },
-        { name: "Lab Purity Certificates", href: "/verify" },
+        { name: "Browse Products Catalog", href: "/products" },
+        { name: "Prime Whey", href: "/products" },
+        { name: "Anabolic Lean Muscle Builder", href: "/products" },
+        { name: "Alpha Super Mass Gainer", href: "/products" },
       ],
     },
     {
@@ -82,107 +73,10 @@ export function Footer() {
   ]
 
   return (
-    <footer ref={footerRef} id="careers" className="relative bg-[#080B1C] pt-16 pb-6 overflow-hidden">
+    <footer ref={footerRef} id="careers" className="relative bg-[#080B1C] pt-12 pb-6 overflow-hidden border-t border-white/10">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-[0.9] overflow-hidden">
-            <motion.span
-              className="block"
-              initial={{ y: 100 }}
-              whileInView={{ y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-            >
-              READY TO
-            </motion.span>
-            <motion.span
-              className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400"
-              initial={{ y: 100 }}
-              whileInView={{ y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1], delay: 0.1 }}
-            >
-              LEVEL UP?
-            </motion.span>
-          </h2>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-xl mx-auto mb-12"
-        >
-          <div className="flex flex-col sm:flex-row gap-3">
-            <motion.div className="flex-1 relative" whileFocus={{ scale: 1.02 }}>
-              <motion.input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="w-full bg-white/5 border-2 border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/40 font-mono text-sm focus:outline-none focus:border-blue-500 transition-all duration-300"
-                whileFocus={{ borderColor: "#3B82F6" }}
-              />
-              <motion.div
-                className="absolute inset-0 rounded-xl pointer-events-none"
-                animate={email.length > 0 ? { boxShadow: "0 0 20px rgba(59,130,246,0.25)" } : { boxShadow: "none" }}
-              />
-            </motion.div>
-            <motion.button
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-sm tracking-wide whitespace-nowrap relative overflow-hidden shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 transition-all"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              onClick={handleSubmit}
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.5 }}
-              />
-              <motion.span
-                className="relative z-10"
-                animate={isSubmitting ? { opacity: [1, 0.5, 1] } : {}}
-                transition={{ duration: 0.5, repeat: isSubmitting ? Number.POSITIVE_INFINITY : 0 }}
-              >
-                {isSubmitting ? "Joining..." : "Get 25% Off"}
-              </motion.span>
-            </motion.button>
-          </div>
-          <motion.p
-            className="text-white/40 font-mono text-xs mt-2 text-center"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-          >
-            Join 50k+ athletes. Exclusive drops, nutrition tips & discounts.
-          </motion.p>
-        </motion.div>
-
-        <motion.div
-          className="text-center mb-10"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-        >
-          <p className="text-white/60 font-mono text-xs max-w-xl mx-auto leading-relaxed">
-            Alpha Tech Nutrition is a premium sports nutrition brand delivering high-performance gym supplements crafted
-            with pure ingredients, zero banned substances, and scientifically backed formulas to maximize strength and muscle growth.
-          </p>
-        </motion.div>
-
-        <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-t border-white/10"
+          className="grid grid-cols-2 md:grid-cols-3 gap-6 py-8"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
