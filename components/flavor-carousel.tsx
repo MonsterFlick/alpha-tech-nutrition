@@ -49,7 +49,7 @@
       slug: "alpha-super-mass-gainer",
       tagline: "Super Mass Gainer • Chocolate Shots",
       description: "Powerful mass-gaining formulation featuring 18G Protein, 4.3G BCAA, and 3G Creatine per serving. Targeted for explosive muscle build up, faster recovery, and fast absorption. Net Wt. 3kg (6.6 lbs) • 50 Servings.",
-      image: "/images/alpha-super-mass-gainer.png",
+      image: "/images/alpha-super-mass-gainer-front.png",
       bgColor: "from-sky-600/20 via-blue-500/10 to-transparent",
       accentColor: "#0284C7",
       badges: ["18G Protein", "4.3G BCAA", "3G Creatine", "Muscle Build Up", "Recover Faster", "Fast Absorption", "50 Servings"],

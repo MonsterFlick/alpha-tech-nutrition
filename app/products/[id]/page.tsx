@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { PRODUCTS_CATALOG, getProductById } from "@/lib/product-catalog"
+import { ProductGallery } from "@/components/product-gallery"
 import {
   ShieldCheck,
   Award,
@@ -11,10 +12,17 @@ import {
   CheckCircle2,
   ChevronRight,
   ArrowLeft,
-  Flame,
   Check,
   Zap,
-  ShoppingBag
+  ShoppingBag,
+  FlaskConical,
+  Dumbbell,
+  Building2,
+  PhoneCall,
+  Mail,
+  Scale,
+  BadgeCheck,
+  Table2,
 } from "lucide-react"
 
 export async function generateStaticParams() {
@@ -38,7 +46,7 @@ export default async function ProductDetailPage({
   const otherProducts = PRODUCTS_CATALOG.filter((p) => p.id !== product.id)
 
   return (
-    <main className="min-h-screen bg-[#070A1B] text-white">
+    <main className="min-h-screen bg-[#070A1B] text-white selection:bg-blue-600 selection:text-white">
       <Navigation />
 
       {/* Hero / Main Product Detail Section */}
@@ -60,35 +68,27 @@ export default async function ProductDetailPage({
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-            {/* Left Column: Large Product Image Card */}
-            <div className="lg:col-span-6 bg-[#0D122B] border-2 border-blue-950/80 rounded-3xl p-8 relative flex items-center justify-center shadow-2xl">
-              <div className="absolute top-4 left-4 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider">
-                {product.category}
-              </div>
-
-              <div className="absolute top-4 right-4 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold px-3 py-1.5 rounded-full flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5" /> 100% Purity
-              </div>
-
-              <div className="my-6 relative w-full aspect-square max-w-md flex items-center justify-center">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={420}
-                  height={420}
-                  priority
-                  className="object-contain max-h-[380px] drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-500"
-                />
-              </div>
+            {/* Left Column: Interactive Product Gallery (Main + Thumbnails) */}
+            <div className="lg:col-span-6">
+              <ProductGallery
+                gallery={product.gallery}
+                name={product.name}
+                category={product.category}
+              />
             </div>
 
-            {/* Right Column: Specifications & Purchasing */}
+            {/* Right Column: Product Specifications, Pricing & Order */}
             <div className="lg:col-span-6 space-y-6">
               <div>
-                <div className="text-xs font-mono text-white/40 uppercase tracking-widest mb-1">
-                  SKU: {product.sku}
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-mono text-white/40 uppercase tracking-widest">
+                    SKU: {product.sku}
+                  </span>
+                  <span className="text-xs font-mono text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> FSSAI Lic. {product.fssaiLic}
+                  </span>
                 </div>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase text-white tracking-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase text-white tracking-tight pt-2">
                   {product.name}
                 </h1>
                 <p className="text-sm font-mono text-blue-400 mt-2 font-semibold">
@@ -96,55 +96,68 @@ export default async function ProductDetailPage({
                 </p>
               </div>
 
+              {/* Price Callout */}
+              <div className="p-4 rounded-2xl bg-[#0E132D] border border-blue-500/30 flex items-center justify-between">
+                <div>
+                  <div className="text-xs font-mono text-white/40 uppercase">Maximum Retail Price (Incl. Taxes)</div>
+                  <div className="text-3xl font-black text-white font-mono mt-0.5">{product.mrp}</div>
+                </div>
+                <div className="text-right">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-xs font-bold">
+                    <Check className="w-3.5 h-3.5" /> 100% Genuine Guaranteed
+                  </span>
+                </div>
+              </div>
+
               {/* Key Specs Matrix */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-2xl bg-[#0E132D] border border-white/10 text-xs font-mono">
                 <div>
-                  <div className="text-white/40 text-[10px] uppercase">Net Weight</div>
+                  <div className="text-white/40 text-[10px] uppercase">Net Container Vol.</div>
                   <div className="font-bold text-white mt-1 text-sm">{product.weight}</div>
                 </div>
                 <div>
-                  <div className="text-white/40 text-[10px] uppercase">Servings</div>
+                  <div className="text-white/40 text-[10px] uppercase">Servings Count</div>
                   <div className="font-bold text-white mt-1 text-sm">{product.servings}</div>
                 </div>
                 <div>
-                  <div className="text-white/40 text-[10px] uppercase">Protein</div>
-                  <div className="font-bold text-blue-400 mt-1 text-sm">{product.proteinPerServing}</div>
+                  <div className="text-white/40 text-[10px] uppercase">Protein Ratio</div>
+                  <div className="font-bold text-emerald-400 mt-1 text-sm">{product.proteinPerServing}</div>
                 </div>
                 <div>
-                  <div className="text-white/40 text-[10px] uppercase">BCAA</div>
-                  <div className="font-bold text-indigo-400 mt-1 text-sm">{product.bcaaPerServing}</div>
+                  <div className="text-white/40 text-[10px] uppercase">BCAA Ratio</div>
+                  <div className="font-bold text-blue-400 mt-1 text-sm">{product.bcaaPerServing}</div>
                 </div>
               </div>
 
               {/* Flavor Profile */}
               <div className="p-4 bg-[#0E132D]/70 rounded-2xl border border-white/10 flex items-center justify-between text-xs font-mono">
-                <span className="text-white/60 uppercase">Flavor Profile:</span>
-                <span className="font-bold text-white bg-blue-500/10 border border-blue-500/30 px-3 py-1 rounded-lg">
+                <span className="text-white/60 uppercase">Official Flavor Profile:</span>
+                <span className="font-bold text-white bg-blue-500/10 border border-blue-500/30 px-3.5 py-1.5 rounded-lg">
                   {product.flavor}
                 </span>
               </div>
 
               {/* Certifications List */}
-              <div className="space-y-2 pt-2">
+              <div className="space-y-2 pt-1">
                 <div className="text-xs font-mono text-white/50 uppercase tracking-wider font-bold">
-                  Quality Certifications & Compliance:
+                  Quality Certifications & Compliance Seals:
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {product.certifications.map((cert) => (
                     <div
                       key={cert}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-white/80"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-white/90 font-semibold"
                     >
-                      <Check className="w-3.5 h-3.5 text-blue-400" />
+                      <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
                       <span>{cert}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Order Button */}
-              <div className="pt-4">
-                <button className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-sm font-mono uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-blue-600/30 flex items-center justify-center gap-2 cursor-pointer">
+              {/* Order CTA Button */}
+              <div className="pt-2">
+                <button className="w-full py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-sm font-mono uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-blue-600/30 flex items-center justify-center gap-2 cursor-pointer">
                   <ShoppingBag className="w-4 h-4" />
                   <span>Order Now • Free Express Shipping</span>
                 </button>
@@ -154,8 +167,174 @@ export default async function ProductDetailPage({
         </div>
       </section>
 
-      {/* Lab Report & Quality Assays Section */}
+      {/* Detailed Nutritional Information & Typical Amino Acid Profile */}
       <section className="py-16 px-4 sm:px-6 bg-[#050714] border-t border-white/10">
+        <div className="max-w-7xl mx-auto space-y-12">
+          {/* Section Title */}
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+              <Table2 className="w-4 h-4" /> Verified Nutrition Facts & Amino Acid Spectrum
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-black uppercase text-white tracking-tight">
+              SUPPLEMENT <span className="text-blue-400">NUTRITION FACTS & INGREDIENTS</span>
+            </h2>
+            <p className="text-xs sm:text-sm font-mono text-white/60 max-w-2xl mx-auto mt-2">
+              Values extracted directly from certified container packaging. Formulated for maximum muscle recovery, caloric density, and nitrogen retention.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Table 1: Macro Nutritional Information */}
+            <div className="lg:col-span-6 bg-[#0B0E23] border border-blue-900/40 rounded-3xl p-6 sm:p-8 space-y-5">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div>
+                  <h3 className="text-lg font-black uppercase text-white font-mono flex items-center gap-2">
+                    <Scale className="w-4 h-4 text-blue-400" /> Nutritional Information
+                  </h3>
+                  <span className="text-xs font-mono text-white/40">
+                    Serving Size: {product.nutritionTable.servingSize} • {product.nutritionTable.servingsPerContainer}
+                  </span>
+                </div>
+                <span className="px-2.5 py-1 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 text-[11px] font-mono font-bold">
+                  Per 100g
+                </span>
+              </div>
+
+              <div className="space-y-3 font-mono text-xs">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                  <span className="text-white/70">Energy (kcal)</span>
+                  <span className="font-bold text-white text-sm">{product.nutritionTable.energyKcal}</span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                  <span className="text-emerald-300 font-bold">Protein Delivery</span>
+                  <span className="font-bold text-emerald-400 text-sm">{product.nutritionTable.protein}</span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                  <span className="text-white/70">Total Carbohydrate Matrix</span>
+                  <span className="font-bold text-white text-sm">{product.nutritionTable.carbs}</span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                  <span className="text-white/70">Total Added Sugar</span>
+                  <span className="font-bold text-white text-sm">{product.nutritionTable.sugar}</span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                  <span className="text-white/70">Total Fat</span>
+                  <span className="font-bold text-white text-sm">{product.nutritionTable.fat}</span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                  <span className="text-white/70">Sodium</span>
+                  <span className="font-bold text-white text-sm">{product.nutritionTable.sodium}</span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                  <span className="text-white/70">Calcium</span>
+                  <span className="font-bold text-white text-sm">{product.nutritionTable.calcium}</span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                  <span className="text-white/70">Essential Micronutrients</span>
+                  <span className="font-bold text-white text-sm">{product.nutritionTable.ironOrCopper}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Table 2: Typical Amino Acid Profile */}
+            <div className="lg:col-span-6 bg-[#0B0E23] border border-blue-900/40 rounded-3xl p-6 sm:p-8 space-y-5">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div>
+                  <h3 className="text-lg font-black uppercase text-white font-mono flex items-center gap-2">
+                    <Dumbbell className="w-4 h-4 text-indigo-400" /> Typical Amino Acid Profile
+                  </h3>
+                  <span className="text-xs font-mono text-white/40">
+                    Values in Milligrams Amino Acid per Serving
+                  </span>
+                </div>
+                <span className="px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-[11px] font-mono font-bold">
+                  17 Amino Acids
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2.5 font-mono text-xs">
+                {Object.entries(product.aminoAcidProfile).map(([amino, value]) => {
+                  const isBcaa = value.includes("BCAA")
+                  return (
+                    <div
+                      key={amino}
+                      className={`flex items-center justify-between p-2.5 rounded-xl border ${
+                        isBcaa
+                          ? "bg-blue-500/15 border-blue-500/40 text-blue-300 font-bold"
+                          : "bg-white/5 border border-white/5 text-white/80"
+                      }`}
+                    >
+                      <span className="capitalize">{amino}</span>
+                      <span className={isBcaa ? "text-blue-300 font-bold" : "text-white/90"}>{value}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Full Ingredients & Formulation Section */}
+          <div className="bg-[#0B0E23] border border-blue-900/40 rounded-3xl p-6 sm:p-8 space-y-4">
+            <h3 className="text-lg font-black uppercase text-white font-mono flex items-center gap-2">
+              <Zap className="w-4 h-4 text-blue-400" /> Full Ingredients & Performance Actives
+            </h3>
+            <div className="flex flex-wrap gap-2.5">
+              {product.ingredients.map((ing, idx) => (
+                <div
+                  key={ing + idx}
+                  className="px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-white/90 flex items-center gap-2"
+                >
+                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                  <span>{ing}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Manufacturer & FSSAI Compliance Section */}
+          <div className="bg-gradient-to-b from-[#090C1F] to-[#070918] border border-white/10 rounded-3xl p-6 sm:p-8 grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
+            <div className="space-y-2">
+              <div className="text-white/40 uppercase font-bold flex items-center gap-1.5">
+                <Building2 className="w-4 h-4 text-blue-400" /> Marketed By & Brand
+              </div>
+              <div className="text-white font-bold text-sm">Muscle Care</div>
+              <div className="text-white/60">{product.customerCare.website}</div>
+              <div className="text-blue-400 font-bold">FSSAI Lic. No. {product.fssaiLic}</div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="text-white/40 uppercase font-bold flex items-center gap-1.5">
+                <Building2 className="w-4 h-4 text-indigo-400" /> Manufactured By
+              </div>
+              <div className="text-white font-bold text-sm">US Health Industries</div>
+              <div className="text-white/60">Sector-4 Bawana DSIIDC, Delhi-110039</div>
+              <div className="text-indigo-400 font-bold">Lic. No. 13325998000027</div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="text-white/40 uppercase font-bold flex items-center gap-1.5">
+                <PhoneCall className="w-4 h-4 text-emerald-400" /> Customer Support
+              </div>
+              <div className="text-white font-bold flex items-center gap-2">
+                <PhoneCall className="w-3.5 h-3.5 text-emerald-400" /> {product.customerCare.phone}
+              </div>
+              <div className="text-white/70 flex items-center gap-2 truncate">
+                <Mail className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> {product.customerCare.email}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Lab Report & Quality Assays Section */}
+      <section className="py-16 px-4 sm:px-6 bg-[#070A1B] border-t border-white/10">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono font-bold uppercase tracking-wider mb-3">

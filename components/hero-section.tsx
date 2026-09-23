@@ -460,7 +460,7 @@ export function HeroSection() {
                   >
                     <Link href="/products/alpha-super-mass-gainer">
                       <Image
-                        src="/images/alpha-super-mass-gainer.png"
+                        src="/images/alpha-super-mass-gainer-front.png"
                         alt="Alpha Tech Nutrition - Alpha Super Mass Gainer"
                         fill
                         className="object-contain drop-shadow-[0_30px_45px_rgba(0,0,0,0.8)] group-hover:scale-115 group-hover:z-30 transition-all duration-300"
