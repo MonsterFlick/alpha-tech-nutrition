@@ -62,6 +62,82 @@ export interface ProductItem {
 
 export const PRODUCTS_CATALOG: ProductItem[] = [
   {
+    id: "alpha-super-mass-gainer",
+    name: "Alpha Super Mass Gainer",
+    tagline: "Bulk Like a Beast • Advanced Complex Carbohydrate & High Protein Matrix",
+    sku: "ATN-ASMG-3000",
+    category: "Mass Gainer",
+    image: "/images/alpha-super-mass-gainer-front.png",
+    gallery: [
+      "/images/alpha-super-mass-gainer-front.png",
+      "/images/alpha-super-mass-gainer-back-desc.png",
+      "/images/alpha-super-mass-gainer-nutrition.png"
+    ],
+    weight: "3 kg (6.6 lbs)",
+    servings: "37 Servings",
+    flavor: "Chocolate Shots",
+    proteinPerServing: "31.5g per 100g",
+    bcaaPerServing: "7.1g per 100g",
+    mrp: "₹3,520",
+    fssaiLic: "21524018000384",
+    manufacturer: "US Health Industries / Marketed by Muscle Care",
+    customerCare: {
+      email: "alphatechnutrition.in@gmail.com",
+      phone: "83808 89935",
+      website: "www.alphatech-nutrition.in"
+    },
+    certifications: ["FSSAI Certified", "GMP Quality", "ISO 22000", "Ayurvedic Performance Matrix", "Fast Absorption"],
+    nutritionTable: {
+      servingSize: "1 Scoop (80g)",
+      servingsPerContainer: "31 - 37 Servings",
+      energyKcal: "414 kcal (15.16% RDA)",
+      protein: "31.5 g (58.33% RDA)",
+      carbs: "58.5 g (45.00% RDA)",
+      sugar: "3 g",
+      fat: "6 g (20.00% RDA)",
+      sodium: "54 mg (2.70% RDA)",
+      calcium: "92 mg (9.20% RDA)",
+      ironOrCopper: "0.7 mg Copper (41.17% RDA)"
+    },
+    aminoAcidProfile: {
+      alanine: "1553 mg",
+      arginine: "709 mg",
+      aspartate: "3274 mg",
+      cystine: "661 mg",
+      glycine: "540 mg",
+      histidine: "535 mg",
+      isoleucine: "1984 mg (BCAA)",
+      leucine: "3307 mg (BCAA)",
+      lysine: "2929 mg",
+      methionine: "675 mg",
+      phenylalanine: "979 mg",
+      proline: "1855 mg",
+      serine: "1246 mg",
+      threonine: "2173 mg",
+      tryptophan: "587 mg",
+      tyrosine: "1008 mg",
+      valine: "1827 mg (BCAA)"
+    },
+    ingredients: [
+      "Soya Protein & Whey Protein Concentrate",
+      "Maltodextrin & Complex Corn Starch",
+      "Corn Oil Powder & Skimmed Milk Powder",
+      "Withania Somnifera (Ashwagandha)",
+      "Chlorophytum Borivilianum (Safed Musli)",
+      "Asparagus Racemosus (Shatavari)",
+      "Black Asphaltum (Purified Shilajit)",
+      "Tricalcium Phosphate & Cocoa Powder",
+      "Sucralose (INS 955) & Xanthum Gum (INS 415)",
+      "Natural and Artificial Chocolate Flavor"
+    ],
+    labReport: {
+      proteinPurity: "High Bioavailability Verified",
+      heavyMetals: "Safe for Daily Sports Consumption",
+      dopingSubstances: "100% Free of Adulterants",
+      microbiologicalQuality: "Fully Certified Lot Clearance"
+    }
+  },
+  {
     id: "prime-whey",
     name: "Prime Whey",
     tagline: "100% Ultra-Filtered Whey Protein Concentrate & Isolate",
@@ -200,82 +276,6 @@ export const PRODUCTS_CATALOG: ProductItem[] = [
       heavyMetals: "All parameters conform to safety limits",
       dopingSubstances: "Non-Hormonal, Zero Prohibited Anabolics",
       microbiologicalQuality: "Strict Microbial Standards Passed"
-    }
-  },
-  {
-    id: "alpha-super-mass-gainer",
-    name: "Alpha Super Mass Gainer",
-    tagline: "Bulk Like a Beast • Advanced Complex Carbohydrate & High Protein Matrix",
-    sku: "ATN-ASMG-3000",
-    category: "Mass Gainer",
-    image: "/images/alpha-super-mass-gainer-front.png",
-    gallery: [
-      "/images/alpha-super-mass-gainer-front.png",
-      "/images/alpha-super-mass-gainer-back-desc.png",
-      "/images/alpha-super-mass-gainer-nutrition.png"
-    ],
-    weight: "3 kg (6.6 lbs)",
-    servings: "37 Servings",
-    flavor: "Chocolate Shots",
-    proteinPerServing: "31.5g per 100g",
-    bcaaPerServing: "7.1g per 100g",
-    mrp: "₹3,520",
-    fssaiLic: "21524018000384",
-    manufacturer: "US Health Industries / Marketed by Muscle Care",
-    customerCare: {
-      email: "alphatechnutrition.in@gmail.com",
-      phone: "83808 89935",
-      website: "www.alphatech-nutrition.in"
-    },
-    certifications: ["FSSAI Certified", "GMP Quality", "ISO 22000", "Ayurvedic Performance Matrix", "Fast Absorption"],
-    nutritionTable: {
-      servingSize: "1 Scoop (80g)",
-      servingsPerContainer: "31 - 37 Servings",
-      energyKcal: "414 kcal (15.16% RDA)",
-      protein: "31.5 g (58.33% RDA)",
-      carbs: "58.5 g (45.00% RDA)",
-      sugar: "3 g",
-      fat: "6 g (20.00% RDA)",
-      sodium: "54 mg (2.70% RDA)",
-      calcium: "92 mg (9.20% RDA)",
-      ironOrCopper: "0.7 mg Copper (41.17% RDA)"
-    },
-    aminoAcidProfile: {
-      alanine: "1553 mg",
-      arginine: "709 mg",
-      aspartate: "3274 mg",
-      cystine: "661 mg",
-      glycine: "540 mg",
-      histidine: "535 mg",
-      isoleucine: "1984 mg (BCAA)",
-      leucine: "3307 mg (BCAA)",
-      lysine: "2929 mg",
-      methionine: "675 mg",
-      phenylalanine: "979 mg",
-      proline: "1855 mg",
-      serine: "1246 mg",
-      threonine: "2173 mg",
-      tryptophan: "587 mg",
-      tyrosine: "1008 mg",
-      valine: "1827 mg (BCAA)"
-    },
-    ingredients: [
-      "Soya Protein & Whey Protein Concentrate",
-      "Maltodextrin & Complex Corn Starch",
-      "Corn Oil Powder & Skimmed Milk Powder",
-      "Withania Somnifera (Ashwagandha)",
-      "Chlorophytum Borivilianum (Safed Musli)",
-      "Asparagus Racemosus (Shatavari)",
-      "Black Asphaltum (Purified Shilajit)",
-      "Tricalcium Phosphate & Cocoa Powder",
-      "Sucralose (INS 955) & Xanthum Gum (INS 415)",
-      "Natural and Artificial Chocolate Flavor"
-    ],
-    labReport: {
-      proteinPurity: "High Bioavailability Verified",
-      heavyMetals: "Safe for Daily Sports Consumption",
-      dopingSubstances: "100% Free of Adulterants",
-      microbiologicalQuality: "Fully Certified Lot Clearance"
     }
   }
 ]
