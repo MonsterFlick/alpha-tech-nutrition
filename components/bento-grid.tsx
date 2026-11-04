@@ -4,35 +4,35 @@ import type React from "react"
 
 import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { useRef, useState } from "react"
-import { Zap, Flame, Brain, Sparkles } from "lucide-react"
+import { Zap, Flame, ShieldCheck, Sparkles } from "lucide-react"
 
 const features = [
   {
     icon: Zap,
     title: "24G",
     subtitle: "Protein Per Serving",
-    description: "100% whey formula for lean muscle support",
+    description: "100% ultra-filtered whey concentrate matrix",
     accent: "#3B82F6",
   },
   {
     icon: Flame,
-    title: "6.8G",
-    subtitle: "BCAA Per Serving",
-    description: "Essential amino matrix for faster recovery",
+    title: "10.3G",
+    subtitle: "Max BCAA Ratio",
+    description: "Essential branched chain aminos for instant recovery",
     accent: "#6366F1",
   },
   {
-    icon: Brain,
-    title: "3G",
-    subtitle: "Creatine Per Serving",
-    description: "Strength & power booster with fast absorption",
-    accent: "#0284C7",
+    icon: ShieldCheck,
+    title: "21524018000384",
+    subtitle: "FSSAI Registered Lic.",
+    description: "Central food safety certified & 100% WADA dope free",
+    accent: "#10B981",
   },
   {
     icon: Sparkles,
     title: "Zero",
     subtitle: "Added Sugar",
-    description: "Clean nutrition in delicious Chocolate Shots",
+    description: "Clean nutrition in artisanal Belgian Chocolate",
     accent: "#CBD5E1",
   },
 ]
@@ -98,68 +98,38 @@ function FeatureCard({ feature, index }: { feature: (typeof features)[0]; index:
       />
 
       {/* Card */}
-      <div className="relative bg-[#1a1a1a] rounded-2xl p-5 border border-white/10 overflow-hidden h-full">
-        {/* Shine effect on hover */}
-        <motion.div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100"
-          initial={false}
-          animate={
-            isHovered
-              ? {
-                  background: [
-                    "linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.03) 25%, transparent 30%)",
-                    "linear-gradient(105deg, transparent 70%, rgba(255,255,255,0.03) 75%, transparent 80%)",
-                  ],
-                }
-              : {}
-          }
-          transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-        />
-
-        {/* Content */}
-        <div className="relative z-10 flex flex-col h-full min-h-[140px]">
-          {/* Icon with pulse animation */}
-          <motion.div
-            className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 relative"
-            style={{ backgroundColor: `${feature.accent}20` }}
-            whileHover={{ scale: 1.1 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      <div className="relative bg-[#0E132D] border border-blue-950/70 group-hover:border-blue-500/40 rounded-2xl p-5 h-full transition-colors duration-300 flex flex-col justify-between">
+        <div className="flex items-center justify-between mb-4">
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+            style={{ backgroundColor: `${feature.accent}15` }}
           >
-            <motion.div
-              className="absolute inset-0 rounded-xl"
-              style={{ backgroundColor: feature.accent }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isHovered ? { opacity: [0.2, 0.4, 0.2], scale: [1, 1.2, 1] } : { opacity: 0, scale: 0.8 }}
-              transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-            />
-            <feature.icon className="w-5 h-5 relative z-10" style={{ color: feature.accent }} />
-          </motion.div>
-
-          {/* Title with count-up feel */}
-          <div className="flex-1">
-            <motion.div
-              className="text-3xl font-black tracking-tight text-white"
-              initial={{ opacity: 0, scale: 0.5 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 + index * 0.1 }}
-            >
-              <span style={{ color: feature.accent }}>{feature.title}</span>
-            </motion.div>
-            <h3 className="text-sm font-semibold text-white mt-1">{feature.subtitle}</h3>
-            <p className="text-xs text-white/50 mt-1 font-mono">{feature.description}</p>
+            <feature.icon className="w-5 h-5" style={{ color: feature.accent }} />
           </div>
-
-          {/* Bottom accent line */}
-          <motion.div
-            className="h-[2px] rounded-full mt-4"
-            style={{ backgroundColor: feature.accent }}
-            initial={{ scaleX: 0, originX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 + index * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
-          />
+          <span className="font-mono text-[10px] text-white/30 uppercase tracking-widest font-bold">
+            0{index + 1}
+          </span>
         </div>
+
+        <div>
+          <span className="text-2xl font-black text-white font-mono tracking-tight block">
+            {feature.title}
+          </span>
+          <span className="text-xs font-mono font-bold text-white/80 block mt-0.5">
+            {feature.subtitle}
+          </span>
+          <p className="text-xs text-white/50 mt-1 font-mono leading-relaxed">{feature.description}</p>
+        </div>
+
+        {/* Bottom accent line */}
+        <motion.div
+          className="h-[2px] rounded-full mt-4"
+          style={{ backgroundColor: feature.accent }}
+          initial={{ scaleX: 0, originX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 + index * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+        />
       </div>
     </motion.div>
   )

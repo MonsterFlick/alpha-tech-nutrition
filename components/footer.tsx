@@ -4,6 +4,8 @@ import { motion, useInView } from "framer-motion"
 import { useState, useRef } from "react"
 import Link from "next/link"
 import { BrandLogo } from "@/components/brand-logo"
+import { WHATSAPP_DISPLAY_PHONE, INSTAGRAM_HANDLE, INSTAGRAM_URL, FSSAI_LICENSE } from "@/lib/whatsapp"
+import { ShieldCheck, Instagram } from "lucide-react"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -30,70 +32,84 @@ const itemVariants = {
 }
 
 export function Footer() {
-  const [email, setEmail] = useState("")
   const [isHovering, setIsHovering] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const footerRef = useRef(null)
   const isInView = useInView(footerRef, { once: true, margin: "-100px" })
-
-  const handleSubmit = () => {
-    setIsSubmitting(true)
-    setTimeout(() => setIsSubmitting(false), 2000)
-  }
 
   const footerLinks = [
     {
       title: "Products",
       links: [
         { name: "Browse Products Catalog", href: "/products" },
-        { name: "Prime Whey", href: "/products" },
-        { name: "Anabolic Lean Muscle Builder", href: "/products" },
-        { name: "Alpha Super Mass Gainer", href: "/products" },
+        { name: "Prime Whey (2kg / 60 Servings)", href: "/products/prime-whey" },
+        { name: "Alpha Super Mass Gainer (3kg)", href: "/products/alpha-super-mass-gainer" },
+        { name: "Anabolic Lean Muscle Builder (3kg)", href: "/products/anabolic-lean-muscle-builder" },
+        { name: "Verify Supplement Authenticity", href: "/verify" },
       ],
     },
     {
-      title: "Company",
+      title: "Resources & Blogs",
       links: [
-        { name: "About Alpha Tech", href: "#" },
-        { name: "Partners & Distributors", href: "#distributors" },
-        { name: "Athletes & Creators", href: "#creators" },
-        { name: "Instagram (@alphatech_nutrition)", href: "https://instagram.com/alphatech_nutrition" },
-        { name: "Contact Support", href: "mailto:support@alphatech-nutrition.in" },
+        { name: "Training & Nutrition Blog Hub", href: "/blogs" },
+        { name: "Prime Whey Recovery Science", href: "/blogs/prime-whey-protein-recovery-guide" },
+        { name: "Hardgainer Mass Blueprint", href: "/blogs/hardgainer-super-mass-gainer-muscle-building" },
+        { name: "Anti-Counterfeit QR Security", href: "/blogs/supplement-authenticity-anti-counterfeit-qr-code" },
+        { name: "Whey vs Mass Gainer Guide", href: "/blogs/whey-protein-vs-mass-gainer-which-is-best" },
       ],
     },
     {
-      title: "Quality Standards",
+      title: "Direct Orders & Support",
       links: [
-        { name: "FSSAI Registered", href: "#" },
-        { name: "ISO 22000 Certified", href: "#" },
-        { name: "100% Dope Free", href: "#" },
-        { name: "Privacy Policy", href: "#" },
+        { name: `WhatsApp Orders (${WHATSAPP_DISPLAY_PHONE})`, href: "https://wa.me/918380889935" },
+        { name: `Instagram (@${INSTAGRAM_HANDLE})`, href: INSTAGRAM_URL },
+        { name: "Email: alphatechnutrition.in@gmail.com", href: "mailto:alphatechnutrition.in@gmail.com" },
+        { name: "Partners & Gym Distributors", href: "#distributors" },
+      ],
+    },
+    {
+      title: "Compliance & Safety",
+      links: [
+        { name: `FSSAI Lic. ${FSSAI_LICENSE}`, href: "/verify" },
+        { name: "GMP Quality Certified", href: "/verify" },
+        { name: "ISO 22000 Food Safety", href: "/verify" },
+        { name: "100% WADA Dope Free", href: "/verify" },
       ],
     },
   ]
 
   return (
-    <footer ref={footerRef} id="careers" className="relative bg-[#080B1C] pt-12 pb-6 overflow-hidden border-t border-white/10">
+    <footer ref={footerRef} className="relative bg-[#080B1C] pt-12 pb-6 overflow-hidden border-t border-white/10">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-3 gap-6 py-8"
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {footerLinks.map((section, sectionIndex) => (
+          {footerLinks.map((section) => (
             <motion.div key={section.title} variants={itemVariants}>
               <h4 className="font-bold text-white text-sm mb-3">{section.title}</h4>
               <ul className="space-y-2">
                 {section.links.map((item) => (
                   <li key={item.name}>
                     <motion.div whileHover={{ x: 4 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                      <Link
-                        href={item.href}
-                        className="text-white/60 hover:text-blue-400 font-mono text-xs transition-colors inline-block"
-                      >
-                        {item.name}
-                      </Link>
+                      {item.href.startsWith("http") || item.href.startsWith("mailto:") ? (
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-white/60 hover:text-blue-400 font-mono text-xs transition-colors inline-block"
+                        >
+                          {item.name}
+                        </a>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          className="text-white/60 hover:text-blue-400 font-mono text-xs transition-colors inline-block"
+                        >
+                          {item.name}
+                        </Link>
+                      )}
                     </motion.div>
                   </li>
                 ))}
@@ -101,6 +117,33 @@ export function Footer() {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* FSSAI & WhatsApp Banner Bar */}
+        <div className="py-4 my-2 border-y border-white/5 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-white/60">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <span>FSSAI Central Food Safety Registration Lic. No. <strong className="text-white">{FSSAI_LICENSE}</strong></span>
+          </div>
+          <div className="flex items-center gap-3">
+            <a
+              href="https://wa.me/918380889935"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors"
+            >
+              WhatsApp Desk: {WHATSAPP_DISPLAY_PHONE}
+            </a>
+            <span>•</span>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-blue-300 font-bold transition-colors"
+            >
+              Instagram: @{INSTAGRAM_HANDLE}
+            </a>
+          </div>
+        </div>
 
         <motion.div
           className="flex flex-col md:flex-row justify-between items-center pt-6 border-t border-white/10 gap-3"
@@ -111,7 +154,9 @@ export function Footer() {
         >
           <BrandLogo size="md" scrolled={true} />
 
-          <p className="text-white/40 font-mono text-xs">© 2026 Alpha Tech Nutrition. All rights reserved.</p>
+          <p className="text-white/40 font-mono text-xs">
+            © 2026 Alpha Tech Nutrition. Marketed by Muscle Care. All rights reserved.
+          </p>
 
           <motion.p
             className="text-white/30 font-mono text-xs cursor-pointer"

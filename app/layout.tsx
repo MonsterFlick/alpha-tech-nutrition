@@ -4,6 +4,7 @@ import { Inter, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { LenisProvider } from "@/components/lenis-provider"
 import ClickSpark from "@/components/click-spark"
+import { FloatingWhatsApp } from "@/components/floating-whatsapp"
 import "./globals.css"
 
 const _inter = Inter({
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s | Alpha Tech Nutrition",
   },
   description:
-    "Engineered for serious gains. Discover Alpha Tech Nutrition's premium sports nutrition line: Prime Whey, Anabolic Lean Muscle Builder, and Alpha Super Mass Gainer. 100% lab certified, zero banned substances.",
+    "Engineered for serious gains. Discover Alpha Tech Nutrition's premium sports nutrition line: Prime Whey, Anabolic Lean Muscle Builder, and Alpha Super Mass Gainer. FSSAI Lic. 21524018000384, 100% lab certified, zero banned substances.",
   keywords: [
     "Alpha Tech Nutrition",
     "Prime Whey",
@@ -34,8 +35,9 @@ export const metadata: Metadata = {
     "Gym Supplements",
     "Sports Nutrition",
     "Whey Protein Concentrate",
-    "Creatine Monohydrate",
     "Mass Gainer",
+    "FSSAI 21524018000384",
+    "WhatsApp Order Supplements",
     "Supplement Authenticity Check",
     "Anti Counterfeit QR Verification",
   ],
@@ -66,7 +68,7 @@ export const metadata: Metadata = {
     siteName: "Alpha Tech Nutrition",
     title: "Alpha Tech Nutrition | High-Performance Gym & Sports Supplements",
     description:
-      "Fuel explosive muscle growth and rapid recovery with lab-certified sports nutrition formulas. Features 100% anti-counterfeit QR code authenticity verification.",
+      "Fuel explosive muscle growth and rapid recovery with lab-certified sports nutrition formulas. FSSAI Lic. 21524018000384. Features 100% anti-counterfeit QR code authenticity verification.",
     images: [
       {
         url: "/logo/social-opengraph-ad-1200x630.png",
@@ -79,9 +81,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Alpha Tech Nutrition | High-Performance Gym & Sports Supplements",
-    description: "Lab-tested sports nutrition formulas with QR authenticity verification.",
+    description: "Lab-tested sports nutrition formulas with QR authenticity verification. FSSAI Lic. 21524018000384.",
     images: ["/logo/social-opengraph-ad-1200x630.png"],
-    creator: "@AlphaTechNutr",
+    creator: "@alphatech_nutrition",
   },
   robots: {
     index: true,
@@ -113,8 +115,9 @@ const jsonLd = {
       description: "Manufacturer and brand of high-performance gym and sports nutrition dietary supplements.",
       sameAs: [
         "https://www.instagram.com/alphatech_nutrition",
-        "https://twitter.com/AlphaTechNutr",
       ],
+      telephone: "+91 83808 89935",
+      license: "FSSAI 21524018000384",
     },
     {
       "@type": "WebSite",
@@ -152,6 +155,7 @@ export default function RootLayout({
         >
           <LenisProvider>{children}</LenisProvider>
         </ClickSpark>
+        <FloatingWhatsApp />
         <Analytics />
       </body>
     </html>

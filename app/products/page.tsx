@@ -6,15 +6,15 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
+import { WhatsAppOrderButton } from "@/components/whatsapp-order-button"
 import { PRODUCTS_CATALOG } from "@/lib/product-catalog"
 import {
-  Award,
   Sparkles,
   CheckCircle2,
   FileCheck,
   Filter,
-  ArrowRight
 } from "lucide-react"
+import { WHATSAPP_DISPLAY_PHONE, FSSAI_LICENSE } from "@/lib/whatsapp"
 
 const CATEGORIES = ["All", "Protein", "Muscle Builder", "Mass Gainer"]
 
@@ -41,7 +41,7 @@ export default function ProductsPage() {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono font-bold uppercase tracking-wider mb-4"
           >
             <Sparkles className="w-4 h-4" />
-            Lab-Certified Supplement Lineup
+            Lab-Certified Supplement Lineup • 1-Click WhatsApp Ordering
           </motion.div>
 
           <motion.h1
@@ -62,7 +62,8 @@ export default function ProductsPage() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="mt-4 text-white/60 text-sm sm:text-base max-w-2xl mx-auto font-mono leading-relaxed"
           >
-            Engineered with ultra-pure pharmaceutical-grade ingredients backed by 3rd-party lab assays.
+            Engineered with pharmaceutical-grade ingredients backed by 3rd-party lab assays. Order directly via WhatsApp at{" "}
+            <span className="text-emerald-400 font-bold">{WHATSAPP_DISPLAY_PHONE}</span> with free express delivery.
           </motion.p>
 
           {/* Quick Metrics */}
@@ -76,17 +77,17 @@ export default function ProductsPage() {
               <div className="text-2xl font-black text-blue-400 font-mono">100%</div>
               <div className="text-[11px] font-mono text-white/60 uppercase mt-1">WADA Dope Free</div>
             </div>
-            <div className="bg-[#0E132D]/80 border border-blue-500/20 rounded-2xl p-4 text-center">
-              <div className="text-2xl font-black text-indigo-400 font-mono">ISO 22000</div>
-              <div className="text-[11px] font-mono text-white/60 uppercase mt-1">GMP Certified</div>
+            <div className="bg-[#0E132D]/80 border border-emerald-500/20 rounded-2xl p-4 text-center">
+              <div className="text-xl font-black text-emerald-400 font-mono">FSSAI</div>
+              <div className="text-[11px] font-mono text-white/60 uppercase mt-1">Lic. {FSSAI_LICENSE}</div>
             </div>
             <div className="bg-[#0E132D]/80 border border-blue-500/20 rounded-2xl p-4 text-center">
-              <div className="text-2xl font-black text-sky-400 font-mono">99.8%+</div>
-              <div className="text-[11px] font-mono text-white/60 uppercase mt-1">Protein Purity</div>
+              <div className="text-2xl font-black text-sky-400 font-mono">ISO 22000</div>
+              <div className="text-[11px] font-mono text-white/60 uppercase mt-1">GMP Quality</div>
             </div>
             <div className="bg-[#0E132D]/80 border border-blue-500/20 rounded-2xl p-4 text-center">
-              <div className="text-2xl font-black text-emerald-400 font-mono">100% PURE</div>
-              <div className="text-[11px] font-mono text-white/60 uppercase mt-1">3rd-Party Lab Tested</div>
+              <div className="text-2xl font-black text-emerald-400 font-mono">WHATSAPP</div>
+              <div className="text-[11px] font-mono text-white/60 uppercase mt-1">Direct Orders</div>
             </div>
           </motion.div>
         </div>
@@ -136,8 +137,8 @@ export default function ProductsPage() {
                     <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/30">
                       {product.category}
                     </span>
-                    <span className="text-[10px] font-mono text-white/40">
-                      SKU: {product.sku}
+                    <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                      FSSAI Lic. {product.fssaiLic}
                     </span>
                   </div>
 
@@ -155,10 +156,15 @@ export default function ProductsPage() {
                     </div>
                   </div>
 
-                  {/* Product Title & Tagline */}
-                  <h3 className="text-xl font-black uppercase text-white tracking-tight group-hover:text-blue-400 transition-colors">
-                    {product.name}
-                  </h3>
+                  {/* Product Title, Tagline & Price */}
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="text-xl font-black uppercase text-white tracking-tight group-hover:text-blue-400 transition-colors">
+                      {product.name}
+                    </h3>
+                    <span className="text-base font-black font-mono text-white shrink-0">
+                      {product.mrp}
+                    </span>
+                  </div>
                   <p className="text-xs font-mono text-white/60 mt-1 line-clamp-2">
                     {product.tagline}
                   </p>
@@ -188,14 +194,25 @@ export default function ProductsPage() {
                   </div>
                 </div>
 
-                {/* Bottom Actions */}
-                <div className="pt-4 border-t border-white/10">
+                {/* Bottom Actions: WhatsApp Buy + Details */}
+                <div className="pt-4 border-t border-white/10 space-y-2">
+                  <WhatsAppOrderButton
+                    productName={product.name}
+                    flavor={product.flavor}
+                    weight={product.weight}
+                    mrp={product.mrp}
+                    sku={product.sku}
+                    fullWidth
+                    label="Buy Now on WhatsApp"
+                    sublabel={`1-Click Order • ${WHATSAPP_DISPLAY_PHONE}`}
+                  />
+
                   <Link
                     href={`/products/${product.id}`}
-                    className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs font-mono uppercase tracking-wider rounded-xl transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2"
+                    className="w-full py-2.5 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs font-mono uppercase tracking-wider rounded-xl transition-all border border-white/10 flex items-center justify-center gap-2"
                   >
-                    <FileCheck className="w-4 h-4" />
-                    <span>View Product Details</span>
+                    <FileCheck className="w-3.5 h-3.5" />
+                    <span>View Nutrition Label & Specs</span>
                   </Link>
                 </div>
               </motion.div>

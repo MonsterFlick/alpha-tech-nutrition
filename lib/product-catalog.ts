@@ -18,6 +18,7 @@ export interface ProductItem {
     email: string
     phone: string
     website: string
+    instagram: string
   }
   certifications: string[]
   nutritionTable: {
@@ -62,20 +63,106 @@ export interface ProductItem {
 
 export const PRODUCTS_CATALOG: ProductItem[] = [
   {
+    id: "prime-whey",
+    name: "Prime Whey",
+    tagline: "100% Ultra-Filtered Whey Protein Concentrate • Build Muscle & Rapid Recovery",
+    sku: "ATN-PW-2000",
+    category: "Protein",
+    image: "/images/prime-whey.png",
+    gallery: [
+      "/images/prime-whey.png",
+      "/images/labels/prime-whey-front.png",
+      "/images/labels/prime-whey-nutrition.png",
+      "/images/labels/prime-whey-back.png",
+      "/images/labels/prime-whey-full-label.png",
+    ],
+    weight: "2 kg (4.4 lbs)",
+    servings: "60 Servings",
+    flavor: "Belgian Chocolate",
+    proteinPerServing: "24g per serving",
+    bcaaPerServing: "5.4g per serving",
+    mrp: "₹4,460",
+    fssaiLic: "21524018000384",
+    manufacturer: "US Health Industries / Marketed by Muscle Care",
+    customerCare: {
+      email: "alphatechnutrition.in@gmail.com",
+      phone: "8380889935",
+      website: "www.alphatech-nutrition.in",
+      instagram: "alphatech_nutrition",
+    },
+    certifications: [
+      "FSSAI Certified (Lic. 21524018000384)",
+      "GMP Quality Guaranteed",
+      "ISO 22000 Certified",
+      "100% Ultra-Filtered Whey",
+      "Zero Added Sugar",
+      "WADA Banned Substance Tested",
+    ],
+    nutritionTable: {
+      servingSize: "1 Scoop (33g)",
+      servingsPerContainer: "60 Servings",
+      energyKcal: "133.5 kcal (4.87% RDA)",
+      protein: "24 g (44.40% RDA)",
+      carbs: "6 g (4.61% RDA)",
+      sugar: "0 g Added Sugar",
+      fat: "1.5 g (1.00% RDA)",
+      sodium: "122 mg (6.10% RDA)",
+      calcium: "177 mg (17.70% RDA)",
+      ironOrCopper: "0.8 mg Iron (3.10% RDA)",
+    },
+    aminoAcidProfile: {
+      alanine: "1140 mg",
+      arginine: "640 mg",
+      aspartate: "2460 mg",
+      cystine: "490 mg",
+      glycine: "411 mg",
+      histidine: "395 mg",
+      isoleucine: "1390 mg (BCAA)",
+      leucine: "2420 mg (BCAA)",
+      lysine: "2120 mg",
+      methionine: "475 mg",
+      phenylalanine: "745 mg",
+      proline: "1440 mg",
+      serine: "1020 mg",
+      threonine: "1650 mg",
+      tryptophan: "405 mg",
+      tyrosine: "710 mg",
+      valine: "1300 mg (BCAA)",
+    },
+    ingredients: [
+      "Whey Protein Concentrate",
+      "Whey Protein Isolate",
+      "Maltodextrin",
+      "Cocoa Powder",
+      "Thickener (INS 415)",
+      "Emulsifier (INS 322)",
+      "Sweetener (INS 955, INS 950)",
+      "Contains Added Nature-Identical Belgian Chocolate Flavouring Substance",
+    ],
+    labReport: {
+      proteinPurity: "100% Verified Ultra-Filtered Whey",
+      heavyMetals: "Below strict Indian & FSSAI detection limits",
+      dopingSubstances: "Zero WADA Banned Substances detected",
+      microbiologicalQuality: "Negative for E. coli, Salmonella, and Pathogens",
+    },
+  },
+  {
     id: "alpha-super-mass-gainer",
     name: "Alpha Super Mass Gainer",
     tagline: "Bulk Like a Beast • Advanced Complex Carbohydrate & High Protein Matrix",
     sku: "ATN-ASMG-3000",
     category: "Mass Gainer",
-    image: "/images/alpha-super-mass-gainer-front.png",
+    image: "/images/alpha-super-mass-gainer.png",
     gallery: [
-      "/images/alpha-super-mass-gainer-front.png",
-      "/images/alpha-super-mass-gainer-back-desc.png",
-      "/images/alpha-super-mass-gainer-nutrition.png"
+      "/images/alpha-super-mass-gainer.png",
+      "/images/labels/alpha-super-mass-gainer-front.png",
+      "/images/labels/alpha-super-mass-gainer-nutrition.png",
+      "/images/labels/alpha-super-mass-gainer-back.png",
+      "/images/labels/alpha-super-mass-gainer-full-label.png",
     ],
     weight: "3 kg (6.6 lbs)",
     servings: "37 Servings",
-    flavor: "Chocolate Shots",
+    flavor: "Belgian Chocolate",
     proteinPerServing: "31.5g per 100g",
     bcaaPerServing: "7.1g per 100g",
     mrp: "₹3,520",
@@ -83,13 +170,20 @@ export const PRODUCTS_CATALOG: ProductItem[] = [
     manufacturer: "US Health Industries / Marketed by Muscle Care",
     customerCare: {
       email: "alphatechnutrition.in@gmail.com",
-      phone: "83808 89935",
-      website: "www.alphatech-nutrition.in"
+      phone: "8380889935",
+      website: "www.alphatech-nutrition.in",
+      instagram: "alphatech_nutrition",
     },
-    certifications: ["FSSAI Certified", "GMP Quality", "ISO 22000", "Ayurvedic Performance Matrix", "Fast Absorption"],
+    certifications: [
+      "FSSAI Certified (Lic. 21524018000384)",
+      "GMP Quality Certified",
+      "ISO 22000 Food Safety",
+      "Ayurvedic Herbal Strength Matrix",
+      "Fast Caloric Delivery & Absorption",
+    ],
     nutritionTable: {
       servingSize: "1 Scoop (80g)",
-      servingsPerContainer: "31 - 37 Servings",
+      servingsPerContainer: "37 Servings",
       energyKcal: "414 kcal (15.16% RDA)",
       protein: "31.5 g (58.33% RDA)",
       carbs: "58.5 g (45.00% RDA)",
@@ -97,7 +191,7 @@ export const PRODUCTS_CATALOG: ProductItem[] = [
       fat: "6 g (20.00% RDA)",
       sodium: "54 mg (2.70% RDA)",
       calcium: "92 mg (9.20% RDA)",
-      ironOrCopper: "0.7 mg Copper (41.17% RDA)"
+      ironOrCopper: "0.7 mg Copper (41.17% RDA)",
     },
     aminoAcidProfile: {
       alanine: "1553 mg",
@@ -116,7 +210,7 @@ export const PRODUCTS_CATALOG: ProductItem[] = [
       threonine: "2173 mg",
       tryptophan: "587 mg",
       tyrosine: "1008 mg",
-      valine: "1827 mg (BCAA)"
+      valine: "1827 mg (BCAA)",
     },
     ingredients: [
       "Soya Protein & Whey Protein Concentrate",
@@ -126,42 +220,53 @@ export const PRODUCTS_CATALOG: ProductItem[] = [
       "Chlorophytum Borivilianum (Safed Musli)",
       "Asparagus Racemosus (Shatavari)",
       "Black Asphaltum (Purified Shilajit)",
-      "Tricalcium Phosphate & Cocoa Powder",
-      "Sucralose (INS 955) & Xanthum Gum (INS 415)",
-      "Natural and Artificial Chocolate Flavor"
+      "Tricalcium Phosphate & Premium Cocoa Powder",
+      "Sucralose (INS 955) & Xanthan Gum (INS 415)",
+      "Natural and Artificial Belgian Chocolate Flavour",
     ],
     labReport: {
-      proteinPurity: "High Bioavailability Verified",
+      proteinPurity: "High Bioavailability & Complex Carb Balance Verified",
       heavyMetals: "Safe for Daily Sports Consumption",
-      dopingSubstances: "100% Free of Adulterants",
-      microbiologicalQuality: "Fully Certified Lot Clearance"
-    }
+      dopingSubstances: "100% Free of Adulterants & Banned Substances",
+      microbiologicalQuality: "Fully Certified Lot Clearance",
+    },
   },
   {
-    id: "prime-whey",
-    name: "Prime Whey",
-    tagline: "100% Ultra-Filtered Whey Protein Concentrate & Isolate",
-    sku: "ATN-PW-2000",
-    category: "Protein",
-    image: "/images/prime-whey.png",
+    id: "anabolic-lean-muscle-builder",
+    name: "Anabolic Lean Muscle Builder",
+    tagline: "High-Carb Supplement For Lean Muscle Growth • Fast-Absorbing Recovery",
+    sku: "ATN-ALMB-3000",
+    category: "Muscle Builder",
+    image: "/images/anabolic-lean-muscle-builder.png",
     gallery: [
-      "/images/prime-whey.png",
-      "/images/prime-whey-nutrition-label.png"
+      "/images/anabolic-lean-muscle-builder.png",
+      "/images/labels/anabolic-lean-muscle-builder-front.png",
+      "/images/labels/anabolic-lean-muscle-builder-nutrition.png",
+      "/images/labels/anabolic-lean-muscle-builder-back.png",
+      "/images/labels/anabolic-lean-muscle-builder-full-label.png",
     ],
-    weight: "2 kg (4.4 lbs)",
+    weight: "3 kg (6.6 lbs)",
     servings: "37 Servings",
-    flavor: "Chocolate Shots",
+    flavor: "Belgian Chocolate",
     proteinPerServing: "46g per 100g",
-    bcaaPerServing: "10.4g per 100g",
+    bcaaPerServing: "10.3g per 100g",
     mrp: "₹4,460",
-    fssaiLic: "13325998000027",
+    fssaiLic: "21524018000384",
     manufacturer: "US Health Industries / Marketed by Muscle Care",
     customerCare: {
       email: "alphatechnutrition.in@gmail.com",
-      phone: "83808 89935",
-      website: "www.alphatech-nutrition.in"
+      phone: "8380889935",
+      website: "www.alphatech-nutrition.in",
+      instagram: "alphatech_nutrition",
     },
-    certifications: ["FSSAI Certified", "GMP Quality", "ISO 22000", "100% Whey Formula", "Heavy Metals Tested"],
+    certifications: [
+      "FSSAI Certified (Lic. 21524018000384)",
+      "GMP Quality Certified",
+      "ISO 22000 Certified",
+      "High Protein 46g per 100g",
+      "Fast Absorbing Energy Complex",
+      "WADA Banned Substance Tested",
+    ],
     nutritionTable: {
       servingSize: "1 Scoop (80g)",
       servingsPerContainer: "37 Servings",
@@ -172,7 +277,7 @@ export const PRODUCTS_CATALOG: ProductItem[] = [
       fat: "3 g (10.00% RDA)",
       sodium: "60.5 mg (3.02% RDA)",
       calcium: "115 mg (11.50% RDA)",
-      ironOrCopper: "1.2 mg Iron (6.31% RDA)"
+      ironOrCopper: "1.2 mg Iron (6.31% RDA)",
     },
     aminoAcidProfile: {
       alanine: "2268 mg",
@@ -191,93 +296,24 @@ export const PRODUCTS_CATALOG: ProductItem[] = [
       threonine: "3174 mg",
       tryptophan: "828 mg",
       tyrosine: "1472 mg",
-      valine: "2668 mg (BCAA)"
+      valine: "2668 mg (BCAA)",
     },
     ingredients: [
-      "100% Whey Protein Concentrate & Isolate",
+      "Whey Protein Concentrate",
       "Maltodextrin & Complex Corn Starch",
       "Corn Oil Powder & Skimmed Milk Powder",
-      "Tricalcium Phosphate & Premium Cocoa Powder",
-      "Xanthum Gum (INS 415) & Sucralose (INS 955)",
-      "Natural and Artificial Chocolate Flavors"
+      "Xanthan Gum (INS 415)",
+      "Tricalcium Phosphate",
+      "Cocoa Powder",
+      "Natural and Artificial Belgian Chocolate Flavour",
     ],
     labReport: {
-      proteinPurity: "99.8% Claim Adherence (Verified)",
-      heavyMetals: "Lead, Cadmium, Arsenic: Below Detection Limits",
-      dopingSubstances: "Zero WADA Banned Substances Detected",
-      microbiologicalQuality: "Pathogen Free (E. coli, Salmonella: Negative)"
-    }
-  },
-  {
-    id: "anabolic-lean-muscle-builder",
-    name: "Anabolic Lean Muscle Builder",
-    tagline: "Strength & Hypertrophy Engineered Performance Matrix",
-    sku: "ATN-ALMB-3000",
-    category: "Muscle Builder",
-    image: "/images/anabolic-lean-muscle-builder.png",
-    gallery: [
-      "/images/anabolic-lean-muscle-builder.png",
-      "/images/prime-whey-nutrition-label.png"
-    ],
-    weight: "3 kg (6.6 lbs)",
-    servings: "50 Servings",
-    flavor: "Chocolate Shots",
-    proteinPerServing: "18g per serving",
-    bcaaPerServing: "4.3g per serving",
-    mrp: "₹3,990",
-    fssaiLic: "21524018000384",
-    manufacturer: "US Health Industries / Marketed by Muscle Care",
-    customerCare: {
-      email: "alphatechnutrition.in@gmail.com",
-      phone: "83808 89935",
-      website: "www.alphatech-nutrition.in"
-    },
-    certifications: ["FSSAI Certified", "GMP Quality", "ISO 22000", "Creatine Micronized 3g", "3rd Party Tested"],
-    nutritionTable: {
-      servingSize: "1 Scoop (60g)",
-      servingsPerContainer: "50 Servings",
-      energyKcal: "410 kcal",
-      protein: "18 g",
-      carbs: "38 g",
-      sugar: "2 g",
-      fat: "2.5 g",
-      sodium: "58 mg",
-      calcium: "100 mg",
-      ironOrCopper: "1.0 mg Iron"
-    },
-    aminoAcidProfile: {
-      alanine: "1850 mg",
-      arginine: "850 mg",
-      aspartate: "3600 mg",
-      cystine: "720 mg",
-      glycine: "600 mg",
-      histidine: "590 mg",
-      isoleucine: "2100 mg (BCAA)",
-      leucine: "3600 mg (BCAA)",
-      lysine: "3200 mg",
-      methionine: "750 mg",
-      phenylalanine: "1100 mg",
-      proline: "2100 mg",
-      serine: "1400 mg",
-      threonine: "2400 mg",
-      tryptophan: "650 mg",
-      tyrosine: "1150 mg",
-      valine: "2050 mg (BCAA)"
-    },
-    ingredients: [
-      "Whey Protein Concentrate & Hydrolysate",
-      "Micronized Creatine Monohydrate (3g)",
-      "Complex Carbohydrate Matrix",
-      "Branched Chain Amino Acids (BCAA)",
-      "Natural & Artificial Flavors"
-    ],
-    labReport: {
-      proteinPurity: "100.1% Matrix Delivery (Verified)",
-      heavyMetals: "All parameters conform to safety limits",
+      proteinPurity: "High Protein 46g Matrix Delivery (Verified)",
+      heavyMetals: "All parameters conform to strict safety limits",
       dopingSubstances: "Non-Hormonal, Zero Prohibited Anabolics",
-      microbiologicalQuality: "Strict Microbial Standards Passed"
-    }
-  }
+      microbiologicalQuality: "Strict Microbial Standards Passed",
+    },
+  },
 ]
 
 export function getProductById(id: string): ProductItem | undefined {

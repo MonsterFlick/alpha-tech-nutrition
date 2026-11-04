@@ -21,7 +21,7 @@ const BANNERS = [
     id: "prime-whey",
     tagline: "FUEL YOUR MUSCLE RECOVERY",
     productTitle: "PRIME WHEY",
-    specs: "24G ISOLATE & CONCENTRATE • 6.8G BCAA • ZERO SUGAR",
+    specs: "24G PROTEIN • 5.4G BCAA • 100% WHEY FORMULA • ZERO SUGAR",
     bgImage: "/images/fullscreen_banner_prime_whey.png",
     accentColor: "#A855F7",
     slug: "prime-whey",
@@ -31,7 +31,7 @@ const BANNERS = [
     id: "anabolic-lean-muscle-builder",
     tagline: "UNLEASH HARDCORE GAINS",
     productTitle: "ANABOLIC LEAN MUSCLE BUILDER",
-    specs: "18G HIGH PROTEIN • 3G CREATINE MONOHYDRATE • STRENGTH MATRIX",
+    specs: "46G HIGH PROTEIN • 10.3G BCAA • FAST RECOVERY",
     bgImage: "/images/fullscreen_banner_anabolic_muscle.png",
     accentColor: "#3B82F6",
     slug: "anabolic-lean-muscle-builder",
@@ -41,7 +41,7 @@ const BANNERS = [
     id: "alpha-super-mass-gainer",
     tagline: "DOMINATE EVERY SET",
     productTitle: "ALPHA SUPER MASS GAINER",
-    specs: "CLEAN COMPLEX CARB MATRIX • EXPLOSIVE CALORIC DENSITY",
+    specs: "31.5G PROTEIN • 7.1G BCAA • 58.5G COMPLEX CARBS",
     bgImage: "/images/fullscreen_banner_super_mass_gainer.png",
     accentColor: "#0284C7",
     slug: "alpha-super-mass-gainer",
@@ -363,7 +363,7 @@ export function HeroSection() {
                 custom={5}
                 className="flex flex-wrap gap-4 pt-2"
               >
-                {["24G Protein", "6.8G BCAA", "100% Whey Formula", "No Added Sugar"].map((benefit, i) => (
+                {["24G Protein", "5.4G BCAA", "100% Whey Formula", "Zero Added Sugar", "FSSAI Lic. 21524018000384"].map((benefit, i) => (
                   <motion.div
                     key={benefit}
                     className="flex items-center gap-2 text-xs font-mono text-[#10163A]/70"

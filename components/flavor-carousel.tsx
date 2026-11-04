@@ -1,386 +1,294 @@
-  "use client"
+"use client"
 
-  import type React from "react"
+import type React from "react"
+import { motion, AnimatePresence, useSpring } from "framer-motion"
+import { useState, useRef } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { ChevronLeft, ChevronRight, ShieldCheck } from "lucide-react"
+import { WhatsAppOrderButton } from "@/components/whatsapp-order-button"
+import { FSSAI_LICENSE } from "@/lib/whatsapp"
 
-  import { motion, AnimatePresence, useSpring } from "framer-motion"
-  import { useState, useRef } from "react"
-  import Image from "next/image"
-  import Link from "next/link"
-  import { ChevronLeft, ChevronRight } from "lucide-react"
+interface Flavor {
+  id: number
+  name: string
+  tagline: string
+  description: string
+  image: string
+  bgColor: string
+  accentColor: string
+  badges: string[]
+  weight: string
+  mrp: string
+  servings: string
+  mystery?: boolean
+}
 
-  interface Flavor {
-    id: number
-    name: string
-    tagline: string
-    description: string
-    image: string
-    bgColor: string
-    accentColor: string
-    badges: string[]
-    mystery?: boolean
+const flavors: (Flavor & { slug: string })[] = [
+  {
+    id: 1,
+    name: "Prime Whey",
+    slug: "prime-whey",
+    tagline: "Whey Protein Concentrate • Belgian Chocolate",
+    description:
+      "Advanced 100% Ultra-Filtered Whey Protein Concentrate delivering 24G Protein, 5.4G BCAA, and 100% Whey Formula per serving. Engineered for lean muscle support, faster recovery, and zero added sugar. Net Wt. 2kg (4.4 lbs) • 60 Servings.",
+    image: "/images/prime-whey.png",
+    bgColor: "from-blue-600/20 via-blue-500/10 to-transparent",
+    accentColor: "#3B82F6",
+    weight: "2 kg (4.4 lbs)",
+    mrp: "₹4,460",
+    servings: "60 Servings",
+    badges: [
+      "24G Protein",
+      "5.4G BCAA",
+      "100% Whey Formula",
+      "Lean Muscle Support",
+      "Faster Recovery",
+      "Zero Added Sugar",
+      "60 Servings",
+    ],
+  },
+  {
+    id: 2,
+    name: "Anabolic Lean Muscle Builder",
+    slug: "anabolic-lean-muscle-builder",
+    tagline: "High-Carb Supplement For Lean Muscle Growth • Belgian Chocolate",
+    description:
+      "Hypertrophy Engineered Performance Matrix delivering 46G Protein, 10.3G BCAA, and 48G Carbs per 100g. Fast-absorbing energy drink powder with calcium, iron, and complete essential amino acids. Net Wt. 3kg (6.6 lbs) • 37 Servings.",
+    image: "/images/anabolic-lean-muscle-builder.png",
+    bgColor: "from-indigo-600/20 via-indigo-500/10 to-transparent",
+    accentColor: "#6366F1",
+    weight: "3 kg (6.6 lbs)",
+    mrp: "₹4,460",
+    servings: "37 Servings",
+    badges: [
+      "46G Protein / 100g",
+      "10.3G BCAA",
+      "48G Carbs",
+      "Lean Muscle Growth",
+      "Fast Absorbing",
+      "37 Servings",
+    ],
+  },
+  {
+    id: 3,
+    name: "Alpha Super Mass Gainer",
+    slug: "alpha-super-mass-gainer",
+    tagline: "Advanced Complex Carbohydrate Matrix • Belgian Chocolate",
+    description:
+      "Bulk Like a Beast formulation providing 31.5G Protein, 7.1G BCAA, and 58.5G Carbs per 100g. Infused with Ashwagandha, Safed Musli, Shatavari, and Purified Shilajit for explosive mass gains. Net Wt. 3kg (6.6 lbs) • 37 Servings.",
+    image: "/images/alpha-super-mass-gainer.png",
+    bgColor: "from-sky-600/20 via-blue-500/10 to-transparent",
+    accentColor: "#0284C7",
+    weight: "3 kg (6.6 lbs)",
+    mrp: "₹3,520",
+    servings: "37 Servings",
+    badges: [
+      "31.5G Protein / 100g",
+      "7.1G BCAA",
+      "58.5G Carbs",
+      "Ashwagandha & Shilajit",
+      "Explosive Gains",
+      "37 Servings",
+    ],
+  },
+]
+
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 300 : -300,
+    opacity: 0,
+    scale: 0.9,
+    rotateY: direction > 0 ? 15 : -15,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+    rotateY: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 300,
+      damping: 30,
+    },
+  },
+  exit: (direction: number) => ({
+    x: direction > 0 ? -300 : 300,
+    opacity: 0,
+    scale: 0.9,
+    rotateY: direction > 0 ? -15 : 15,
+  }),
+}
+
+export function FlavorCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [[page, direction], setPage] = useState([0, 0])
+  const currentFlavor = flavors[currentIndex]
+
+  const rotateX = useSpring(0, { stiffness: 150, damping: 20 })
+  const rotateY = useSpring(0, { stiffness: 150, damping: 20 })
+  const cardRectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null)
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    cardRectRef.current = { left: r.left, top: r.top, width: r.width, height: r.height }
   }
 
-  const flavors: (Flavor & { slug: string })[] = [
-    {
-      id: 1,
-      name: "Prime Whey",
-      slug: "prime-whey",
-      tagline: "Whey Protein Concentrate • Chocolate Shots",
-      description: "Advanced Whey Protein Concentrate providing 24G Protein, 6.8G BCAA, and 100% Whey Formula per serving. Promotes lean muscle support, faster recovery, and no added sugar. Net Wt. 2kg (4.4 lbs) • 66 Servings.",
-      image: "/images/prime-whey.png",
-      bgColor: "from-blue-600/20 via-blue-500/10 to-transparent",
-      accentColor: "#3B82F6",
-      badges: ["24G Protein", "6.8G BCAA", "100% Whey Formula", "Lean Muscle Support", "Faster Recovery", "No Added Sugar", "66 Servings"],
-    },
-    {
-      id: 2,
-      name: "Anabolic Lean Muscle Builder",
-      slug: "anabolic-lean-muscle-builder",
-      tagline: "Lean Muscle Builder • Chocolate Shots",
-      description: "Engineered performance matrix delivering 18G Protein, 4.3G BCAA, and 3G Creatine per serving. Designed to boost strength, build lean muscles, and provide fast absorption. Net Wt. 3kg (6.6 lbs) • 50 Servings.",
-      image: "/images/anabolic-lean-muscle-builder.png",
-      bgColor: "from-indigo-600/20 via-indigo-500/10 to-transparent",
-      accentColor: "#6366F1",
-      badges: ["18G Protein", "4.3G BCAA", "3G Creatine", "Boost Strength", "Lean Muscles", "Fast Absorption", "50 Servings"],
-    },
-    {
-      id: 3,
-      name: "Alpha Super Mass Gainer",
-      slug: "alpha-super-mass-gainer",
-      tagline: "Super Mass Gainer • Chocolate Shots",
-      description: "Powerful mass-gaining formulation featuring 18G Protein, 4.3G BCAA, and 3G Creatine per serving. Targeted for explosive muscle build up, faster recovery, and fast absorption. Net Wt. 3kg (6.6 lbs) • 50 Servings.",
-      image: "/images/alpha-super-mass-gainer-front.png",
-      bgColor: "from-sky-600/20 via-blue-500/10 to-transparent",
-      accentColor: "#0284C7",
-      badges: ["18G Protein", "4.3G BCAA", "3G Creatine", "Muscle Build Up", "Recover Faster", "Fast Absorption", "50 Servings"],
-    },
-  ]
-
-  const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 300 : -300,
-      opacity: 0,
-      scale: 0.9,
-      rotateY: direction > 0 ? 15 : -15,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      scale: 1,
-      rotateY: 0,
-      transition: {
-        type: "spring" as const,
-        stiffness: 300,
-        damping: 30,
-      },
-    },
-    exit: (direction: number) => ({
-      x: direction > 0 ? -300 : 300,
-      opacity: 0,
-      scale: 0.9,
-      rotateY: direction > 0 ? -15 : 15,
-      transition: {
-        type: "spring" as const,
-        stiffness: 300,
-        damping: 30,
-      },
-    }),
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = cardRectRef.current
+    if (!rect) return
+    const mouseX = e.clientX - rect.left
+    const mouseY = e.clientY - rect.top
+    const xPct = mouseX / rect.width - 0.5
+    const yPct = mouseY / rect.height - 0.5
+    rotateX.set(-yPct * 10)
+    rotateY.set(xPct * 10)
   }
 
-  export function FlavorCarousel() {
-    const [currentIndex, setCurrentIndex] = useState(0)
-    const [[page, direction], setPage] = useState([0, 0])
-    const currentFlavor = flavors[currentIndex]
+  const handleMouseLeave = () => {
+    cardRectRef.current = null
+    rotateX.set(0)
+    rotateY.set(0)
+  }
 
-    const rotateX = useSpring(0, { stiffness: 150, damping: 20 })
-    const rotateY = useSpring(0, { stiffness: 150, damping: 20 })
-    const cardRectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null)
+  const paginate = (newDirection: number) => {
+    setPage([page + newDirection, newDirection])
+    setCurrentIndex((prev) => {
+      if (newDirection > 0) {
+        return prev === flavors.length - 1 ? 0 : prev + 1
+      }
+      return prev === 0 ? flavors.length - 1 : prev - 1
+    })
+  }
 
-    const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-      const r = e.currentTarget.getBoundingClientRect()
-      cardRectRef.current = { left: r.left, top: r.top, width: r.width, height: r.height }
-    }
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-      const rect = cardRectRef.current
-      if (!rect) return
-      const centerX = rect.left + rect.width / 2
-      const centerY = rect.top + rect.height / 2
-      const x = (e.clientX - centerX) / (rect.width / 2)
-      const y = (e.clientY - centerY) / (rect.height / 2)
-      rotateY.set(x * 4)
-      rotateX.set(-y * 4)
-    }
-
-    const handleMouseLeave = () => {
-      cardRectRef.current = null
-      rotateX.set(0)
-      rotateY.set(0)
-    }
-
-    const paginate = (newDirection: number) => {
-      const newIndex = (currentIndex + newDirection + flavors.length) % flavors.length
-      setCurrentIndex(newIndex)
-      setPage([page + newDirection, newDirection])
-    }
-
-    const nextFlavor = () => paginate(1)
-    const prevFlavor = () => paginate(-1)
-
-    return (
-      <section id="flavours" className="relative py-16 bg-white overflow-hidden">
-        <motion.div
-          className={`absolute inset-0 bg-gradient-to-br ${currentFlavor.bgColor}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          key={currentFlavor.id}
-        />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
-            className="text-center mb-10"
-          >
-            <motion.span
-              className="font-mono text-[#121212]/60 text-xs tracking-widest"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              OUR SUPPLEMENTS
-            </motion.span>
-            <h2 className="text-3xl md:text-5xl font-black text-[#121212] tracking-tighter mt-2 overflow-hidden">
-              <motion.span
-                className="inline-block"
-                initial={{ y: 80 }}
-                whileInView={{ y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-              >
-                CHOOSE YOUR{" "}
-              </motion.span>
-              <motion.span
-                className="inline-block"
-                style={{ color: currentFlavor.accentColor }}
-                initial={{ y: 80 }}
-                whileInView={{ y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1], delay: 0.1 }}
-              >
-                FUEL
-              </motion.span>
+  return (
+    <section id="flavours" className="relative py-24 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+          <div>
+            <span className="font-mono text-blue-600 text-xs tracking-widest uppercase font-bold inline-flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              FSSAI LIC. {FSSAI_LICENSE} • 100% PURE FORMULAS
+            </span>
+            <h2 className="text-4xl md:text-6xl font-black text-[#10163A] tracking-tighter mt-1">
+              ELITE ATHLETE <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                PRODUCT LINEUP
+              </span>
             </h2>
-          </motion.div>
+          </div>
 
-          {/* Carousel */}
-          <div className="relative">
-            <div className="flex items-center justify-center gap-6">
-              <motion.button
-                onClick={prevFlavor}
-                className="hidden md:flex w-12 h-12 rounded-full border-2 border-[#121212] items-center justify-center hover:bg-[#121212] hover:text-white transition-colors"
-                whileHover={{ scale: 1.1, rotate: -5 }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </motion.button>
-
-              <AnimatePresence mode="wait" custom={direction}>
-                <motion.div
-                  key={currentFlavor.id}
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  className="relative w-full max-w-3xl"
-                  style={{ perspective: 1000 }}
-                >
-                  <motion.div
-                    className={`bg-white rounded-3xl p-6 md:p-8 border-2 border-[#121212]/10 shadow-xl ${currentFlavor.mystery ? "relative overflow-hidden" : ""}`}
-                    style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseMove={handleMouseMove}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    {currentFlavor.mystery && (
-                      <motion.div
-                        className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%270 0 100 100%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27noise%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.8%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23noise)%27/%3E%3C/svg%3E')] opacity-10 pointer-events-none"
-                        animate={{ opacity: [0.05, 0.15, 0.05] }}
-                        transition={{ duration: 0.5, repeat: Number.POSITIVE_INFINITY }}
-                      />
-                    )}
-
-                    <div className="grid md:grid-cols-2 gap-6 items-center">
-                      <motion.div
-                        className="relative aspect-[3/4] flex items-center justify-center"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                      >
-                        <Image
-                          src={currentFlavor.image || "/placeholder.svg"}
-                          alt={currentFlavor.name}
-                          fill
-                          className={`object-contain ${currentFlavor.mystery ? "blur-sm grayscale" : ""}`}
-                        />
-                        {currentFlavor.mystery && (
-                          <motion.div
-                            className="absolute inset-0 flex items-center justify-center"
-                            animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
-                            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                          >
-                            <span className="text-7xl font-black text-[#121212]/20">?</span>
-                          </motion.div>
-                        )}
-                      </motion.div>
-
-                      <div className="space-y-4">
-                        <div>
-                          <motion.span
-                            className="font-mono text-xs tracking-widest"
-                            style={{ color: currentFlavor.accentColor }}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.2 }}
-                          >
-                            {currentFlavor.tagline}
-                          </motion.span>
-                          <motion.h3
-                            className="text-3xl md:text-4xl font-black text-[#121212] tracking-tighter mt-1"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3, type: "spring", stiffness: 100 }}
-                          >
-                            {currentFlavor.name}
-                          </motion.h3>
-                        </div>
-
-                        <motion.p
-                          className="text-sm text-[#121212]/60 font-mono"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 0.4 }}
-                        >
-                          {currentFlavor.description}
-                        </motion.p>
-
-                        {!currentFlavor.mystery && (
-                          <motion.div
-                            className="flex flex-wrap gap-2"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.5 }}
-                          >
-                            {(currentFlavor.badges || ["Zero Sugar", "Lab Tested", "Pure Formula", "Fast Absorbing"]).map((badge) => (
-                              <span
-                                key={badge}
-                                className="px-2 py-1 bg-[#121212]/5 rounded-full text-xs font-mono text-[#121212]/60"
-                              >
-                                {badge}
-                              </span>
-                            ))}
-                          </motion.div>
-                        )}
-
-                        {!currentFlavor.mystery && (
-                          <Link href={`/products/${currentFlavor.slug}`}>
-                            <motion.button
-                              className="px-6 py-3 rounded-full font-bold text-sm tracking-wide w-full md:w-auto relative overflow-hidden cursor-pointer"
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                              style={{ backgroundColor: currentFlavor.accentColor, color: "#121212" }}
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                            >
-                              <motion.span
-                                className="absolute inset-0 bg-white/20"
-                                initial={{ x: "-100%" }}
-                                whileHover={{ x: "100%" }}
-                                transition={{ duration: 0.5 }}
-                              />
-                              <span className="relative z-10">View Product Details</span>
-                            </motion.button>
-                          </Link>
-                        )}
-
-                        {currentFlavor.mystery && (
-                          <motion.div
-                            className="flex items-center gap-3"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.5 }}
-                          >
-                            <motion.div
-                              className="w-2 h-2 bg-blue-500 rounded-full"
-                              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
-                              transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-                            />
-                            <span className="font-mono text-xs text-[#121212]/60">Dropping soon...</span>
-                          </motion.div>
-                        )}
-                      </div>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              </AnimatePresence>
-
-              <motion.button
-                onClick={nextFlavor}
-                className="hidden md:flex w-12 h-12 rounded-full border-2 border-[#121212] items-center justify-center hover:bg-[#121212] hover:text-white transition-colors"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <ChevronRight className="w-5 h-5" />
-              </motion.button>
-            </div>
-
-            <div className="flex md:hidden justify-center gap-4 mt-6">
-              <motion.button
-                onClick={prevFlavor}
-                className="w-10 h-10 rounded-full border-2 border-[#121212] flex items-center justify-center"
-                whileTap={{ scale: 0.9 }}
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </motion.button>
-              <motion.button
-                onClick={nextFlavor}
-                className="w-10 h-10 rounded-full border-2 border-[#121212] flex items-center justify-center"
-                whileTap={{ scale: 0.9 }}
-              >
-                <ChevronRight className="w-4 h-4" />
-              </motion.button>
-            </div>
-
-            <div className="flex justify-center gap-2 mt-6">
-              {flavors.map((flavor, index) => (
-                <motion.button
-                  key={flavor.id}
-                  onClick={() => {
-                    const newDirection = index > currentIndex ? 1 : -1
-                    setCurrentIndex(index)
-                    setPage([index, newDirection])
-                  }}
-                  className="h-2 rounded-full transition-all"
-                  style={{
-                    backgroundColor: index === currentIndex ? flavor.accentColor : "#12121220",
-                  }}
-                  animate={{
-                    width: index === currentIndex ? 28 : 10,
-                  }}
-                  whileHover={{ scale: 1.2 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                />
-              ))}
-            </div>
+          <div className="flex items-center gap-3 mt-6 md:mt-0">
+            <button
+              onClick={() => paginate(-1)}
+              className="w-12 h-12 rounded-full border-2 border-[#10163A] flex items-center justify-center text-[#10163A] hover:bg-[#10163A] hover:text-white transition-all cursor-pointer shadow-md"
+              aria-label="Previous product"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => paginate(1)}
+              className="w-12 h-12 rounded-full border-2 border-[#10163A] flex items-center justify-center text-[#10163A] hover:bg-[#10163A] hover:text-white transition-all cursor-pointer shadow-md"
+              aria-label="Next product"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
           </div>
         </div>
-      </section>
-    )
-  }
+
+        {/* Carousel Showcase */}
+        <div className="relative min-h-[540px] flex items-center justify-center">
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            <motion.div
+              key={currentIndex}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="w-full"
+            >
+              <motion.div
+                onMouseEnter={handleMouseEnter}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                className="relative bg-gradient-to-br from-slate-50 via-white to-blue-50/40 rounded-3xl p-8 md:p-12 border-2 border-slate-200 shadow-2xl overflow-hidden"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                  {/* Left: Product Image */}
+                  <div className="md:col-span-5 relative aspect-square flex items-center justify-center">
+                    <motion.div
+                      className="absolute inset-0 rounded-full blur-3xl opacity-30"
+                      style={{ backgroundColor: currentFlavor.accentColor }}
+                    />
+                    <Image
+                      src={currentFlavor.image}
+                      alt={currentFlavor.name}
+                      width={380}
+                      height={380}
+                      className="object-contain max-h-[380px] drop-shadow-[0_20px_35px_rgba(0,0,0,0.35)] relative z-10"
+                      priority
+                    />
+                  </div>
+
+                  {/* Right: Product Details & WhatsApp Ordering */}
+                  <div className="md:col-span-7 space-y-4">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-mono text-xs font-bold text-blue-600 uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+                        {currentFlavor.tagline}
+                      </span>
+                      <span className="font-mono text-lg font-black text-[#10163A]">
+                        {currentFlavor.mrp}
+                      </span>
+                    </div>
+
+                    <h3 className="text-3xl md:text-5xl font-black text-[#10163A] tracking-tight uppercase leading-tight">
+                      {currentFlavor.name}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-slate-700 font-mono leading-relaxed">
+                      {currentFlavor.description}
+                    </p>
+
+                    {/* Badges */}
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {currentFlavor.badges.map((b) => (
+                        <span
+                          key={b}
+                          className="px-2.5 py-1 bg-[#10163A]/5 border border-[#10163A]/10 rounded-lg text-xs font-mono font-semibold text-[#10163A]"
+                        >
+                          ✓ {b}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Actions: Buy on WhatsApp + View Details */}
+                    <div className="pt-4 flex flex-wrap items-center gap-3">
+                      <WhatsAppOrderButton
+                        productName={currentFlavor.name}
+                        flavor="Belgian Chocolate"
+                        weight={currentFlavor.weight}
+                        mrp={currentFlavor.mrp}
+                        size="md"
+                        label="Buy on WhatsApp"
+                      />
+
+                      <Link
+                        href={`/products/${currentFlavor.slug}`}
+                        className="px-6 py-3 rounded-2xl bg-[#10163A] hover:bg-[#1a235c] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-950/20"
+                      >
+                        View Full Specs & Label
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+    </section>
+  )
+}
