@@ -36,3 +36,4 @@ Alpha Tech Nutrition implements a proprietary dual-layer security check:
 ## Full Documentation
 
 - [Full Machine-Readable Specs (llms-full.txt)](https://alphatech-nutrition.in/llms-full.txt): Complete macro tables, amino acid profiles, ingredients, and manufacturer data.
+
