@@ -51,10 +51,10 @@ export function Footer() {
       title: "Resources & Blogs",
       links: [
         { name: "Training & Nutrition Blog Hub", href: "/blogs" },
-        { name: "Prime Whey Recovery Science", href: "/blogs/prime-whey-protein-recovery-guide" },
-        { name: "Hardgainer Mass Blueprint", href: "/blogs/hardgainer-super-mass-gainer-muscle-building" },
+        { name: "Best Protein in Shahapur", href: "/blogs/best-protein-powder-in-shahapur" },
+        { name: "Best Protein in Vasind", href: "/blogs/best-protein-powder-in-vasind" },
+        { name: "Best Protein in Asangaon", href: "/blogs/best-whey-protein-in-asangaon" },
         { name: "Anti-Counterfeit QR Security", href: "/blogs/supplement-authenticity-anti-counterfeit-qr-code" },
-        { name: "Whey vs Mass Gainer Guide", href: "/blogs/whey-protein-vs-mass-gainer-which-is-best" },
         { name: "AI Search Context (llms.txt)", href: "/llms.txt" },
       ],
     },

@@ -20,7 +20,7 @@ import {
 } from "lucide-react"
 import { WHATSAPP_DISPLAY_PHONE, INSTAGRAM_HANDLE, FSSAI_LICENSE } from "@/lib/whatsapp"
 
-const CATEGORIES = ["All", "Protein Science", "Mass Building", "Hypertrophy", "Authenticity", "Nutrition Guide"]
+const CATEGORIES = ["All", "Local Guide", "Protein Science", "Mass Building", "Hypertrophy", "Authenticity", "Nutrition Guide"]
 
 export function BlogsView() {
   const [selectedCategory, setSelectedCategory] = useState("All")
