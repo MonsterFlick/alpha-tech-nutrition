@@ -119,13 +119,20 @@ const jsonLd = {
         "https://www.instagram.com/alphatech_nutrition",
       ],
       telephone: "+91 83808 89935",
+      areaServed: [
+        { "@type": "AdministrativeArea", name: "Maharashtra" },
+        { "@type": "City", name: "Shahapur" },
+        { "@type": "City", name: "Vasind" },
+        { "@type": "City", name: "Asangaon" },
+        { "@type": "Country", name: "India" },
+      ],
       contactPoint: [
         {
           "@type": "ContactPoint",
           telephone: "+91-83808-89935",
           contactType: "customer service",
-          areaServed: "IN",
-          availableLanguage: ["English", "Hindi"],
+          areaServed: ["IN", "Shahapur", "Vasind", "Asangaon", "Maharashtra"],
+          availableLanguage: ["English", "Hindi", "Marathi"],
         },
       ],
       address: {
