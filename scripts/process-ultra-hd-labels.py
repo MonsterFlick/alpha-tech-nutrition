@@ -67,3 +67,4 @@ for p in products:
     print(f"  Saved Back:       {back_path} ({panel_back.size[0]}x{panel_back.size[1]}, {os.path.getsize(back_path)/1024:.1f} KB)")
 
 print("\nAll Ultra-HD master label crops completed successfully!")
+

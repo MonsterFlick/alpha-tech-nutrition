@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation"
+import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
@@ -21,6 +22,56 @@ export async function generateStaticParams() {
   }))
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const post = getBlogPostBySlug(slug)
+  if (!post) {
+    return {
+      title: "Blog Post Not Found",
+    }
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alphatech-nutrition.in"
+  const url = `${siteUrl}/blogs/${post.slug}`
+  const imageUrl = post.featuredImage.startsWith("http")
+    ? post.featuredImage
+    : `${siteUrl}${post.featuredImage}`
+
+  return {
+    title: `${post.title} | Alpha Tech Nutrition`,
+    description: post.excerpt,
+    alternates: {
+      canonical: `/blogs/${post.slug}`,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url,
+      type: "article",
+      publishedTime: post.publishDate,
+      authors: [post.author.name],
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: [imageUrl],
+    },
+  }
+}
+
 export default async function BlogPostPage({
   params,
 }: {
@@ -33,11 +84,80 @@ export default async function BlogPostPage({
     notFound()
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alphatech-nutrition.in"
+  const imageUrl = post.featuredImage.startsWith("http")
+    ? post.featuredImage
+    : `${siteUrl}${post.featuredImage}`
   const promotedProduct = getProductById(post.promotedProductId)
   const relatedPosts = BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 3)
 
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${siteUrl}/blogs/${post.slug}#article`,
+        headline: post.title,
+        description: post.excerpt,
+        image: imageUrl,
+        datePublished: "2026-11-02T08:00:00+05:30",
+        dateModified: "2026-11-10T12:00:00+05:30",
+        author: {
+          "@type": "Person",
+          name: post.author.name,
+          jobTitle: post.author.role,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Alpha Tech Nutrition",
+          url: siteUrl,
+          logo: {
+            "@type": "ImageObject",
+            url: `${siteUrl}/icon.svg`,
+          },
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `${siteUrl}/blogs/${post.slug}`,
+        },
+        about: {
+          "@type": "Product",
+          name: promotedProduct?.name || "Alpha Tech Nutrition Supplements",
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${siteUrl}/blogs/${post.slug}#breadcrumbs`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: siteUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Blog",
+            item: `${siteUrl}/blogs`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: post.title,
+            item: `${siteUrl}/blogs/${post.slug}`,
+          },
+        ],
+      },
+    ],
+  }
+
   return (
     <main className="min-h-screen bg-[#070A1B] text-white selection:bg-blue-600 selection:text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
+      />
       <Navigation />
 
       {/* Article Header & Breadcrumbs */}

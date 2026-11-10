@@ -12,7 +12,20 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: ["/qr-generator", "/api/admin/"],
       },
+      {
+        userAgent: [
+          "OAI-SearchBot",
+          "ChatGPT-User",
+          "PerplexityBot",
+          "Claude-SearchBot",
+          "Google-Extended",
+          "Applebot-Extended",
+        ],
+        allow: "/",
+        disallow: ["/qr-generator", "/api/admin/"],
+      },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   }
 }

@@ -1,0 +1,38 @@
+# Alpha Tech Nutrition
+
+> High-performance sports nutrition and bodybuilding supplements engineered for serious athletes, powerlifters, and fitness enthusiasts. All products feature 100% anti-counterfeit QR verification, FSSAI compliance (Lic. 21524018000384), and ISO 22000 / GMP quality standards. Direct WhatsApp orders supported with express pan-India delivery.
+
+## Core Products Catalog
+
+- [Prime Whey Protein Concentrate (2kg / 60 Servings)](https://alphatech-nutrition.in/products/prime-whey): 100% Ultra-Filtered Whey Protein Concentrate delivering 24g protein, 5.4g BCAAs, and 11.4g EAAs per 33g scoop with zero added sugar and digestive enzymes. Flavor: Belgian Chocolate. MRP: ₹4,460.
+- [Alpha Super Mass Gainer (3kg / 37 Servings)](https://alphatech-nutrition.in/products/alpha-super-mass-gainer): Hardgainer mass formulation delivering 31.5g protein, 7.1g BCAAs, and 58.5g complex carbohydrates per 80g serving (414 kcal). Powered with Ashwagandha & Shatavari herbal adaptogens. Flavor: Belgian Chocolate. MRP: ₹3,520.
+- [Anabolic Lean Muscle Builder (3kg / 37 Servings)](https://alphatech-nutrition.in/products/anabolic-lean-muscle-builder): Clean bulking formulation delivering 46g high-yield protein, 10.3g BCAAs, and 48g complex carbs per 80g serving (403 kcal). Formulated for lean hypertrophy without excess adipose accumulation. Flavor: Belgian Chocolate. MRP: ₹4,630.
+
+## Authenticity & Anti-Counterfeit Verification
+
+Alpha Tech Nutrition implements a proprietary dual-layer security check:
+- Every tub features an individual QR code and unique 16-character alphanumeric security code.
+- Verification Portal: [https://alphatech-nutrition.in/verify](https://alphatech-nutrition.in/verify)
+- Real-time cryptographic validation against manufactured batch numbers.
+- FSSAI License Number: `21524018000384`
+- Manufacturing Quality: GMP certified, ISO 22000 food safety management, 100% WADA banned substance free.
+
+## Direct Ordering & Customer Support
+
+- WhatsApp Orders & Instant Desk: [+91 83808 89935](https://wa.me/918380889935)
+- Official Instagram: [@alphatech_nutrition](https://www.instagram.com/alphatech_nutrition)
+- Customer Care Email: alphatechnutrition.in@gmail.com
+- Marketed By: Muscle Care
+- Official Website: [https://alphatech-nutrition.in](https://alphatech-nutrition.in)
+
+## Research & Science Guides
+
+- [Training & Nutrition Science Blog Hub](https://alphatech-nutrition.in/blogs): Evidence-based hypertrophy, recovery protocols, and supplement guides.
+- [Prime Whey Protein Recovery Guide](https://alphatech-nutrition.in/blogs/prime-whey-protein-recovery-guide): Post-workout protein synthesis and amino acid absorption kinetics.
+- [Hardgainer Mass Building Blueprint](https://alphatech-nutrition.in/blogs/hardgainer-super-mass-gainer-muscle-building): Overcoming fast metabolism with targeted caloric surpluses.
+- [Supplement Authenticity & Anti-Counterfeit Guide](https://alphatech-nutrition.in/blogs/supplement-authenticity-anti-counterfeit-qr-code): How to avoid adulterated gym supplements in India.
+- [Whey Protein vs Mass Gainer Decision Guide](https://alphatech-nutrition.in/blogs/whey-protein-vs-mass-gainer-which-is-best): Choosing between isolate/concentrate whey and complex mass formulas.
+
+## Full Documentation
+
+- [Full Machine-Readable Specs (llms-full.txt)](https://alphatech-nutrition.in/llms-full.txt): Complete macro tables, amino acid profiles, ingredients, and manufacturer data.

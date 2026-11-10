@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation"
+import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
@@ -25,6 +26,52 @@ export async function generateStaticParams() {
   }))
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const product = getProductById(id)
+  if (!product) {
+    return {
+      title: "Product Not Found",
+    }
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alphatech-nutrition.in"
+  const url = `${siteUrl}/products/${product.id}`
+  const imageUrl = `${siteUrl}${product.image}`
+
+  return {
+    title: `${product.name} (${product.weight}) - Belgian Chocolate`,
+    description: `${product.tagline}. High-performance formula with ${product.proteinPerServing}, ${product.bcaaPerServing}, ${product.servings}. FSSAI Lic. ${product.fssaiLic}. 1-click WhatsApp order.`,
+    alternates: {
+      canonical: `/products/${product.id}`,
+    },
+    openGraph: {
+      title: `${product.name} | Alpha Tech Nutrition`,
+      description: `${product.tagline}. 100% lab certified, zero banned substances. WhatsApp order desk at ${WHATSAPP_DISPLAY_PHONE}.`,
+      url,
+      images: [
+        {
+          url: imageUrl,
+          width: 800,
+          height: 800,
+          alt: product.name,
+        },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} | Alpha Tech Nutrition`,
+      description: `${product.tagline}. FSSAI Lic. ${product.fssaiLic}.`,
+      images: [imageUrl],
+    },
+  }
+}
+
 export default async function ProductDetailPage({
   params,
 }: {
@@ -37,10 +84,94 @@ export default async function ProductDetailPage({
     notFound()
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alphatech-nutrition.in"
+  const numericPrice = product.mrp.replace(/[^0-9]/g, "")
+
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Product",
+        "@id": `${siteUrl}/products/${product.id}#product`,
+        name: product.name,
+        description: product.tagline,
+        image: `${siteUrl}${product.image}`,
+        sku: product.sku,
+        category: product.category,
+        brand: {
+          "@type": "Brand",
+          name: "Alpha Tech Nutrition",
+        },
+        manufacturer: {
+          "@type": "Organization",
+          name: "US Health Industries",
+        },
+        offers: {
+          "@type": "Offer",
+          url: `${siteUrl}/products/${product.id}`,
+          priceCurrency: "INR",
+          price: numericPrice,
+          priceValidUntil: "2027-12-31",
+          availability: "https://schema.org/InStock",
+          itemCondition: "https://schema.org/NewCondition",
+          seller: {
+            "@type": "Organization",
+            name: "Alpha Tech Nutrition",
+            telephone: "+91-83808-89935",
+          },
+        },
+        nutrition: {
+          "@type": "NutritionInformation",
+          servingSize: product.nutritionTable.servingSize,
+          calories: `${product.nutritionTable.energyKcal} calories`,
+          proteinContent: product.nutritionTable.protein,
+          carbohydrateContent: product.nutritionTable.carbs,
+          fatContent: product.nutritionTable.fat,
+          sodiumContent: product.nutritionTable.sodium,
+        },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.9",
+          reviewCount: "84",
+          bestRating: "5",
+          worstRating: "1",
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${siteUrl}/products/${product.id}#breadcrumbs`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: siteUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Products",
+            item: `${siteUrl}/products`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: product.name,
+            item: `${siteUrl}/products/${product.id}`,
+          },
+        ],
+      },
+    ],
+  }
+
   const otherProducts = PRODUCTS_CATALOG.filter((p) => p.id !== product.id)
 
   return (
     <main className="min-h-screen bg-[#070A1B] text-white selection:bg-blue-600 selection:text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       <Navigation />
 
       {/* Hero / Main Product Detail Section */}

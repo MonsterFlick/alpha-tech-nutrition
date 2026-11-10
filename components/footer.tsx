@@ -55,6 +55,7 @@ export function Footer() {
         { name: "Hardgainer Mass Blueprint", href: "/blogs/hardgainer-super-mass-gainer-muscle-building" },
         { name: "Anti-Counterfeit QR Security", href: "/blogs/supplement-authenticity-anti-counterfeit-qr-code" },
         { name: "Whey vs Mass Gainer Guide", href: "/blogs/whey-protein-vs-mass-gainer-which-is-best" },
+        { name: "AI Search Context (llms.txt)", href: "/llms.txt" },
       ],
     },
     {

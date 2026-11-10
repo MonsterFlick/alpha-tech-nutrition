@@ -110,20 +110,44 @@ const jsonLd = {
       "@type": "Organization",
       "@id": `${siteUrl}/#organization`,
       name: "Alpha Tech Nutrition",
+      legalName: "Muscle Care / Alpha Tech Nutrition",
       url: siteUrl,
       logo: `${siteUrl}/icon.svg`,
-      description: "Manufacturer and brand of high-performance gym and sports nutrition dietary supplements.",
+      description:
+        "Alpha Tech Nutrition manufactures premium, lab-certified sports nutrition and gym supplements: Prime Whey, Anabolic Lean Muscle Builder, and Alpha Super Mass Gainer. FSSAI Lic. 21524018000384.",
       sameAs: [
         "https://www.instagram.com/alphatech_nutrition",
       ],
       telephone: "+91 83808 89935",
-      license: "FSSAI 21524018000384",
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          telephone: "+91-83808-89935",
+          contactType: "customer service",
+          areaServed: "IN",
+          availableLanguage: ["English", "Hindi"],
+        },
+      ],
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "IN",
+      },
+      hasCredential: {
+        "@type": "EducationalOccupationalCredential",
+        credentialCategory: "Government Food Safety License",
+        name: "FSSAI License 21524018000384",
+        recognizedBy: {
+          "@type": "GovernmentOrganization",
+          name: "Food Safety and Standards Authority of India (FSSAI)",
+        },
+      },
     },
     {
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
       url: siteUrl,
       name: "Alpha Tech Nutrition",
+      description: "High-Performance Gym & Sports Supplements engineered for serious gains.",
       publisher: {
         "@id": `${siteUrl}/#organization`,
       },
@@ -139,6 +163,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs.txt" />
+        <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full LLMs.txt" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
