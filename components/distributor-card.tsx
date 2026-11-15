@@ -57,9 +57,9 @@ export function DistributorCard({
             </span>
           </div>
 
-          <h4 className="text-base sm:text-lg font-black text-white uppercase tracking-tight">
+          <h3 className="text-base sm:text-lg font-black text-white uppercase tracking-tight">
             {distributor.shopName}
-          </h4>
+          </h3>
 
           <div className="text-xs font-mono text-white/80">
             <span className="text-white/50">Authorized Person: </span>

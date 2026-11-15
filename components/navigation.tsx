@@ -124,6 +124,7 @@ export function Navigation() {
           className="md:hidden p-2"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           whileTap={{ scale: 0.9 }}
+          aria-label="Toggle navigation menu"
         >
           <AnimatePresence mode="wait">
             {mobileMenuOpen ? (

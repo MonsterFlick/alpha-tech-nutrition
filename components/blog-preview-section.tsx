@@ -101,6 +101,7 @@ export function BlogPreviewSection() {
                   <Link
                     href={`/blogs/${post.slug}`}
                     className="text-xs font-mono font-bold uppercase tracking-wider text-blue-400 hover:text-blue-300 flex items-center gap-1 transition-colors"
+                    aria-label={`Read article: ${post.title}`}
                   >
                     <span>Read</span>
                     <ArrowRight className="w-3.5 h-3.5" />

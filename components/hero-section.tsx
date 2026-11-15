@@ -12,7 +12,7 @@ const BANNERS = [
     tagline: "BREAK YOUR POTENTIAL",
     productTitle: "ALPHA TECH HARDCORE NUTRITION",
     specs: "100% PURITY • MAXIMUM GAINS • SCIENTIFICALLY BACKED FORMULAS",
-    bgImage: "/images/fullscreen_banner_all_products.png",
+    bgImage: "/images/fullscreen_banner_all_products.webp",
     accentColor: "#A855F7",
     slug: "", // links to /products
     ctaText: "Explore All Products",
@@ -22,7 +22,7 @@ const BANNERS = [
     tagline: "FUEL YOUR MUSCLE RECOVERY",
     productTitle: "PRIME WHEY",
     specs: "24G PROTEIN • 5.4G BCAA • 100% WHEY FORMULA • ZERO SUGAR",
-    bgImage: "/images/fullscreen_banner_prime_whey.png",
+    bgImage: "/images/fullscreen_banner_prime_whey.webp",
     accentColor: "#A855F7",
     slug: "prime-whey",
     ctaText: "Explore Prime Whey",
@@ -32,7 +32,7 @@ const BANNERS = [
     tagline: "UNLEASH HARDCORE GAINS",
     productTitle: "ANABOLIC LEAN MUSCLE BUILDER",
     specs: "46G HIGH PROTEIN • 10.3G BCAA • FAST RECOVERY",
-    bgImage: "/images/fullscreen_banner_anabolic_muscle.png",
+    bgImage: "/images/fullscreen_banner_anabolic_muscle.webp",
     accentColor: "#3B82F6",
     slug: "anabolic-lean-muscle-builder",
     ctaText: "Explore Muscle Builder",
@@ -42,7 +42,7 @@ const BANNERS = [
     tagline: "DOMINATE EVERY SET",
     productTitle: "ALPHA SUPER MASS GAINER",
     specs: "31.5G PROTEIN • 7.1G BCAA • 58.5G COMPLEX CARBS",
-    bgImage: "/images/fullscreen_banner_super_mass_gainer.png",
+    bgImage: "/images/fullscreen_banner_super_mass_gainer.webp",
     accentColor: "#0284C7",
     slug: "alpha-super-mass-gainer",
     ctaText: "Explore Mass Gainer",
@@ -200,16 +200,22 @@ export function HeroSection() {
 
           {/* Navigation Controls & Dots */}
           <div className="flex items-center gap-4 self-start md:self-end">
-            <div className="flex items-center gap-2 bg-black/80 md:backdrop-blur-md p-2 rounded-2xl border border-white/10 shadow-xl">
+            <div className="flex items-center gap-1 bg-black/80 md:backdrop-blur-md p-1.5 rounded-2xl border border-white/10 shadow-xl">
               {BANNERS.map((b, index) => (
                 <button
                   key={b.id}
                   onClick={() => setCurrentSlide(index)}
-                  className={`h-2.5 rounded-full transition-all cursor-pointer ${
-                    index === currentSlide ? "w-10 bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.8)]" : "w-3 bg-white/30 hover:bg-white/60"
-                  }`}
-                  aria-label={`Slide ${index + 1}`}
-                />
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center p-1.5 cursor-pointer rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+                  aria-label={`Go to slide ${index + 1}`}
+                >
+                  <span
+                    className={`h-2.5 rounded-full transition-all block ${
+                      index === currentSlide
+                        ? "w-10 bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.8)]"
+                        : "w-3 bg-white/30 hover:bg-white/60"
+                    }`}
+                  />
+                </button>
               ))}
             </div>
 
@@ -414,7 +420,7 @@ export function HeroSection() {
                   >
                     <Link href="/products/anabolic-lean-muscle-builder">
                       <Image
-                        src="/images/anabolic-lean-muscle-builder.png"
+                        src="/images/anabolic-lean-muscle-builder.webp"
                         alt="Alpha Tech Nutrition - Anabolic Lean Muscle Builder"
                         fill
                         sizes="(max-width: 768px) 220px, 400px"
@@ -443,7 +449,7 @@ export function HeroSection() {
                   >
                     <Link href="/products/prime-whey">
                       <Image
-                        src="/images/prime-whey.png"
+                        src="/images/prime-whey.webp"
                         alt="Alpha Tech Nutrition - Prime Whey Protein Concentrate"
                         fill
                         priority
@@ -473,7 +479,7 @@ export function HeroSection() {
                   >
                     <Link href="/products/alpha-super-mass-gainer">
                       <Image
-                        src="/images/alpha-super-mass-gainer-front.png"
+                        src="/images/alpha-super-mass-gainer-front.webp"
                         alt="Alpha Tech Nutrition - Alpha Super Mass Gainer"
                         fill
                         sizes="(max-width: 768px) 220px, 400px"

@@ -51,9 +51,10 @@ export function BrandLogo({
         style={{ width: iconDimensions.w, height: iconDimensions.h }}
       >
         <Image
-          src="/logo/icon-512x512.png"
+          src="/logo/icon-96x96.webp"
           alt="Alpha Tech Nutrition"
           fill
+          sizes="48px"
           className="object-cover scale-105"
           priority
         />

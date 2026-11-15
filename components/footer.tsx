@@ -90,7 +90,7 @@ export function Footer() {
         >
           {footerLinks.map((section) => (
             <motion.div key={section.title} variants={itemVariants}>
-              <h4 className="font-bold text-white text-sm mb-3">{section.title}</h4>
+              <h3 className="font-bold text-white text-sm mb-3">{section.title}</h3>
               <ul className="space-y-2">
                 {section.links.map((item) => (
                   <li key={item.name}>
@@ -162,7 +162,7 @@ export function Footer() {
           </p>
 
           <motion.p
-            className="text-white/30 font-mono text-xs cursor-pointer"
+            className="text-white/30 hover:text-blue-400 font-mono text-xs cursor-pointer transition-colors duration-300"
             onHoverStart={() => setIsHovering(true)}
             onHoverEnd={() => setIsHovering(false)}
             animate={
@@ -170,12 +170,10 @@ export function Footer() {
                 ? {
                     rotate: [0, -5, 5, -5, 5, 0],
                     scale: [1, 1.1, 1],
-                    color: "#60A5FA",
                   }
                 : {
                     rotate: 0,
                     scale: 1,
-                    color: "rgba(255,255,255,0.3)",
                   }
             }
             transition={{ duration: 0.5 }}

@@ -30,7 +30,7 @@ export const BLOG_POSTS: BlogPost[] = [
       role: "Sports Nutritionists & Biomechanists",
       avatar: "/icon.svg",
     },
-    featuredImage: "/images/fullscreen_banner_prime_whey.png",
+    featuredImage: "/images/fullscreen_banner_prime_whey.webp",
     promotedProductId: "prime-whey",
     tags: ["Whey Protein", "Muscle Recovery", "Prime Whey", "BCAA", "Post-Workout"],
     content: `
@@ -78,7 +78,7 @@ Ready to experience clean, explosive recovery? Order genuine **Prime Whey (2kg /
       role: "Elite Strength & Conditioning",
       avatar: "/icon.svg",
     },
-    featuredImage: "/images/fullscreen_banner_super_mass_gainer.png",
+    featuredImage: "/images/fullscreen_banner_super_mass_gainer.webp",
     promotedProductId: "alpha-super-mass-gainer",
     tags: ["Mass Gainer", "Hardgainer", "Caloric Surplus", "Ashwagandha", "Muscle Hypertrophy"],
     content: `
@@ -126,7 +126,7 @@ Stop spinning your wheels with slow gains. Get the hardgainer formula engineered
       role: "Sports Nutritionists",
       avatar: "/icon.svg",
     },
-    featuredImage: "/images/fullscreen_banner_anabolic_muscle.png",
+    featuredImage: "/images/fullscreen_banner_anabolic_muscle.webp",
     promotedProductId: "anabolic-lean-muscle-builder",
     tags: ["Lean Muscle", "Muscle Builder", "Anabolic Matrix", "High Protein", "Strength"],
     content: `
@@ -175,7 +175,7 @@ Experience clean, ripped mass with zero fat bloat:
       role: "Compliance & Authenticity Lab",
       avatar: "/icon.svg",
     },
-    featuredImage: "/images/fullscreen_banner_all_products.png",
+    featuredImage: "/images/fullscreen_banner_all_products.webp",
     promotedProductId: "prime-whey",
     tags: ["Supplement Authenticity", "FSSAI", "Fake Supplements", "QR Verification", "GMP Quality"],
     content: `
@@ -219,7 +219,7 @@ Never compromise on your health. Order direct from the brand warehouse and verif
       role: "Sports Nutritionists",
       avatar: "/icon.svg",
     },
-    featuredImage: "/images/fullscreen_banner_prime_whey.png",
+    featuredImage: "/images/fullscreen_banner_prime_whey.webp",
     promotedProductId: "alpha-super-mass-gainer",
     tags: ["Whey Protein", "Mass Gainer", "Nutrition Guide", "Fat Loss", "Bulking"],
     content: `
@@ -268,7 +268,7 @@ Get personalized advice from our sports nutrition desk or order directly with 1-
       role: "Shahapur & Thane District Sports Desk",
       avatar: "/icon.svg",
     },
-    featuredImage: "/images/fullscreen_banner_prime_whey.png",
+    featuredImage: "/images/fullscreen_banner_prime_whey.webp",
     promotedProductId: "prime-whey",
     tags: ["Shahapur Gym", "Best Protein in Shahapur", "Prime Whey", "Shahapur Supplements", "Whey Protein Thane", "Local Delivery"],
     content: `
@@ -344,7 +344,7 @@ Ready to upgrade your workouts with genuine, high-grade protein? Order your cont
       role: "Vasind & Central Line Fitness Desk",
       avatar: "/icon.svg",
     },
-    featuredImage: "/images/fullscreen_banner_anabolic_muscle.png",
+    featuredImage: "/images/fullscreen_banner_anabolic_muscle.webp",
     promotedProductId: "anabolic-lean-muscle-builder",
     tags: ["Vasind Gym", "Best Protein in Vasind", "Anabolic Lean Muscle", "Vasind Fitness", "Gym Supplements Thane", "Local Delivery"],
     content: `
@@ -413,7 +413,7 @@ Order your supplements directly from the official Alpha Tech WhatsApp customer d
       role: "Asangaon Fitness & Athlete Support",
       avatar: "/icon.svg",
     },
-    featuredImage: "/images/fullscreen_banner_super_mass_gainer.png",
+    featuredImage: "/images/fullscreen_banner_super_mass_gainer.webp",
     promotedProductId: "alpha-super-mass-gainer",
     tags: ["Asangaon Gym", "Best Protein in Asangaon", "Alpha Super Mass Gainer", "Asangaon Fitness", "Mass Gainer Thane", "Local Delivery"],
     content: `

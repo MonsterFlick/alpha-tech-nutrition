@@ -32,7 +32,7 @@ const flavors: (Flavor & { slug: string })[] = [
     tagline: "Whey Protein Concentrate • Belgian Chocolate",
     description:
       "Advanced 100% Ultra-Filtered Whey Protein Concentrate delivering 24G Protein, 5.4G BCAA, and 100% Whey Formula per serving. Engineered for lean muscle support, faster recovery, and zero added sugar. Net Wt. 2kg (4.4 lbs) • 60 Servings.",
-    image: "/images/prime-whey.png",
+    image: "/images/prime-whey.webp",
     bgColor: "from-blue-600/20 via-blue-500/10 to-transparent",
     accentColor: "#3B82F6",
     weight: "2 kg (4.4 lbs)",
@@ -55,7 +55,7 @@ const flavors: (Flavor & { slug: string })[] = [
     tagline: "High-Carb Supplement For Lean Muscle Growth • Belgian Chocolate",
     description:
       "Hypertrophy Engineered Performance Matrix delivering 46G Protein, 10.3G BCAA, and 48G Carbs per 100g. Fast-absorbing energy drink powder with calcium, iron, and complete essential amino acids. Net Wt. 3kg (6.6 lbs) • 37 Servings.",
-    image: "/images/anabolic-lean-muscle-builder.png",
+    image: "/images/anabolic-lean-muscle-builder.webp",
     bgColor: "from-indigo-600/20 via-indigo-500/10 to-transparent",
     accentColor: "#6366F1",
     weight: "3 kg (6.6 lbs)",
@@ -77,7 +77,7 @@ const flavors: (Flavor & { slug: string })[] = [
     tagline: "Advanced Complex Carbohydrate Matrix • Belgian Chocolate",
     description:
       "Bulk Like a Beast formulation providing 31.5G Protein, 7.1G BCAA, and 58.5G Carbs per 100g. Infused with Ashwagandha, Safed Musli, Shatavari, and Purified Shilajit for explosive mass gains. Net Wt. 3kg (6.6 lbs) • 37 Servings.",
-    image: "/images/alpha-super-mass-gainer.png",
+    image: "/images/alpha-super-mass-gainer.webp",
     bgColor: "from-sky-600/20 via-blue-500/10 to-transparent",
     accentColor: "#0284C7",
     weight: "3 kg (6.6 lbs)",

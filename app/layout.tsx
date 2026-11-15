@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
 import { LenisProvider } from "@/components/lenis-provider"
 import ClickSpark from "@/components/click-spark"
 import { FloatingWhatsApp } from "@/components/floating-whatsapp"
@@ -172,6 +171,7 @@ export default function RootLayout({
       <head>
         <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs.txt" />
         <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full LLMs.txt" />
+        <link rel="ard" type="application/json" href="/.well-known/ard.json" title="ARD Manifest" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -189,7 +189,6 @@ export default function RootLayout({
           <LenisProvider>{children}</LenisProvider>
         </ClickSpark>
         <FloatingWhatsApp />
-        <Analytics />
       </body>
     </html>
   )

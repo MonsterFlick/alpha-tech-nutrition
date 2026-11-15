@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "entries": [
+    {
+      "identifier": "urn:air:alphatech-nutrition.in:nutrition:catalog",
+      "displayName": "Alpha Tech Nutrition Product & Authenticity Catalog",
+      "type": "application/json",
+      "url": "https://alphatech-nutrition.in/llms.txt",
+      "description": "Lab-certified sports nutrition catalog and anti-counterfeit QR code verification context for Alpha Tech Nutrition products (Prime Whey, Anabolic Lean Muscle Builder, Alpha Super Mass Gainer). FSSAI Lic. 21524018000384.",
+      "tags": [
+        "nutrition",
+        "supplements",
+        "whey-protein",
+        "mass-gainer",
+        "muscle-builder",
+        "fssai-21524018000384",
+        "authenticity-verification"
+      ],
+      "capabilities": [
+        "product-lookup",
+        "authenticity-verification",
+        "distributor-locator",
+        "nutrition-data"
+      ],
+      "representativeQueries": [
+        "What is the protein content per serving of Alpha Tech Prime Whey?",
+        "How do I verify the authenticity of an Alpha Tech Nutrition product?",
+        "Where are authorized Alpha Tech Nutrition distributors located in Maharashtra?"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-11-15T21:00:00Z"
+    }
+  ]
+}
