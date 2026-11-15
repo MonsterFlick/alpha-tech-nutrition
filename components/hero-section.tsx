@@ -80,12 +80,22 @@ const scaleInVariants = {
 export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   })
+
+  useEffect(() => {
+    setIsTouchDevice(
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(hover: none)").matches ||
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0
+    )
+  }, [])
 
   const y = useTransform(scrollYProgress, [0, 1], [0, 160])
   const textX1 = useTransform(scrollYProgress, [0, 1], [0, -60])
@@ -127,7 +137,8 @@ export function HeroSection() {
               src={banner.bgImage}
               alt={`${banner.productTitle} AI Fullscreen Graphic`}
               fill
-              priority
+              priority={currentSlide === 0}
+              sizes="(max-width: 768px) 100vw, 1920px"
               className="object-cover object-center w-full h-full"
             />
             {/* Cinematic Gradient Overlays for High Legibility */}
@@ -155,7 +166,7 @@ export function HeroSection() {
               className="space-y-4 max-w-3xl"
             >
               {/* Badge Tag */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-600/30 border border-purple-500/40 text-purple-300 font-mono text-xs font-bold uppercase tracking-wider backdrop-blur-md">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950/80 border border-purple-500/40 text-purple-300 font-mono text-xs font-bold uppercase tracking-wider md:backdrop-blur-md">
                 <Dumbbell className="w-3.5 h-3.5" />
                 <span>OFFICIAL BRAND BANNER • SLIDE {currentSlide + 1} OF {BANNERS.length}</span>
               </div>
@@ -189,7 +200,7 @@ export function HeroSection() {
 
           {/* Navigation Controls & Dots */}
           <div className="flex items-center gap-4 self-start md:self-end">
-            <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md p-2 rounded-2xl border border-white/10 shadow-xl">
+            <div className="flex items-center gap-2 bg-black/80 md:backdrop-blur-md p-2 rounded-2xl border border-white/10 shadow-xl">
               {BANNERS.map((b, index) => (
                 <button
                   key={b.id}
@@ -205,7 +216,7 @@ export function HeroSection() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setCurrentSlide((prev) => (prev - 1 + BANNERS.length) % BANNERS.length)}
-                className="w-11 h-11 rounded-2xl border border-white/20 bg-black/60 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer backdrop-blur-md shadow-xl"
+                className="w-11 h-11 rounded-2xl border border-white/20 bg-black/80 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer md:backdrop-blur-md shadow-xl"
                 aria-label="Previous Slide"
               >
                 <ChevronLeft className="w-5 h-5" />
@@ -213,7 +224,7 @@ export function HeroSection() {
 
               <button
                 onClick={() => setCurrentSlide((prev) => (prev + 1) % BANNERS.length)}
-                className="w-11 h-11 rounded-2xl border border-white/20 bg-black/60 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer backdrop-blur-md shadow-xl"
+                className="w-11 h-11 rounded-2xl border border-white/20 bg-black/80 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer md:backdrop-blur-md shadow-xl"
                 aria-label="Next Slide"
               >
                 <ChevronRight className="w-5 h-5" />
@@ -234,20 +245,20 @@ export function HeroSection() {
         {/* Subtle gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50/30 to-slate-100/50 pointer-events-none" />
 
-        {/* Ambient glows */}
+        {/* Ambient glows - optimized on mobile to save GPU fill-rate */}
         <div
-          className="absolute top-20 left-10 w-44 h-44 rounded-full bg-blue-600/10 blur-3xl pointer-events-none"
+          className="hidden md:block absolute top-20 left-10 w-44 h-44 rounded-full bg-blue-600/10 blur-3xl pointer-events-none"
           style={{ transform: "translateZ(0)" }}
         />
         <div
-          className="absolute bottom-40 right-20 w-52 h-52 rounded-full bg-indigo-600/10 blur-3xl pointer-events-none"
+          className="hidden md:block absolute bottom-40 right-20 w-52 h-52 rounded-full bg-indigo-600/10 blur-3xl pointer-events-none"
           style={{ transform: "translateZ(0)" }}
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             {/* Text Content */}
-            <motion.div style={{ opacity }} className="space-y-5">
+            <motion.div style={{ opacity: isTouchDevice ? 1 : opacity }} className="space-y-5">
               <motion.div
                 variants={fadeUpVariants}
                 initial="hidden"
@@ -266,7 +277,7 @@ export function HeroSection() {
 
               <div className="space-y-1 overflow-hidden">
                 <motion.h1
-                  style={{ x: textX1 }}
+                  style={{ x: isTouchDevice ? 0 : textX1 }}
                   className="text-5xl md:text-7xl font-black tracking-tighter text-[#10163A] leading-[0.9]"
                 >
                   <motion.span
@@ -281,7 +292,7 @@ export function HeroSection() {
                   </motion.span>
                 </motion.h1>
                 <motion.h1
-                  style={{ x: textX2 }}
+                  style={{ x: isTouchDevice ? 0 : textX2 }}
                   className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9]"
                 >
                   <motion.span
@@ -379,10 +390,10 @@ export function HeroSection() {
               </motion.div>
             </motion.div>
 
-            <motion.div style={{ y, scale }} className="relative flex justify-center items-center py-16 overflow-visible">
+            <motion.div style={{ y: isTouchDevice ? 0 : y, scale: isTouchDevice ? 1 : scale }} className="relative flex justify-center items-center py-16 overflow-visible">
               <motion.div variants={scaleInVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="relative flex items-center justify-center w-full">
                 <div
-                  className="absolute inset-0 bg-gradient-to-r from-blue-600/60 via-indigo-600/50 to-purple-600/60 blur-[140px] rounded-full pointer-events-none scale-150"
+                  className="absolute inset-0 bg-gradient-to-r from-blue-600/30 via-indigo-600/30 to-purple-600/30 blur-2xl md:blur-[120px] rounded-full pointer-events-none scale-125 md:scale-150"
                   style={{ transform: "translateZ(0)" }}
                 />
 
@@ -390,7 +401,7 @@ export function HeroSection() {
                 <div className="relative flex items-center justify-center z-10 w-full max-w-4xl py-8">
                   {/* Product 1: Anabolic Lean Muscle Builder (Left) */}
                   <motion.div
-                    animate={{
+                    animate={isTouchDevice ? undefined : {
                       y: [0, -20, 0],
                       rotate: [-6, 2, -6],
                     }}
@@ -406,7 +417,8 @@ export function HeroSection() {
                         src="/images/anabolic-lean-muscle-builder.png"
                         alt="Alpha Tech Nutrition - Anabolic Lean Muscle Builder"
                         fill
-                        className="object-contain drop-shadow-[0_30px_45px_rgba(0,0,0,0.8)] group-hover:scale-115 group-hover:z-30 transition-all duration-300"
+                        sizes="(max-width: 768px) 220px, 400px"
+                        className="object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.6)] group-hover:scale-115 group-hover:z-30 transition-all duration-300"
                       />
                     </Link>
                     <div className="absolute -bottom-12 left-0 right-0 text-center opacity-0 group-hover:opacity-100 transition-opacity z-30">
@@ -418,7 +430,7 @@ export function HeroSection() {
 
                   {/* Product 2: Prime Whey (Giant Center Leader) */}
                   <motion.div
-                    animate={{
+                    animate={isTouchDevice ? undefined : {
                       y: [0, -32, 0],
                       rotate: [0, 5, 0],
                     }}
@@ -435,7 +447,8 @@ export function HeroSection() {
                         alt="Alpha Tech Nutrition - Prime Whey Protein Concentrate"
                         fill
                         priority
-                        className="object-contain drop-shadow-[0_35px_70px_rgba(59,130,246,0.8)] group-hover:scale-115 transition-all duration-300"
+                        sizes="(max-width: 768px) 280px, 640px"
+                        className="object-contain drop-shadow-[0_25px_50px_rgba(59,130,246,0.6)] group-hover:scale-115 transition-all duration-300"
                       />
                     </Link>
                     <div className="absolute -bottom-14 left-0 right-0 text-center opacity-0 group-hover:opacity-100 transition-opacity z-30">
@@ -447,7 +460,7 @@ export function HeroSection() {
 
                   {/* Product 3: Alpha Super Mass Gainer (Right) */}
                   <motion.div
-                    animate={{
+                    animate={isTouchDevice ? undefined : {
                       y: [0, -18, 0],
                       rotate: [6, -2, 6],
                     }}
@@ -463,7 +476,8 @@ export function HeroSection() {
                         src="/images/alpha-super-mass-gainer-front.png"
                         alt="Alpha Tech Nutrition - Alpha Super Mass Gainer"
                         fill
-                        className="object-contain drop-shadow-[0_30px_45px_rgba(0,0,0,0.8)] group-hover:scale-115 group-hover:z-30 transition-all duration-300"
+                        sizes="(max-width: 768px) 220px, 400px"
+                        className="object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.6)] group-hover:scale-115 group-hover:z-30 transition-all duration-300"
                       />
                     </Link>
                     <div className="absolute -bottom-12 left-0 right-0 text-center opacity-0 group-hover:opacity-100 transition-opacity z-30">

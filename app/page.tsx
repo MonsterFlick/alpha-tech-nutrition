@@ -14,9 +14,15 @@ export default function Home() {
       <HeroSection />
       <FlavorCarousel />
       <BentoGrid />
-      <ActivationsSection />
-      <BlogPreviewSection />
-      <SocialSection />
+      <div className="content-auto">
+        <ActivationsSection />
+      </div>
+      <div className="content-auto">
+        <BlogPreviewSection />
+      </div>
+      <div className="content-auto">
+        <SocialSection />
+      </div>
       <Footer />
     </main>
   )

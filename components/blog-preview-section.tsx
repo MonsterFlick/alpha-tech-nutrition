@@ -70,9 +70,11 @@ export function BlogPreviewSection() {
                       src={post.featuredImage}
                       alt={post.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      loading="lazy"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute top-3 left-3 bg-black/75 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-mono text-blue-400 border border-blue-500/30">
+                    <div className="absolute top-3 left-3 bg-black/85 md:backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-mono text-blue-400 border border-blue-500/30">
                       {post.category}
                     </div>
                   </div>

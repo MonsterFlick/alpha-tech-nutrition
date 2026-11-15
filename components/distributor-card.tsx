@@ -40,6 +40,7 @@ export function DistributorCard({
             src={distributor.logo}
             alt={`${distributor.shopName} - Logo`}
             fill
+            sizes="(max-width: 640px) 64px, 80px"
             className="object-contain p-1"
           />
         </div>

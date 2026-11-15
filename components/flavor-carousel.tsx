@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { motion, AnimatePresence, useSpring } from "framer-motion"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight, ShieldCheck } from "lucide-react"
@@ -96,45 +96,56 @@ const flavors: (Flavor & { slug: string })[] = [
 
 const slideVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 300 : -300,
+    x: direction > 0 ? 240 : -240,
     opacity: 0,
-    scale: 0.9,
-    rotateY: direction > 0 ? 15 : -15,
+    scale: 0.96,
   }),
   center: {
     x: 0,
     opacity: 1,
     scale: 1,
-    rotateY: 0,
     transition: {
       type: "spring" as const,
-      stiffness: 300,
-      damping: 30,
+      stiffness: 260,
+      damping: 28,
     },
   },
   exit: (direction: number) => ({
-    x: direction > 0 ? -300 : 300,
+    x: direction > 0 ? -240 : 240,
     opacity: 0,
-    scale: 0.9,
-    rotateY: direction > 0 ? -15 : 15,
+    scale: 0.96,
+    transition: {
+      duration: 0.2,
+    },
   }),
 }
 
 export function FlavorCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [[page, direction], setPage] = useState([0, 0])
+  const [isTouch, setIsTouch] = useState(false)
   const currentFlavor = flavors[currentIndex]
+
+  useEffect(() => {
+    setIsTouch(
+      window.matchMedia("(pointer: coarse)").matches ||
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0
+    )
+  }, [])
 
   const rotateX = useSpring(0, { stiffness: 150, damping: 20 })
   const rotateY = useSpring(0, { stiffness: 150, damping: 20 })
   const cardRectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null)
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isTouch) return
     const r = e.currentTarget.getBoundingClientRect()
     cardRectRef.current = { left: r.left, top: r.top, width: r.width, height: r.height }
   }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isTouch) return
     const rect = cardRectRef.current
     if (!rect) return
     const mouseX = e.clientX - rect.left
@@ -146,6 +157,7 @@ export function FlavorCarousel() {
   }
 
   const handleMouseLeave = () => {
+    if (isTouch) return
     cardRectRef.current = null
     rotateX.set(0)
     rotateY.set(0)
@@ -210,17 +222,17 @@ export function FlavorCarousel() {
               className="w-full"
             >
               <motion.div
-                onMouseEnter={handleMouseEnter}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-                style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                onMouseEnter={isTouch ? undefined : handleMouseEnter}
+                onMouseMove={isTouch ? undefined : handleMouseMove}
+                onMouseLeave={isTouch ? undefined : handleMouseLeave}
+                style={isTouch ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
                 className="relative bg-gradient-to-br from-slate-50 via-white to-blue-50/40 rounded-3xl p-8 md:p-12 border-2 border-slate-200 shadow-2xl overflow-hidden"
               >
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                   {/* Left: Product Image */}
                   <div className="md:col-span-5 relative aspect-square flex items-center justify-center">
-                    <motion.div
-                      className="absolute inset-0 rounded-full blur-3xl opacity-30"
+                    <div
+                      className="absolute inset-4 rounded-full blur-xl md:blur-3xl opacity-20 md:opacity-30 pointer-events-none"
                       style={{ backgroundColor: currentFlavor.accentColor }}
                     />
                     <Image
@@ -228,8 +240,9 @@ export function FlavorCarousel() {
                       alt={currentFlavor.name}
                       width={380}
                       height={380}
-                      className="object-contain max-h-[380px] drop-shadow-[0_20px_35px_rgba(0,0,0,0.35)] relative z-10"
-                      priority
+                      sizes="(max-width: 768px) 280px, 380px"
+                      className="object-contain max-h-[380px] drop-shadow-md md:drop-shadow-[0_20px_35px_rgba(0,0,0,0.35)] relative z-10"
+                      priority={currentIndex === 0}
                     />
                   </div>
 

@@ -106,6 +106,8 @@ export function SocialSection() {
                 src={post.image || "/placeholder.svg"}
                 alt={`Instagram post ${index + 1}`}
                 fill
+                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                loading="lazy"
                 className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
               />
               <motion.div

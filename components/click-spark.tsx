@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useRef, useEffect, useCallback } from "react"
+import { useRef, useEffect, useState, useCallback } from "react"
 
 interface ClickSparkProps {
   sparkColor?: string
@@ -35,9 +35,20 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
   const sparksRef = useRef<Spark[]>([])
   const isRunningRef = useRef<boolean>(false)
   const animFrameIdRef = useRef<number | null>(null)
+  const [isTouchDevice, setIsTouchDevice] = useState<boolean | null>(null)
 
-  // Fast viewport-sized canvas
   useEffect(() => {
+    const isTouch =
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(hover: none)").matches ||
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0
+    setIsTouchDevice(isTouch)
+  }, [])
+
+  // Fast viewport-sized canvas - only initialize for non-touch desktop pointer devices
+  useEffect(() => {
+    if (isTouchDevice !== false) return
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -61,7 +72,7 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
         cancelAnimationFrame(animFrameIdRef.current)
       }
     }
-  }, [])
+  }, [isTouchDevice])
 
   const easeFunc = useCallback(
     (t: number) => {
@@ -134,6 +145,7 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
   }, [duration, easeFunc, extraScale, sparkColor, sparkRadius, sparkSize])
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>): void => {
+    if (isTouchDevice) return
     const x = e.clientX
     const y = e.clientY
 
@@ -147,6 +159,11 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
 
     sparksRef.current.push(...newSparks)
     startAnimation()
+  }
+
+  // Touch devices: Zero overhead, no canvas, no event capture
+  if (isTouchDevice) {
+    return <>{children}</>
   }
 
   return (

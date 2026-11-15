@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { Zap, Flame, ShieldCheck, Sparkles } from "lucide-react"
 
 const features = [
@@ -40,7 +40,16 @@ const features = [
 function FeatureCard({ feature, index }: { feature: (typeof features)[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const [isHovered, setIsHovered] = useState(false)
+  const [isTouch, setIsTouch] = useState(false)
   const rectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null)
+
+  useEffect(() => {
+    setIsTouch(
+      window.matchMedia("(pointer: coarse)").matches ||
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0
+    )
+  }, [])
 
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -52,6 +61,7 @@ function FeatureCard({ feature, index }: { feature: (typeof features)[0]; index:
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-6deg", "6deg"])
 
   const handleMouseEnter = () => {
+    if (isTouch) return
     if (ref.current) {
       const r = ref.current.getBoundingClientRect()
       rectRef.current = { left: r.left, top: r.top, width: r.width, height: r.height }
@@ -60,6 +70,7 @@ function FeatureCard({ feature, index }: { feature: (typeof features)[0]; index:
   }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isTouch) return
     const rect = rectRef.current
     if (!rect) return
     const mouseX = e.clientX - rect.left
@@ -69,6 +80,7 @@ function FeatureCard({ feature, index }: { feature: (typeof features)[0]; index:
   }
 
   const handleMouseLeave = () => {
+    if (isTouch) return
     rectRef.current = null
     x.set(0)
     y.set(0)
@@ -82,15 +94,15 @@ function FeatureCard({ feature, index }: { feature: (typeof features)[0]; index:
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      onMouseMove={isTouch ? undefined : handleMouseMove}
+      onMouseEnter={isTouch ? undefined : handleMouseEnter}
+      onMouseLeave={isTouch ? undefined : handleMouseLeave}
+      style={isTouch ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
       className="relative group cursor-pointer"
     >
-      {/* Animated border glow */}
+      {/* Animated border glow (hidden on touch devices to conserve GPU fill rate) */}
       <motion.div
-        className="absolute -inset-[1px] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        className="hidden md:block absolute -inset-[1px] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
           background: `linear-gradient(135deg, ${feature.accent}40, transparent, ${feature.accent}40)`,
           filter: "blur(8px)",

@@ -18,10 +18,17 @@ export function Navigation() {
   const lenis = useLenis()
 
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 50)
+          ticking = false
+        })
+        ticking = true
+      }
     }
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
@@ -36,8 +43,12 @@ export function Navigation() {
       return
     }
     const element = document.querySelector(href)
-    if (element && lenis) {
-      lenis.scrollTo(element as HTMLElement, { offset: -100 })
+    if (element) {
+      if (lenis) {
+        lenis.scrollTo(element as HTMLElement, { offset: -100 })
+      } else {
+        element.scrollIntoView({ behavior: "smooth" })
+      }
     }
   }
 
@@ -59,7 +70,7 @@ export function Navigation() {
       transition={{ type: "spring", stiffness: 100, damping: 20 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled || pathname !== "/"
-          ? "bg-[#0B0E23]/95 backdrop-blur-md border-b border-blue-950/60 shadow-lg shadow-blue-950/20"
+          ? "bg-[#0B0E23]/95 md:backdrop-blur-md border-b border-blue-950/60 shadow-lg shadow-blue-950/20"
           : "bg-transparent"
       }`}
     >
