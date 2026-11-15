@@ -371,7 +371,7 @@ export default async function ProductDetailPage({
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 font-mono text-xs max-h-[380px] overflow-y-auto pr-2 scrollbar-thin">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-mono text-xs">
                 {Object.entries(product.aminoAcidProfile).map(([amino, value]) => {
                   const isBCAA = value.includes("BCAA")
                   return (
@@ -390,6 +390,14 @@ export default async function ProductDetailPage({
                     </div>
                   )
                 })}
+              </div>
+
+              <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-white/40 border-t border-white/5">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                  <span>Highlighted entries represent Essential BCAAs</span>
+                </span>
+                <span>100% Bioactive</span>
               </div>
             </div>
           </div>

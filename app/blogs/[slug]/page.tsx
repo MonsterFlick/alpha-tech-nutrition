@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { WhatsAppOrderButton } from "@/components/whatsapp-order-button"
+import { BlogMarkdown } from "@/components/blog-markdown"
 import { BLOG_POSTS, getBlogPostBySlug } from "@/lib/blog-data"
 import { getProductById } from "@/lib/product-catalog"
 import {
@@ -70,62 +71,6 @@ export async function generateMetadata({
       images: [imageUrl],
     },
   }
-}
-
-function renderInlineFormatting(text: string) {
-  // Regex matches [link text](url), **bold**, `code`
-  const regex = /(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|`[^`]+`)/g
-  const parts = text.split(regex)
-
-  return parts.map((part, index) => {
-    if (part.startsWith("[") && part.includes("](") && part.endsWith(")")) {
-      const match = part.match(/\[([^\]]+)\]\(([^)]+)\)/)
-      if (match) {
-        const [, label, href] = match
-        const isExternal = href.startsWith("http")
-        if (isExternal) {
-          return (
-            <a
-              key={index}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-emerald-400 hover:text-emerald-300 underline underline-offset-4 font-bold inline-flex items-center gap-1 transition-colors"
-            >
-              {label}
-            </a>
-          )
-        }
-        return (
-          <Link
-            key={index}
-            href={href}
-            className="text-blue-400 hover:text-blue-300 underline underline-offset-4 font-bold inline-flex items-center gap-1 transition-colors"
-          >
-            {label}
-          </Link>
-        )
-      }
-    }
-    if (part.startsWith("**") && part.endsWith("**")) {
-      return (
-        <strong key={index} className="text-white font-bold">
-          {part.slice(2, -2)}
-        </strong>
-      )
-    }
-    if (part.startsWith("`") && part.endsWith("`")) {
-      return (
-        <code
-          key={index}
-          className="bg-white/10 text-blue-300 px-1.5 py-0.5 rounded text-xs font-mono"
-        >
-          {part.slice(1, -1)}
-        </code>
-      )
-    }
-    return part
-  })
 }
 
 export default async function BlogPostPage({
@@ -296,130 +241,7 @@ export default async function BlogPostPage({
       <section className="px-4 sm:px-6 max-w-4xl mx-auto pb-16">
         <div className="space-y-8 font-mono text-white/80 leading-relaxed text-sm sm:text-base">
           {/* Article Markdown Rendered Content */}
-          <div className="prose prose-invert max-w-none space-y-6">
-            {post.content.split("\n\n").map((rawBlock, i) => {
-              const block = rawBlock.trim()
-
-              if (!block) return null
-
-              if (block === "---") {
-                return <hr key={i} className="border-white/10 my-8" />
-              }
-
-              if (block.startsWith("## ")) {
-                return (
-                  <h2
-                    key={i}
-                    className="text-2xl sm:text-3xl font-black uppercase text-white tracking-tight mt-10 mb-4 pt-4 border-t border-white/10"
-                  >
-                    {block.replace("## ", "")}
-                  </h2>
-                )
-              }
-
-              if (block.startsWith("### ⚡")) {
-                // High-priority Product CTA Header Block
-                return (
-                  <div
-                    key={i}
-                    className="my-8 p-6 rounded-2xl bg-gradient-to-r from-blue-950/80 via-blue-900/40 to-blue-950/80 border-2 border-blue-500/50 shadow-xl"
-                  >
-                    <h3 className="text-xl sm:text-2xl font-black uppercase text-white flex items-center gap-2 mb-3">
-                      <span className="text-emerald-400">⚡</span>
-                      <span>{block.replace("### ⚡ ", "")}</span>
-                    </h3>
-                  </div>
-                )
-              }
-
-              if (block.startsWith("### ")) {
-                return (
-                  <h3
-                    key={i}
-                    className="text-xl sm:text-2xl font-black uppercase text-blue-400 tracking-tight mt-6 mb-3"
-                  >
-                    {block.replace("### ", "")}
-                  </h3>
-                )
-              }
-
-              // Markdown Tables
-              if (block.includes("|") && block.includes("---")) {
-                const lines = block.split("\n").filter((l) => l.trim().startsWith("|"))
-                if (lines.length >= 2) {
-                  const headerCols = lines[0].split("|").slice(1, -1).map((c) => c.trim())
-                  const bodyRows = lines.slice(2).map((l) => l.split("|").slice(1, -1).map((c) => c.trim()))
-                  return (
-                    <div key={i} className="my-6 overflow-x-auto rounded-2xl border border-white/10 bg-[#0E132D]">
-                      <table className="w-full text-left text-xs font-mono">
-                        <thead className="bg-[#151C42] border-b border-white/10 text-white font-bold">
-                          <tr>
-                            {headerCols.map((h, hi) => (
-                              <th key={hi} className="p-3.5 whitespace-nowrap">
-                                {renderInlineFormatting(h)}
-                              </th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-white/5">
-                          {bodyRows.map((r, ri) => (
-                            <tr key={ri} className="hover:bg-white/5 transition-colors">
-                              {r.map((c, ci) => (
-                                <td key={ci} className="p-3.5 text-white/80">
-                                  {renderInlineFormatting(c)}
-                                </td>
-                              ))}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )
-                }
-              }
-
-              if (block.startsWith("- ")) {
-                return (
-                  <ul key={i} className="list-disc pl-6 space-y-2 text-white/70">
-                    {block.split("\n").map((item, j) => (
-                      <li key={j}>{renderInlineFormatting(item.replace(/^- \s*/, ""))}</li>
-                    ))}
-                  </ul>
-                )
-              }
-
-              if (block.startsWith("1. ") || block.startsWith("2. ")) {
-                return (
-                  <ol key={i} className="list-decimal pl-6 space-y-2 text-white/70">
-                    {block.split("\n").map((item, j) => (
-                      <li key={j}>{renderInlineFormatting(item.replace(/^\d+\.\s*/, ""))}</li>
-                    ))}
-                  </ol>
-                )
-              }
-
-              // In-article CTA Callout Row
-              if (block.startsWith("👉 ")) {
-                return (
-                  <div
-                    key={i}
-                    className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-bold flex items-center gap-2 my-4 shadow-lg"
-                  >
-                    <span className="text-lg">👉</span>
-                    <div className="flex-1 text-sm leading-relaxed">
-                      {renderInlineFormatting(block.replace("👉 ", ""))}
-                    </div>
-                  </div>
-                )
-              }
-
-              return (
-                <p key={i} className="text-white/75 leading-relaxed">
-                  {renderInlineFormatting(block)}
-                </p>
-              )
-            })}
-          </div>
+          <BlogMarkdown content={post.content} />
 
           {/* Promoted Product Feature Card Embedded inside Article */}
           {promotedProduct && (

@@ -26,22 +26,17 @@ export function getWhatsAppOrderUrl({
   quantity = 1,
 }: OrderDetails): string {
   const lines = [
-    `🔥 *ORDER INQUIRY - ALPHA TECH NUTRITION* 🔥`,
+    `*ORDER INQUIRY - ALPHA TECH NUTRITION*`,
     ``,
     `Hello! I want to order the following product:`,
-    `• *Product:* ${name}`,
-    sku ? `• *SKU:* ${sku}` : null,
-    `• *Flavor:* ${flavor}`,
-    weight ? `• *Size / Net Wt:* ${weight}` : null,
-    `• *Quantity:* ${quantity}`,
-    mrp ? `• *Price (MRP):* ${mrp}` : null,
+    `- *Product:* ${name}`,
+    sku ? `- *SKU:* ${sku}` : null,
+    `- *Flavor:* ${flavor}`,
+    weight ? `- *Size / Net Wt:* ${weight}` : null,
+    `- *Quantity:* ${quantity}`,
+    mrp ? `- *Price (MRP):* ${mrp}` : null,
     ``,
     `Please share payment options (UPI/Card/COD) and estimated express delivery timeline.`,
-    ``,
-    `*My Details:*`,
-    `Name: `,
-    `Delivery Address: `,
-    `City & Pincode: `,
   ]
     .filter((line) => line !== null)
     .join("\n")

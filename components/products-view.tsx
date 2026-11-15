@@ -13,8 +13,12 @@ import {
   CheckCircle2,
   FileCheck,
   Filter,
+  Store,
+  MapPin,
 } from "lucide-react"
 import { WHATSAPP_DISPLAY_PHONE, FSSAI_LICENSE } from "@/lib/whatsapp"
+import { AUTHORIZED_DISTRIBUTORS } from "@/lib/distributors"
+import { DistributorCard } from "@/components/distributor-card"
 
 const CATEGORIES = ["All", "Protein", "Muscle Builder", "Mass Gainer"]
 
@@ -218,6 +222,30 @@ export function ProductsView() {
               </motion.div>
             )
           })}
+        </div>
+
+        {/* Authorized Local Distributors Callout */}
+        <div className="mt-16 pt-10 border-t border-white/10 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue-400 flex items-center gap-1.5">
+                <Store className="w-4 h-4 text-blue-400" />
+                <span>Authorized Local Distributors & Retail Outlets</span>
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight mt-1">
+                Prefer In-Person Pickup or Same-Day Local Delivery?
+              </h3>
+            </div>
+            <span className="text-xs font-mono text-white/50">
+              {AUTHORIZED_DISTRIBUTORS.length} Verified Partner Store
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4">
+            {AUTHORIZED_DISTRIBUTORS.map((distributor) => (
+              <DistributorCard key={distributor.id} distributor={distributor} />
+            ))}
+          </div>
         </div>
       </section>
 

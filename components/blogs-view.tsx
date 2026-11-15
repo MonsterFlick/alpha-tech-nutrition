@@ -19,6 +19,7 @@ import {
   CheckCircle2,
 } from "lucide-react"
 import { WHATSAPP_DISPLAY_PHONE, INSTAGRAM_HANDLE, FSSAI_LICENSE } from "@/lib/whatsapp"
+import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
 const CATEGORIES = ["All", "Local Guide", "Protein Science", "Mass Building", "Hypertrophy", "Authenticity", "Nutrition Guide"]
 
@@ -294,6 +295,7 @@ export function BlogsView() {
                 rel="noopener noreferrer"
                 className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-mono font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-emerald-500/30 transition-all"
               >
+                <WhatsAppIcon className="w-4 h-4 text-white" />
                 <span>Chat on WhatsApp Now</span>
                 <ArrowRight className="w-4 h-4" />
               </a>

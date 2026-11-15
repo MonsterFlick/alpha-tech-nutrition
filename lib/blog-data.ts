@@ -62,7 +62,7 @@ Ready to experience clean, explosive recovery? Order genuine **Prime Whey (2kg /
 - **Price (MRP):** ₹4,460 (Free Pan-India Delivery)
 - **Authenticity:** FSSAI Lic. 21524018000384 & Anti-Counterfeit QR Check
 
-👉 **[Order Prime Whey via WhatsApp (+91 83808 89935)](https://wa.me/918380889935?text=Hello%20Alpha%20Tech%20Nutrition!%20I%20want%20to%20order%20Prime%20Whey%20(2kg%20Belgian%20Chocolate))** or **[View Full Product Details & Nutrition Label](/products/prime-whey)**.
+👉 **[Order Prime Whey via WhatsApp (+91 83808 89935)](https://wa.me/918380889935?text=Hello%20Alpha%20Tech%20Nutrition!%20I%20want%20to%20order%20Prime%20Whey%20%282kg%20Belgian%20Chocolate%29)** or **[View Full Product Details & Nutrition Label](/products/prime-whey)**.
     `,
   },
   {
@@ -110,7 +110,7 @@ Stop spinning your wheels with slow gains. Get the hardgainer formula engineered
 - **Price (MRP):** ₹3,520 (Free Express Courier Shipping)
 - **Authenticity:** FSSAI Lic. 21524018000384 & Unique Serial Verification
 
-👉 **[Order Alpha Super Mass Gainer on WhatsApp (+91 83808 89935)](https://wa.me/918380889935?text=Hello%20Alpha%20Tech%20Nutrition!%20I%20want%20to%20order%20Alpha%20Super%20Mass%20Gainer%20(3kg))** or **[Explore Product Specs & Ingredients](/products/alpha-super-mass-gainer)**.
+👉 **[Order Alpha Super Mass Gainer on WhatsApp (+91 83808 89935)](https://wa.me/918380889935?text=Hello%20Alpha%20Tech%20Nutrition!%20I%20want%20to%20order%20Alpha%20Super%20Mass%20Gainer%20%283kg%29)** or **[Explore Product Specs & Ingredients](/products/alpha-super-mass-gainer)**.
     `,
   },
   {
@@ -159,7 +159,7 @@ Experience clean, ripped mass with zero fat bloat:
 - **Price (MRP):** ₹4,630 (All Taxes Included • Express Dispatch)
 - **Authenticity:** FSSAI Lic. 21524018000384 • 100% WADA Dope Free
 
-👉 **[Order Anabolic Lean Muscle Builder via WhatsApp (+91 83808 89935)](https://wa.me/918380889935?text=Hello%20Alpha%20Tech%20Nutrition!%20I%20want%20to%20order%20Anabolic%20Lean%20Muscle%20Builder%20(3kg))** or **[View Complete Nutrition Profile](/products/anabolic-lean-muscle-builder)**.
+👉 **[Order Anabolic Lean Muscle Builder via WhatsApp (+91 83808 89935)](https://wa.me/918380889935?text=Hello%20Alpha%20Tech%20Nutrition!%20I%20want%20to%20order%20Anabolic%20Lean%20Muscle%20Builder%20%283kg%29)** or **[View Complete Nutrition Profile](/products/anabolic-lean-muscle-builder)**.
     `,
   },
   {
@@ -328,7 +328,7 @@ Ready to upgrade your workouts with genuine, high-grade protein? Order your cont
 - **MRP:** ₹4,460 (Inclusive of all taxes & doorstep delivery)
 - **Official WhatsApp Desk:** **+91 83808 89935**
 
-👉 **[Click Here to Order on WhatsApp (+91 83808 89935)](https://wa.me/918380889935?text=Hello%20Alpha%20Tech%20Nutrition!%20I%20am%20from%20Shahapur%20and%20want%20to%20order%20Prime%20Whey%20(2kg%20Belgian%20Chocolate))** or **[View Prime Whey Full Nutrition Label](/products/prime-whey)**.
+👉 **[Click Here to Order on WhatsApp (+91 83808 89935)](https://wa.me/918380889935?text=Hello%20Alpha%20Tech%20Nutrition!%20I%20am%20from%20Shahapur%20and%20want%20to%20order%20Prime%20Whey%20%282kg%20Belgian%20Chocolate%29)** or **[View Prime Whey Full Nutrition Label](/products/prime-whey)**.
     `,
   },
   {
@@ -397,7 +397,7 @@ Order your supplements directly from the official Alpha Tech WhatsApp customer d
 - **Hardgainer Bulking:** Alpha Super Mass Gainer (3kg / 37 Servings) — ₹3,520
 - **WhatsApp Hotline:** **+91 83808 89935**
 
-👉 **[Order on WhatsApp (+91 83808 89935) for Vasind Delivery](https://wa.me/918380889935?text=Hello%20Alpha%20Tech%20Nutrition!%20I%20am%20from%20Vasind%20and%20want%20to%20order%20Anabolic%20Lean%20Muscle%20Builder%20(3kg))** or **[View Full Product Catalog](/products)**.
+👉 **[Order on WhatsApp (+91 83808 89935) for Vasind Delivery](https://wa.me/918380889935?text=Hello%20Alpha%20Tech%20Nutrition!%20I%20am%20from%20Vasind%20and%20want%20to%20order%20Anabolic%20Lean%20Muscle%20Builder%20%283kg%29)** or **[View Full Product Catalog](/products)**.
     `,
   },
   {
@@ -472,7 +472,7 @@ Get factory-fresh supplements delivered to your doorstep in Asangaon:
 - **MRP:** ₹3,520 (Free Express Doorstep Shipping)
 - **WhatsApp Order Line:** **+91 83808 89935**
 
-👉 **[Order on WhatsApp (+91 83808 89935) for Asangaon Delivery](https://wa.me/918380889935?text=Hello%20Alpha%20Tech%20Nutrition!%20I%20am%20from%20Asangaon%20and%20want%20to%20order%20Alpha%20Super%20Mass%20Gainer%20(3kg))** or **[View Alpha Super Mass Gainer Full Specs](/products/alpha-super-mass-gainer)**.
+👉 **[Order on WhatsApp (+91 83808 89935) for Asangaon Delivery](https://wa.me/918380889935?text=Hello%20Alpha%20Tech%20Nutrition!%20I%20am%20from%20Asangaon%20and%20want%20to%20order%20Alpha%20Super%20Mass%20Gainer%20%283kg%29)** or **[View Alpha Super Mass Gainer Full Specs](/products/alpha-super-mass-gainer)**.
     `,
   },
 ]

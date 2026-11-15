@@ -1,67 +1,13 @@
 "use client"
 
-import { motion, useInView } from "framer-motion"
-import { useRef } from "react"
-import { Sparkles, Dumbbell, Building2, Calendar } from "lucide-react"
-
-const activations = [
-  {
-    icon: Sparkles,
-    title: "Supplement Sampling",
-    description: "Experience Alpha Tech Nutrition products at partner gyms and fitness expos.",
-    cta: "Find Locations",
-  },
-  {
-    icon: Dumbbell,
-    title: "Gyms & Studios",
-    description: "Partner with us to fuel your athletes and fitness community.",
-    cta: "Partner With Us",
-  },
-  {
-    icon: Building2,
-    title: "Wholesale & Retail",
-    description: "Stock our premium supplements in your store. Bulk orders available.",
-    cta: "Get Quote",
-  },
-  {
-    icon: Calendar,
-    title: "Athlete Sponsorship",
-    description: "Fuel your championship journey with Alpha Tech Nutrition sponsorship.",
-    cta: "Apply Now",
-  },
-]
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.15,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: "spring" as const,
-      stiffness: 100,
-      damping: 20,
-    },
-  },
-}
+import { motion } from "framer-motion"
+import { Store } from "lucide-react"
+import { AUTHORIZED_DISTRIBUTORS } from "@/lib/distributors"
+import { DistributorCard } from "@/components/distributor-card"
 
 export function ActivationsSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
-
   return (
-    <section id="distributors" className="relative py-16 bg-white overflow-hidden">
+    <section id="distributors" className="relative py-16 bg-white overflow-hidden scroll-mt-28">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -77,7 +23,7 @@ export function ActivationsSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            PARTNERSHIPS
+            AUTHORIZED RETAIL NETWORK
           </motion.span>
           <h2 className="text-3xl md:text-5xl font-black text-[#10163A] tracking-tighter mt-2 overflow-hidden">
             <motion.span
@@ -87,7 +33,7 @@ export function ActivationsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1], delay: 0.2 }}
             >
-              EXPERIENCE{" "}
+              AUTHORIZED{" "}
             </motion.span>
             <motion.span
               className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 inline-block"
@@ -96,7 +42,7 @@ export function ActivationsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1], delay: 0.3 }}
             >
-              ALPHA TECH
+              DISTRIBUTORS
             </motion.span>
           </h2>
           <motion.p
@@ -106,71 +52,23 @@ export function ActivationsSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
           >
-            From partner gym distribution to athlete sponsorships, bring Alpha Tech Nutrition into your fitness journey.
+            Purchase 100% genuine Alpha Tech Nutrition supplements locally from our certified regional retail partner stores.
           </motion.p>
         </motion.div>
 
-        <motion.div
-          ref={ref}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-4"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          {activations.map((activation, index) => (
-            <motion.div
-              key={activation.title}
-              variants={itemVariants}
-              whileHover={{
-                y: -8,
-                scale: 1.02,
-                transition: { type: "spring", stiffness: 400, damping: 17 },
-              }}
-              className="group bg-[#0B0E23] border border-blue-950/60 rounded-2xl p-6 cursor-pointer relative overflow-hidden shadow-lg shadow-blue-950/20"
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-blue-600/0 to-indigo-600/0 group-hover:from-blue-600 group-hover:to-indigo-600"
-                transition={{ duration: 0.4 }}
-              />
+        {/* Featured Authorized Store / Distributor Card: Bhiwandi */}
+        <div>
+          <div className="flex items-center gap-2 mb-3 text-xs font-mono font-bold uppercase tracking-wider text-[#10163A]">
+            <Store className="w-4 h-4 text-blue-600" />
+            <span>Official Regional Retailer Bhiwandi</span>
+          </div>
 
-              <div className="relative z-10">
-                <motion.div
-                  className="w-11 h-11 rounded-xl bg-blue-600 flex items-center justify-center mb-4 group-hover:bg-white transition-colors duration-300 shadow-md shadow-blue-600/30"
-                  whileHover={{ rotate: 10, scale: 1.1 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  <activation.icon className="w-5 h-5 text-white group-hover:text-blue-600 transition-colors duration-300" />
-                </motion.div>
-
-                <h3 className="text-lg font-black text-white group-hover:text-white tracking-tight mb-2 transition-colors duration-300">
-                  {activation.title}
-                </h3>
-                <p className="text-white/70 group-hover:text-white/80 font-mono text-xs leading-relaxed mb-4 transition-colors duration-300">
-                  {activation.description}
-                </p>
-
-                <motion.button
-                  className="flex items-center gap-2 text-blue-400 group-hover:text-white font-bold text-xs tracking-wide transition-colors duration-300"
-                  whileHover={{ x: 4 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  {activation.cta}
-                  <motion.svg
-                    className="w-3 h-3"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    initial={{ x: 0 }}
-                    whileHover={{ x: 4 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </motion.svg>
-                </motion.button>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+          <div className="grid grid-cols-1 gap-4">
+            {AUTHORIZED_DISTRIBUTORS.map((distributor) => (
+              <DistributorCard key={distributor.id} distributor={distributor} />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )

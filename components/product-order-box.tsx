@@ -1,19 +1,35 @@
 "use client"
 
 import React, { useState } from "react"
-import { motion } from "framer-motion"
-import { ShoppingBag, Plus, Minus, Check, ShieldCheck, Truck, MessageCircle } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import {
+  ShoppingBag,
+  Plus,
+  Minus,
+  Check,
+  ShieldCheck,
+  Truck,
+  MapPin,
+  Store,
+  ChevronDown,
+  Phone,
+} from "lucide-react"
 import type { ProductItem } from "@/lib/product-catalog"
 import { getWhatsAppOrderUrl, WHATSAPP_DISPLAY_PHONE, FSSAI_LICENSE } from "@/lib/whatsapp"
+import { AUTHORIZED_DISTRIBUTORS } from "@/lib/distributors"
+import { DistributorCard } from "@/components/distributor-card"
+import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
 export function ProductOrderBox({ product }: { product: ProductItem }) {
   const [quantity, setQuantity] = useState(1)
+  const [orderMode, setOrderMode] = useState<"direct" | "distributor">("direct")
 
   // Parse numeric MRP if possible (e.g. ₹4,460 -> 4460)
   const numericMrp = parseInt(product.mrp.replace(/[^0-9]/g, ""), 10) || 0
-  const totalPriceFormatted = numericMrp > 0 ? `₹${(numericMrp * quantity).toLocaleString("en-IN")}` : product.mrp
+  const totalPriceFormatted =
+    numericMrp > 0 ? `₹${(numericMrp * quantity).toLocaleString("en-IN")}` : product.mrp
 
-  const whatsappUrl = getWhatsAppOrderUrl({
+  const factoryWhatsappUrl = getWhatsAppOrderUrl({
     name: product.name,
     sku: product.sku,
     flavor: product.flavor,
@@ -69,35 +85,129 @@ export function ProductOrderBox({ product }: { product: ProductItem }) {
         </div>
       </div>
 
-      {/* Primary WhatsApp Order CTA */}
-      <div>
-        <motion.a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 via-emerald-600 to-green-600 hover:from-emerald-400 hover:via-emerald-500 hover:to-green-500 text-white font-black text-sm sm:text-base font-mono uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-emerald-500/30 flex items-center justify-center gap-3 cursor-pointer border border-emerald-400/40 relative overflow-hidden group"
-        >
-          {/* Shimmer sweep */}
-          <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
+      {/* Buy Mode Selection Tabs */}
+      <div className="space-y-2">
+        <div className="text-[11px] font-mono uppercase tracking-wider text-white/60 font-bold flex items-center justify-between">
+          <span>Choose How to Buy:</span>
+          {orderMode === "direct" && (
+            <button
+              onClick={() => setOrderMode("distributor")}
+              className="text-blue-400 hover:text-blue-300 text-[11px] font-mono flex items-center gap-1 cursor-pointer"
+            >
+              <MapPin className="w-3 h-3 text-red-400" />
+              <span>Buy from Bhiwandi Store</span>
+            </button>
+          )}
+        </div>
 
-          {/* WhatsApp SVG Icon */}
-          <svg className="w-6 h-6 fill-current shrink-0" viewBox="0 0 24 24">
-            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.585 1.961.942 2.796.943 3.18 0 5.767-2.587 5.767-5.766.001-3.187-2.575-5.77-6.767-6.13zm6.657 8.789c-.279.785-1.391 1.439-1.921 1.53-.51.087-1.15.124-3.69-1.023-3.247-1.467-5.321-4.786-5.48-5.003-.16-.217-1.309-1.742-1.309-3.324 0-1.581.828-2.361 1.12-2.68.291-.319.638-.399.85-.399.213 0 .426.002.612.011.199.01.464-.075.726.554.279.669.957 2.335 1.042 2.508.085.172.141.374.027.601-.114.227-.171.369-.341.568-.17.199-.358.444-.512.597-.17.17-.348.354-.15.694.198.341.88 1.448 1.887 2.345 1.298 1.155 2.392 1.514 2.732 1.684.341.171.54.142.74-.085.199-.228.851-.994 1.078-1.336.227-.341.455-.285.768-.17.313.114 1.989.938 2.33 1.109.341.17.568.256.653.398.085.142.085.824-.194 1.609zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.176L2 22l4.982-1.398C8.423 21.498 10.158 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z" />
-          </svg>
+        <div className="grid grid-cols-2 gap-2 p-1.5 rounded-2xl bg-[#070A1B] border border-white/10">
+          <button
+            onClick={() => setOrderMode("direct")}
+            className={`py-2.5 px-3 rounded-xl font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              orderMode === "direct"
+                ? "bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-md border border-emerald-400/40"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Truck className="w-3.5 h-3.5" />
+            <span>Factory Direct (Online)</span>
+          </button>
 
-          <span className="flex flex-col text-left">
-            <span>Buy Now on WhatsApp</span>
-            <span className="text-[11px] font-normal normal-case opacity-90">
-              Instant Order Confirmation • {WHATSAPP_DISPLAY_PHONE}
-            </span>
-          </span>
-        </motion.a>
+          <button
+            onClick={() => setOrderMode("distributor")}
+            className={`py-2.5 px-3 rounded-xl font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              orderMode === "distributor"
+                ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md border border-blue-400/40"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Store className="w-3.5 h-3.5" />
+            <span>Local Store ({AUTHORIZED_DISTRIBUTORS.length})</span>
+          </button>
+        </div>
       </div>
 
+      {/* Mode A: Factory Direct Delivery via WhatsApp */}
+      {orderMode === "direct" && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25 }}
+          className="space-y-3"
+        >
+          <motion.a
+            href={factoryWhatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 via-emerald-600 to-green-600 hover:from-emerald-400 hover:via-emerald-500 hover:to-green-500 text-white font-black text-sm sm:text-base font-mono uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-emerald-500/30 flex items-center justify-center gap-3 cursor-pointer border border-emerald-400/40 relative overflow-hidden group"
+          >
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
+            <WhatsAppIcon className="w-6 h-6 text-white shrink-0" />
+            <span className="flex flex-col text-left">
+              <span>Buy Now on WhatsApp</span>
+              <span className="text-[11px] font-normal normal-case opacity-90">
+                Direct Dispatch • {WHATSAPP_DISPLAY_PHONE}
+              </span>
+            </span>
+          </motion.a>
+
+          {/* Quick Callout to Bhiwandi Distributor */}
+          <div
+            onClick={() => setOrderMode("distributor")}
+            className="p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 transition-colors cursor-pointer flex items-center justify-between"
+          >
+            <div className="flex items-center gap-2.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              <div className="text-left">
+                <span className="text-xs font-bold text-white block">
+                  Available locally in Bhiwandi at Dynamic Fitness Nutrition
+                </span>
+                <span className="text-[10px] font-mono text-white/50 block">
+                  Ambadi Naka • Roshan Thakare (+91 88882 71583)
+                </span>
+              </div>
+            </div>
+            <span className="text-xs font-mono text-blue-400 font-bold shrink-0">
+              View Store →
+            </span>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Mode B: Authorized Local Store (Bhiwandi) */}
+      {orderMode === "distributor" && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25 }}
+          className="space-y-4"
+        >
+          <div className="text-xs font-mono text-white/70">
+            Pick up in-store today or arrange direct same-day delivery through our authorized regional distributor in Bhiwandi:
+          </div>
+
+          <div className="space-y-3">
+            {AUTHORIZED_DISTRIBUTORS.map((distributor) => (
+              <DistributorCard
+                key={distributor.id}
+                distributor={distributor}
+                product={{
+                  name: product.name,
+                  flavor: product.flavor,
+                  weight: product.weight,
+                  mrp: totalPriceFormatted,
+                  quantity,
+                }}
+              />
+            ))}
+          </div>
+        </motion.div>
+      )}
+
       {/* Trust & Guarantee Badges */}
-      <div className="grid grid-cols-2 gap-3 pt-2 text-xs font-mono text-white/70">
+      <div className="grid grid-cols-2 gap-3 pt-2 text-xs font-mono text-white/70 border-t border-white/10">
         <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/5">
           <Truck className="w-4 h-4 text-emerald-400 shrink-0" />
           <span className="text-[11px]">Free Express Delivery Across India</span>

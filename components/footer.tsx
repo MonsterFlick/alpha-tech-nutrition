@@ -5,6 +5,7 @@ import { useState, useRef } from "react"
 import Link from "next/link"
 import { BrandLogo } from "@/components/brand-logo"
 import { WHATSAPP_DISPLAY_PHONE, INSTAGRAM_HANDLE, INSTAGRAM_URL, FSSAI_LICENSE } from "@/lib/whatsapp"
+import { WhatsAppIcon } from "@/components/whatsapp-icon"
 import { ShieldCheck, Instagram } from "lucide-react"
 
 const containerVariants = {
@@ -64,7 +65,7 @@ export function Footer() {
         { name: `WhatsApp Orders (${WHATSAPP_DISPLAY_PHONE})`, href: "https://wa.me/918380889935" },
         { name: `Instagram (@${INSTAGRAM_HANDLE})`, href: INSTAGRAM_URL },
         { name: "Email: alphatechnutrition.in@gmail.com", href: "mailto:alphatechnutrition.in@gmail.com" },
-        { name: "Partners & Gym Distributors", href: "#distributors" },
+        { name: "Authorized Distributors (Bhiwandi)", href: "/#distributors" },
       ],
     },
     {
@@ -130,9 +131,10 @@ export function Footer() {
               href="https://wa.me/918380889935"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors"
+              className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors inline-flex items-center gap-1.5"
             >
-              WhatsApp Desk: {WHATSAPP_DISPLAY_PHONE}
+              <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-400" />
+              <span>WhatsApp Desk: {WHATSAPP_DISPLAY_PHONE}</span>
             </a>
             <span>•</span>
             <a
