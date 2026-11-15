@@ -144,9 +144,13 @@
   html {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+    max-width: 100%;
   }
   html,
   body {
+    overflow-x: hidden;
+    max-width: 100%;
     -webkit-overflow-scrolling: touch;
   }
   body {

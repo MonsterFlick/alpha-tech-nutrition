@@ -167,7 +167,7 @@ export default async function ProductDetailPage({
   const otherProducts = PRODUCTS_CATALOG.filter((p) => p.id !== product.id)
 
   return (
-    <main className="min-h-screen bg-[#070A1B] text-white selection:bg-blue-600 selection:text-white">
+    <main className="min-h-screen bg-[#070A1B] text-white selection:bg-blue-600 selection:text-white overflow-x-hidden w-full">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}

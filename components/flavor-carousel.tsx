@@ -183,7 +183,7 @@ export function FlavorCarousel() {
               <ShieldCheck className="w-4 h-4 text-emerald-500" />
               FSSAI LIC. {FSSAI_LICENSE} • 100% PURE FORMULAS
             </span>
-            <h2 className="text-4xl md:text-6xl font-black text-[#10163A] tracking-tighter mt-1">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-[#10163A] tracking-tighter mt-1">
               ELITE ATHLETE <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                 PRODUCT LINEUP
@@ -194,14 +194,14 @@ export function FlavorCarousel() {
           <div className="flex items-center gap-3 mt-6 md:mt-0">
             <button
               onClick={() => paginate(-1)}
-              className="w-12 h-12 rounded-full border-2 border-[#10163A] flex items-center justify-center text-[#10163A] hover:bg-[#10163A] hover:text-white transition-all cursor-pointer shadow-md"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[#10163A] flex items-center justify-center text-[#10163A] hover:bg-[#10163A] hover:text-white transition-all cursor-pointer shadow-md"
               aria-label="Previous product"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={() => paginate(1)}
-              className="w-12 h-12 rounded-full border-2 border-[#10163A] flex items-center justify-center text-[#10163A] hover:bg-[#10163A] hover:text-white transition-all cursor-pointer shadow-md"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[#10163A] flex items-center justify-center text-[#10163A] hover:bg-[#10163A] hover:text-white transition-all cursor-pointer shadow-md"
               aria-label="Next product"
             >
               <ChevronRight className="w-5 h-5" />
@@ -210,7 +210,7 @@ export function FlavorCarousel() {
         </div>
 
         {/* Carousel Showcase */}
-        <div className="relative min-h-[540px] flex items-center justify-center">
+        <div className="relative min-h-[500px] md:min-h-[540px] flex items-center justify-center">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <motion.div
               key={currentIndex}
@@ -226,11 +226,11 @@ export function FlavorCarousel() {
                 onMouseMove={isTouch ? undefined : handleMouseMove}
                 onMouseLeave={isTouch ? undefined : handleMouseLeave}
                 style={isTouch ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
-                className="relative bg-gradient-to-br from-slate-50 via-white to-blue-50/40 rounded-3xl p-8 md:p-12 border-2 border-slate-200 shadow-2xl overflow-hidden"
+                className="relative bg-gradient-to-br from-slate-50 via-white to-blue-50/40 rounded-3xl p-5 sm:p-8 md:p-12 border-2 border-slate-200 shadow-2xl overflow-hidden"
               >
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
                   {/* Left: Product Image */}
-                  <div className="md:col-span-5 relative aspect-square flex items-center justify-center">
+                  <div className="md:col-span-5 relative aspect-square flex items-center justify-center max-w-[280px] sm:max-w-[340px] md:max-w-none mx-auto w-full">
                     <div
                       className="absolute inset-4 rounded-full blur-xl md:blur-3xl opacity-20 md:opacity-30 pointer-events-none"
                       style={{ backgroundColor: currentFlavor.accentColor }}
@@ -240,16 +240,16 @@ export function FlavorCarousel() {
                       alt={currentFlavor.name}
                       width={380}
                       height={380}
-                      sizes="(max-width: 768px) 280px, 380px"
-                      className="object-contain max-h-[380px] drop-shadow-md md:drop-shadow-[0_20px_35px_rgba(0,0,0,0.35)] relative z-10"
+                      sizes="(max-width: 768px) 260px, 380px"
+                      className="object-contain max-h-[260px] sm:max-h-[340px] md:max-h-[380px] drop-shadow-md md:drop-shadow-[0_20px_35px_rgba(0,0,0,0.35)] relative z-10"
                       priority={currentIndex === 0}
                     />
                   </div>
 
                   {/* Right: Product Details & WhatsApp Ordering */}
                   <div className="md:col-span-7 space-y-4">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-mono text-xs font-bold text-blue-600 uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <span className="font-mono text-xs font-bold text-blue-600 uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full border border-blue-200 inline-block max-w-full break-words">
                         {currentFlavor.tagline}
                       </span>
                       <span className="font-mono text-lg font-black text-[#10163A]">
@@ -257,7 +257,7 @@ export function FlavorCarousel() {
                       </span>
                     </div>
 
-                    <h3 className="text-3xl md:text-5xl font-black text-[#10163A] tracking-tight uppercase leading-tight">
+                    <h3 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#10163A] tracking-tight uppercase leading-tight">
                       {currentFlavor.name}
                     </h3>
 
@@ -266,11 +266,11 @@ export function FlavorCarousel() {
                     </p>
 
                     {/* Badges */}
-                    <div className="flex flex-wrap gap-2 pt-1">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-1">
                       {currentFlavor.badges.map((b) => (
                         <span
                           key={b}
-                          className="px-2.5 py-1 bg-[#10163A]/5 border border-[#10163A]/10 rounded-lg text-xs font-mono font-semibold text-[#10163A]"
+                          className="px-2.5 py-1 bg-[#10163A]/5 border border-[#10163A]/10 rounded-lg text-[11px] sm:text-xs font-mono font-semibold text-[#10163A]"
                         >
                           ✓ {b}
                         </span>
@@ -278,7 +278,7 @@ export function FlavorCarousel() {
                     </div>
 
                     {/* Actions: Buy on WhatsApp + View Details */}
-                    <div className="pt-4 flex flex-wrap items-center gap-3">
+                    <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                       <WhatsAppOrderButton
                         productName={currentFlavor.name}
                         flavor="Belgian Chocolate"
@@ -290,7 +290,7 @@ export function FlavorCarousel() {
 
                       <Link
                         href={`/products/${currentFlavor.slug}`}
-                        className="px-6 py-3 rounded-2xl bg-[#10163A] hover:bg-[#1a235c] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-950/20"
+                        className="px-6 py-3 rounded-2xl bg-[#10163A] hover:bg-[#1a235c] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-950/20 text-center"
                       >
                         View Full Specs & Label
                       </Link>

@@ -173,23 +173,23 @@ export function HeroSection() {
 
               {/* Tagline & Product Headline */}
               <div className="space-y-1">
-                <h2 className="text-3xl sm:text-5xl md:text-6xl font-black italic tracking-tighter uppercase text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-100 to-purple-400 leading-none drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]">
+                <h2 className="text-2xl sm:text-4xl md:text-6xl font-black italic tracking-tighter uppercase text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-100 to-purple-400 leading-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)] break-words">
                   {banner.tagline}
                 </h2>
-                <h1 className="text-xl sm:text-3xl font-mono font-black uppercase text-blue-400 tracking-tight pt-1 drop-shadow-md">
+                <h1 className="text-lg sm:text-2xl md:text-3xl font-mono font-black uppercase text-blue-400 tracking-tight pt-1 drop-shadow-md break-words">
                   {banner.productTitle}
                 </h1>
               </div>
 
               {/* Specs Tag */}
-              <p className="text-xs sm:text-sm font-mono text-purple-200/90 font-semibold tracking-wider drop-shadow-md">
+              <p className="text-xs sm:text-sm font-mono text-purple-200/90 font-semibold tracking-wider drop-shadow-md break-words">
                 ⚡ {banner.specs}
               </p>
 
               {/* Action Button */}
               <div className="pt-2">
                 <Link href={banner.slug ? `/products/${banner.slug}` : "/products"}>
-                  <button className="px-8 py-3.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-black text-xs font-mono uppercase tracking-widest rounded-xl transition-all shadow-[0_0_25px_rgba(168,85,247,0.5)] flex items-center gap-3 cursor-pointer group">
+                  <button className="w-full sm:w-auto px-7 py-3.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-black text-xs font-mono uppercase tracking-widest rounded-xl transition-all shadow-[0_0_25px_rgba(168,85,247,0.5)] flex items-center justify-center gap-3 cursor-pointer group">
                     <span>{banner.ctaText}</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </button>
@@ -199,19 +199,19 @@ export function HeroSection() {
           </AnimatePresence>
 
           {/* Navigation Controls & Dots */}
-          <div className="flex items-center gap-4 self-start md:self-end">
-            <div className="flex items-center gap-1 bg-black/80 md:backdrop-blur-md p-1.5 rounded-2xl border border-white/10 shadow-xl">
+          <div className="flex flex-wrap items-center justify-between sm:justify-start gap-3 w-full md:w-auto self-start md:self-end">
+            <div className="flex items-center gap-1 bg-black/80 md:backdrop-blur-md p-1.5 rounded-2xl border border-white/10 shadow-xl max-w-full overflow-x-auto">
               {BANNERS.map((b, index) => (
                 <button
                   key={b.id}
                   onClick={() => setCurrentSlide(index)}
-                  className="min-w-[44px] min-h-[44px] flex items-center justify-center p-1.5 cursor-pointer rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+                  className="min-w-[40px] sm:min-w-[44px] min-h-[40px] sm:min-h-[44px] flex items-center justify-center p-1 cursor-pointer rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
                   aria-label={`Go to slide ${index + 1}`}
                 >
                   <span
                     className={`h-2.5 rounded-full transition-all block ${
                       index === currentSlide
-                        ? "w-10 bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.8)]"
+                        ? "w-8 sm:w-10 bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.8)]"
                         : "w-3 bg-white/30 hover:bg-white/60"
                     }`}
                   />
@@ -222,7 +222,7 @@ export function HeroSection() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setCurrentSlide((prev) => (prev - 1 + BANNERS.length) % BANNERS.length)}
-                className="w-11 h-11 rounded-2xl border border-white/20 bg-black/80 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer md:backdrop-blur-md shadow-xl"
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl border border-white/20 bg-black/80 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer md:backdrop-blur-md shadow-xl"
                 aria-label="Previous Slide"
               >
                 <ChevronLeft className="w-5 h-5" />
@@ -230,7 +230,7 @@ export function HeroSection() {
 
               <button
                 onClick={() => setCurrentSlide((prev) => (prev + 1) % BANNERS.length)}
-                className="w-11 h-11 rounded-2xl border border-white/20 bg-black/80 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer md:backdrop-blur-md shadow-xl"
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl border border-white/20 bg-black/80 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer md:backdrop-blur-md shadow-xl"
                 aria-label="Next Slide"
               >
                 <ChevronRight className="w-5 h-5" />
@@ -404,7 +404,7 @@ export function HeroSection() {
                 />
 
                 {/* Massive 3D Floating Cluster of All 3 Products */}
-                <div className="relative flex items-center justify-center z-10 w-full max-w-4xl py-8">
+                <div className="relative flex items-center justify-center z-10 w-full max-w-4xl py-4 sm:py-8 overflow-hidden sm:overflow-visible">
                   {/* Product 1: Anabolic Lean Muscle Builder (Left) */}
                   <motion.div
                     animate={isTouchDevice ? undefined : {
@@ -416,14 +416,14 @@ export function HeroSection() {
                       repeat: Number.POSITIVE_INFINITY,
                       ease: "easeInOut",
                     }}
-                    className="relative w-56 sm:w-80 md:w-96 lg:w-[400px] aspect-square -mr-16 sm:-mr-28 lg:-mr-36 z-10 group cursor-pointer"
+                    className="relative w-32 sm:w-64 md:w-80 lg:w-[400px] aspect-square -mr-10 sm:-mr-20 lg:-mr-36 z-10 group cursor-pointer shrink-0"
                   >
                     <Link href="/products/anabolic-lean-muscle-builder">
                       <Image
                         src="/images/anabolic-lean-muscle-builder.webp"
                         alt="Alpha Tech Nutrition - Anabolic Lean Muscle Builder"
                         fill
-                        sizes="(max-width: 768px) 220px, 400px"
+                        sizes="(max-width: 640px) 130px, (max-width: 768px) 220px, 400px"
                         className="object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.6)] group-hover:scale-115 group-hover:z-30 transition-all duration-300"
                       />
                     </Link>
@@ -445,7 +445,7 @@ export function HeroSection() {
                       repeat: Number.POSITIVE_INFINITY,
                       ease: "easeInOut",
                     }}
-                    className="relative w-72 sm:w-[460px] md:w-[580px] lg:w-[640px] aspect-square z-20 group cursor-pointer"
+                    className="relative w-44 sm:w-[380px] md:w-[500px] lg:w-[640px] aspect-square z-20 group cursor-pointer shrink-0"
                   >
                     <Link href="/products/prime-whey">
                       <Image
@@ -453,7 +453,7 @@ export function HeroSection() {
                         alt="Alpha Tech Nutrition - Prime Whey Protein Concentrate"
                         fill
                         priority
-                        sizes="(max-width: 768px) 280px, 640px"
+                        sizes="(max-width: 640px) 180px, (max-width: 768px) 280px, 640px"
                         className="object-contain drop-shadow-[0_25px_50px_rgba(59,130,246,0.6)] group-hover:scale-115 transition-all duration-300"
                       />
                     </Link>
@@ -475,14 +475,14 @@ export function HeroSection() {
                       repeat: Number.POSITIVE_INFINITY,
                       ease: "easeInOut",
                     }}
-                    className="relative w-56 sm:w-80 md:w-96 lg:w-[400px] aspect-square -ml-16 sm:-ml-28 lg:-ml-36 z-10 group cursor-pointer"
+                    className="relative w-32 sm:w-64 md:w-80 lg:w-[400px] aspect-square -ml-10 sm:-ml-20 lg:-mr-36 z-10 group cursor-pointer shrink-0"
                   >
                     <Link href="/products/alpha-super-mass-gainer">
                       <Image
                         src="/images/alpha-super-mass-gainer-front.webp"
                         alt="Alpha Tech Nutrition - Alpha Super Mass Gainer"
                         fill
-                        sizes="(max-width: 768px) 220px, 400px"
+                        sizes="(max-width: 640px) 130px, (max-width: 768px) 220px, 400px"
                         className="object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.6)] group-hover:scale-115 group-hover:z-30 transition-all duration-300"
                       />
                     </Link>

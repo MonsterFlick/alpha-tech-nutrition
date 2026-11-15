@@ -64,7 +64,7 @@ export function BrandLogo({
       {showText && (
         <div className="flex flex-col">
           <span className={`${textSizeClasses} font-black tracking-tighter leading-none`}>
-            <span className={scrolled ? "text-white" : "text-[#0e1330] transition-colors"}>
+            <span className="text-white">
               ALPHA{" "}
             </span>
             <span className="text-blue-500 drop-shadow-[0_0_12px_rgba(59,130,246,0.5)]">

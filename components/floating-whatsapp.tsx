@@ -14,7 +14,7 @@ export function FloatingWhatsApp() {
   const bhiwandiDistributor = AUTHORIZED_DISTRIBUTORS[0]
 
   return (
-    <aside aria-label="WhatsApp Quick Order and Support" className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-auto">
+    <aside aria-label="WhatsApp Quick Order and Support" className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end pointer-events-auto">
       {/* Expanded Quick-Order Dialog */}
       <AnimatePresence>
         {isOpen && (
@@ -23,7 +23,7 @@ export function FloatingWhatsApp() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 350, damping: 25 }}
-            className="mb-4 w-80 sm:w-96 rounded-3xl bg-[#0B0E23]/95 backdrop-blur-xl border border-emerald-500/30 shadow-2xl shadow-black/80 overflow-hidden text-white"
+            className="mb-3 w-[calc(100vw-2rem)] max-w-sm sm:w-96 rounded-3xl bg-[#0B0E23]/95 backdrop-blur-xl border border-emerald-500/30 shadow-2xl shadow-black/80 overflow-hidden text-white"
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-emerald-600 to-green-700 p-4 flex items-center justify-between">

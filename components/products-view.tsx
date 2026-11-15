@@ -30,7 +30,7 @@ export function ProductsView() {
   )
 
   return (
-    <main className="min-h-screen bg-[#070A1B] text-white">
+    <main className="min-h-screen bg-[#070A1B] text-white overflow-x-hidden w-full">
       <Navigation />
 
       {/* Hero Section */}

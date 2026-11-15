@@ -83,7 +83,7 @@ export function Footer() {
     <footer ref={footerRef} className="relative bg-[#080B1C] pt-12 pb-6 overflow-hidden border-t border-white/10">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 py-8"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}

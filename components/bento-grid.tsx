@@ -110,7 +110,7 @@ function FeatureCard({ feature, index }: { feature: (typeof features)[0]; index:
       />
 
       {/* Card */}
-      <div className="relative bg-[#0E132D] border border-blue-950/70 group-hover:border-blue-500/40 rounded-2xl p-5 h-full transition-colors duration-300 flex flex-col justify-between">
+      <div className="relative bg-[#0E132D] border border-blue-950/70 group-hover:border-blue-500/40 rounded-2xl p-4 sm:p-5 h-full transition-colors duration-300 flex flex-col justify-between">
         <div className="flex items-center justify-between mb-4">
           <div
             className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
@@ -124,13 +124,13 @@ function FeatureCard({ feature, index }: { feature: (typeof features)[0]; index:
         </div>
 
         <div>
-          <span className="text-2xl font-black text-white font-mono tracking-tight block">
+          <span className="text-lg sm:text-2xl font-black text-white font-mono tracking-tight block break-all sm:break-normal">
             {feature.title}
           </span>
-          <span className="text-xs font-mono font-bold text-white/80 block mt-0.5">
+          <span className="text-[11px] sm:text-xs font-mono font-bold text-white/80 block mt-0.5">
             {feature.subtitle}
           </span>
-          <p className="text-xs text-white/50 mt-1 font-mono leading-relaxed">{feature.description}</p>
+          <p className="text-[11px] sm:text-xs text-white/50 mt-1 font-mono leading-relaxed">{feature.description}</p>
         </div>
 
         {/* Bottom accent line */}

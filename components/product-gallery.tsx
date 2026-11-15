@@ -17,14 +17,14 @@ export function ProductGallery({ gallery, name, category }: ProductGalleryProps)
   return (
     <div className="space-y-4">
       {/* Main Showcase Image Container */}
-      <div className="bg-[#0D122B] border-2 border-blue-950/80 rounded-3xl p-6 sm:p-8 relative flex items-center justify-center shadow-2xl overflow-hidden min-h-[380px] sm:min-h-[440px]">
+      <div className="bg-[#0D122B] border-2 border-blue-950/80 rounded-3xl p-4 sm:p-8 relative flex items-center justify-center shadow-2xl overflow-hidden min-h-[320px] sm:min-h-[440px]">
         {/* Floating Badges */}
-        <div className="absolute top-4 left-4 z-20 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider">
+        <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-[10px] sm:text-xs font-mono font-bold px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full uppercase tracking-wider">
           {category}
         </div>
 
-        <div className="absolute top-4 right-4 z-20 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold px-3 py-1.5 rounded-full flex items-center gap-1">
-          <CheckCircle2 className="w-3.5 h-3.5" /> 100% Verified Label
+        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] sm:text-xs font-mono font-bold px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full flex items-center gap-1">
+          <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> 100% Verified
         </div>
 
         {/* Ambient Glow */}

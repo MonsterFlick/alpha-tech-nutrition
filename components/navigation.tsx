@@ -34,22 +34,22 @@ export function Navigation() {
 
   const handleNavClick = (href: string) => {
     setMobileMenuOpen(false)
-    if (href.startsWith("/")) {
-      router.push(href)
-      return
-    }
-    if (pathname !== "/") {
-      router.push(`/${href}`)
-      return
-    }
-    const element = document.querySelector(href)
-    if (element) {
-      if (lenis) {
-        lenis.scrollTo(element as HTMLElement, { offset: -100 })
-      } else {
-        element.scrollIntoView({ behavior: "smooth" })
+    if (href.includes("#")) {
+      const [path, hash] = href.split("#")
+      const targetId = `#${hash}`
+      if (pathname === "/" || path === "" || path === "/") {
+        const element = document.querySelector(targetId)
+        if (element) {
+          if (lenis) {
+            lenis.scrollTo(element as HTMLElement, { offset: -80 })
+          } else {
+            element.scrollIntoView({ behavior: "smooth" })
+          }
+          return
+        }
       }
     }
+    router.push(href)
   }
 
   const navLinks = [
@@ -135,7 +135,7 @@ export function Navigation() {
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <X className={scrolled || pathname !== "/" ? "text-white" : "text-[#121212]"} />
+                <X className="w-6 h-6 text-white" />
               </motion.div>
             ) : (
               <motion.div
@@ -145,7 +145,7 @@ export function Navigation() {
                 exit={{ rotate: -90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <Menu className={scrolled || pathname !== "/" ? "text-white" : "text-[#121212]"} />
+                <Menu className="w-6 h-6 text-white" />
               </motion.div>
             )}
           </AnimatePresence>

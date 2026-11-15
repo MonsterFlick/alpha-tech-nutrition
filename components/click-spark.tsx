@@ -170,20 +170,24 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     <div
       style={{
         width: "100%",
+        maxWidth: "100%",
         minHeight: "100%",
         position: "relative",
+        overflowX: "hidden",
       }}
       onClick={handleClick}
     >
-      <canvas
-        ref={canvasRef}
-        style={{
-          position: "fixed",
-          inset: 0,
-          pointerEvents: "none",
-          zIndex: 99999,
-        }}
-      />
+      {isTouchDevice === false && (
+        <canvas
+          ref={canvasRef}
+          style={{
+            position: "fixed",
+            inset: 0,
+            pointerEvents: "none",
+            zIndex: 99999,
+          }}
+        />
+      )}
       {children}
     </div>
   )
