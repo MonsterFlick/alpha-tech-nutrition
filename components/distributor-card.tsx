@@ -21,9 +21,11 @@ export function DistributorCard({
   className = "",
 }: DistributorCardProps) {
   const whatsappUrl = getDistributorWhatsAppUrl(distributor, product)
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    distributor.googleMapsQuery || distributor.address
-  )}`
+  const mapsUrl =
+    distributor.googleMapsUrl ||
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      distributor.googleMapsQuery || distributor.address
+    )}`
 
   return (
     <div
@@ -66,10 +68,17 @@ export function DistributorCard({
             <strong className="text-white">{distributor.ownerName}</strong>
           </div>
 
-          <div className="flex items-start gap-1.5 text-xs font-mono text-white/70 leading-relaxed">
-            <MapPin className="w-3.5 h-3.5 text-red-400 shrink-0 mt-0.5" />
-            <span>{distributor.address}</span>
-          </div>
+          <a
+            href={mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-1.5 text-xs font-mono text-white/70 hover:text-blue-300 transition-colors leading-relaxed group/map"
+            title="Open in Google Maps"
+          >
+            <MapPin className="w-3.5 h-3.5 text-red-400 shrink-0 mt-0.5 group-hover/map:scale-110 transition-transform" />
+            <span className="underline decoration-white/20 underline-offset-2 hover:decoration-blue-400">{distributor.address}</span>
+            <ExternalLink className="w-3 h-3 text-white/40 shrink-0 mt-0.5" />
+          </a>
 
           {distributor.operatingHours && (
             <div className="flex items-center gap-1.5 text-[11px] font-mono text-white/50">
@@ -81,29 +90,41 @@ export function DistributorCard({
       </div>
 
       {/* Action Buttons Suite */}
-      <div className="mt-4 pt-3.5 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+      <div className="mt-4 pt-3.5 border-t border-white/10 grid grid-cols-1 sm:grid-cols-12 gap-2">
         {/* WhatsApp Order Action */}
         <a
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="sm:col-span-2 py-2.5 px-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
+          className="sm:col-span-6 py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
         >
           <WhatsAppIcon className="w-4 h-4 text-white shrink-0" />
-          <span>
+          <span className="truncate">
             {product
-              ? `Buy ${product.name.replace("Alpha ", "")} on WhatsApp`
-              : "Order on WhatsApp"}
+              ? `Buy ${product.name.replace("Alpha ", "")}`
+              : "WhatsApp Order"}
           </span>
         </a>
 
         {/* Direct Call Button */}
         <a
           href={`tel:${distributor.phone.replace(/[^0-9+]/g, "")}`}
-          className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+          className="sm:col-span-3 py-2.5 px-2 rounded-xl bg-white/10 hover:bg-white/15 text-white font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
         >
-          <Phone className="w-3.5 h-3.5 text-blue-400" />
-          <span>Call ({distributor.displayPhone.replace("+91 ", "")})</span>
+          <Phone className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+          <span>Call</span>
+        </a>
+
+        {/* Google Maps Directions */}
+        <a
+          href={mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="sm:col-span-3 py-2.5 px-2 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-300 hover:text-white font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+          title="Open in Google Maps"
+        >
+          <Navigation className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+          <span>Maps</span>
         </a>
       </div>
     </div>

@@ -1,4 +1,4 @@
-export interface Distributor {
+  export interface Distributor {
   id: string
   shopName: string
   ownerName: string
@@ -15,6 +15,7 @@ export interface Distributor {
   tagline: string
   badge: string
   operatingHours?: string
+  googleMapsUrl?: string
   googleMapsQuery?: string
 }
 
@@ -36,6 +37,7 @@ export const AUTHORIZED_DISTRIBUTORS: Distributor[] = [
     tagline: "Fuel Your Strength, Define Your Power",
     badge: "Official Regional Retailer Bhiwandi",
     operatingHours: "10:00 AM - 10:00 PM (Mon - Sun)",
+    googleMapsUrl: "https://share.google/BddCHlhzcks7FB8L6",
     googleMapsQuery: "Dynamic Fitness Nutrition Santkrupa Complex Ambadi Naka Bhiwandi 421302",
   },
   {
@@ -55,6 +57,7 @@ export const AUTHORIZED_DISTRIBUTORS: Distributor[] = [
     tagline: "The Perfect Nutrition Store",
     badge: "Official Regional Retailer Sinnar, Nashik",
     operatingHours: "All day 10:00 AM to 8:30 PM",
+    googleMapsUrl: "https://share.google/T1A1497UUmgLXFh1J",
     googleMapsQuery: "Bajrangi Supplements Devi Road Ganesh Society Sinnar Nashik 422103",
   },
 ]

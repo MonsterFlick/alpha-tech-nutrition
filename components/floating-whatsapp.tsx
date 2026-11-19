@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { MessageCircle, X, ShieldCheck, ArrowRight, MapPin, Phone } from "lucide-react"
+import { MessageCircle, X, ShieldCheck, ArrowRight, MapPin, Phone, Navigation } from "lucide-react"
 import { WHATSAPP_DISPLAY_PHONE, getWhatsAppConsultationUrl, FSSAI_LICENSE, INSTAGRAM_URL } from "@/lib/whatsapp"
 import { PRODUCTS_CATALOG } from "@/lib/product-catalog"
 import { AUTHORIZED_DISTRIBUTORS, getDistributorWhatsAppUrl } from "@/lib/distributors"
@@ -109,7 +109,7 @@ export function FloatingWhatsApp() {
                       className="flex-1 py-1.5 px-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors"
                     >
                       <WhatsAppIcon className="w-3.5 h-3.5" />
-                      <span>Chat {activeDistributor.city} Store</span>
+                      <span>Chat Store</span>
                     </a>
                     <a
                       href={`tel:${activeDistributor.phone.replace(/[^0-9+]/g, "")}`}
@@ -119,6 +119,18 @@ export function FloatingWhatsApp() {
                       <Phone className="w-3.5 h-3.5" />
                       <span>Call</span>
                     </a>
+                    {activeDistributor.googleMapsUrl && (
+                      <a
+                        href={activeDistributor.googleMapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="py-1.5 px-2 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-300 font-mono text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"
+                        title="View Location on Google Maps"
+                      >
+                        <Navigation className="w-3.5 h-3.5 text-blue-400" />
+                        <span>Map</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               )}
