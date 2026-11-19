@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/qr-generator", "/api/admin/"],
+        disallow: ["/qr-generator", "/api/admin/", "/.well-known/"],
       },
       {
         userAgent: [
@@ -22,7 +22,7 @@ export default function robots(): MetadataRoute.Robots {
           "Applebot-Extended",
         ],
         allow: "/",
-        disallow: ["/qr-generator", "/api/admin/"],
+        disallow: ["/qr-generator", "/api/admin/", "/.well-known/"],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

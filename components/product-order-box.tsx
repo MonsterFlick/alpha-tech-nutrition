@@ -185,7 +185,7 @@ export function ProductOrderBox({ product }: { product: ProductItem }) {
           className="space-y-4"
         >
           <div className="text-xs font-mono text-white/70">
-            Pick up in-store today or arrange direct same-day delivery through our authorized regional distributor in Bhiwandi:
+            Pick up in-store today or arrange direct local delivery through our authorized regional partner stores in Bhiwandi & Nashik:
           </div>
 
           <div className="space-y-3">

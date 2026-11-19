@@ -6,12 +6,12 @@ import { Instagram } from "lucide-react"
 import Image from "next/image"
 
 const instagramPosts = [
-  { image: "/energy-drink-lifestyle-gym-workout.jpg", likes: "2.4k" },
-  { image: "/content-creator-streaming-setup-neon.jpg", likes: "1.8k" },
-  { image: "/skateboarder-urban-street-sunset.jpg", likes: "3.2k" },
-  { image: "/student-studying-library-late-night.jpg", likes: "956" },
-  { image: "/entrepreneur-startup-office-meeting.jpg", likes: "1.5k" },
-  { image: "/athlete-fitness-morning-routine.jpg", likes: "2.1k" },
+  { image: "/images/fullscreen_banner_prime_whey.png", likes: "2.4k" },
+  { image: "/images/fullscreen_banner_super_mass_gainer.png", likes: "3.1k" },
+  { image: "/images/fullscreen_banner_anabolic_muscle.png", likes: "2.8k" },
+  { image: "/images/fullscreen_banner_all_products.png", likes: "4.2k" },
+  { image: "/images/prime-whey.png", likes: "1.9k" },
+  { image: "/images/alpha-super-mass-gainer.png", likes: "2.5k" },
 ]
 
 const containerVariants = {

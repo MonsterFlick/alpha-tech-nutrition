@@ -112,12 +112,48 @@ export default async function ProductDetailPage({
           priceCurrency: "INR",
           price: numericPrice,
           priceValidUntil: "2027-12-31",
+          validFrom: "2024-01-01",
           availability: "https://schema.org/InStock",
           itemCondition: "https://schema.org/NewCondition",
           seller: {
             "@type": "Organization",
             name: "Alpha Tech Nutrition",
             telephone: "+91-83808-89935",
+          },
+          shippingDetails: {
+            "@type": "OfferShippingDetails",
+            shippingRate: {
+              "@type": "MonetaryAmount",
+              value: "0",
+              currency: "INR",
+            },
+            shippingDestination: {
+              "@type": "DefinedRegion",
+              addressCountry: "IN",
+            },
+            deliveryTime: {
+              "@type": "ShippingDeliveryTime",
+              handlingTime: {
+                "@type": "QuantitativeValue",
+                minValue: 0,
+                maxValue: 1,
+                unitCode: "DAY",
+              },
+              transitTime: {
+                "@type": "QuantitativeValue",
+                minValue: 1,
+                maxValue: 3,
+                unitCode: "DAY",
+              },
+            },
+          },
+          hasMerchantReturnPolicy: {
+            "@type": "MerchantReturnPolicy",
+            applicableCountry: "IN",
+            returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+            merchantReturnDays: 7,
+            returnMethod: "https://schema.org/ReturnByMail",
+            returnFees: "https://schema.org/FreeReturn",
           },
         },
         nutrition: {

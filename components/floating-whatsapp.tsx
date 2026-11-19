@@ -11,7 +11,8 @@ import Image from "next/image"
 
 export function FloatingWhatsApp() {
   const [isOpen, setIsOpen] = useState(false)
-  const bhiwandiDistributor = AUTHORIZED_DISTRIBUTORS[0]
+  const [selectedDistributorIndex, setSelectedDistributorIndex] = useState(0)
+  const activeDistributor = AUTHORIZED_DISTRIBUTORS[selectedDistributorIndex] || AUTHORIZED_DISTRIBUTORS[0]
 
   return (
     <aside aria-label="WhatsApp Quick Order and Support" className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end pointer-events-auto">
@@ -51,49 +52,67 @@ export function FloatingWhatsApp() {
 
             {/* Body */}
             <div className="p-4 space-y-3 max-h-[75vh] overflow-y-auto">
-              {/* Local Distributor Highlight: Bhiwandi */}
-              {bhiwandiDistributor && (
-                <div className="p-3 rounded-2xl bg-gradient-to-r from-blue-950/70 to-indigo-950/60 border border-blue-500/30 space-y-2">
+              {/* Local Distributor Selector & Card */}
+              {activeDistributor && (
+                <div className="p-3 rounded-2xl bg-gradient-to-r from-blue-950/70 to-indigo-950/60 border border-blue-500/30 space-y-2.5">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-mono uppercase tracking-wider text-blue-300 font-bold flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-blue-400" /> Authorized Local Store
+                      <MapPin className="w-3 h-3 text-blue-400" /> Authorized Store
                     </span>
                     <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/30">
-                      Bhiwandi
+                      {activeDistributor.city} ({activeDistributor.district})
                     </span>
+                  </div>
+
+                  {/* Store Selector Tabs */}
+                  <div className="flex items-center gap-1 p-1 bg-[#070A1B] rounded-xl border border-white/10">
+                    {AUTHORIZED_DISTRIBUTORS.map((d, idx) => (
+                      <button
+                        key={d.id}
+                        type="button"
+                        onClick={() => setSelectedDistributorIndex(idx)}
+                        className={`flex-1 py-1 px-2 rounded-lg text-[10px] font-mono font-bold transition-all cursor-pointer truncate ${
+                          selectedDistributorIndex === idx
+                            ? "bg-blue-600 text-white shadow-sm"
+                            : "text-white/60 hover:text-white"
+                        }`}
+                      >
+                        {d.city}
+                      </button>
+                    ))}
                   </div>
 
                   <div className="flex items-center gap-3">
                     <div className="relative w-11 h-11 rounded-xl bg-white p-1 shrink-0 overflow-hidden border border-white/20">
                       <Image
-                        src={bhiwandiDistributor.logo}
-                        alt={bhiwandiDistributor.shopName}
+                        src={activeDistributor.logo}
+                        alt={activeDistributor.shopName}
                         fill
                         className="object-contain"
                       />
                     </div>
                     <div className="min-w-0 flex-1">
                       <h5 className="text-xs font-black text-white truncate">
-                        {bhiwandiDistributor.shopName}
+                        {activeDistributor.shopName}
                       </h5>
                       <p className="text-[10px] font-mono text-white/70">
-                        {bhiwandiDistributor.ownerName} • {bhiwandiDistributor.displayPhone}
+                        {activeDistributor.ownerName} • {activeDistributor.displayPhone}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 pt-1">
                     <a
-                      href={getDistributorWhatsAppUrl(bhiwandiDistributor)}
+                      href={getDistributorWhatsAppUrl(activeDistributor)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-1 py-1.5 px-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors"
                     >
                       <WhatsAppIcon className="w-3.5 h-3.5" />
-                      <span>Chat Bhiwandi Store</span>
+                      <span>Chat {activeDistributor.city} Store</span>
                     </a>
                     <a
-                      href={`tel:${bhiwandiDistributor.phone.replace(/[^0-9+]/g, "")}`}
+                      href={`tel:${activeDistributor.phone.replace(/[^0-9+]/g, "")}`}
                       className="py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"
                       title="Call Store"
                     >

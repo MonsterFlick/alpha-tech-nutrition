@@ -122,8 +122,9 @@ export default async function BlogPostPage({
           "@id": `${siteUrl}/blogs/${post.slug}`,
         },
         about: {
-          "@type": "Product",
+          "@type": "Thing",
           name: promotedProduct?.name || "Alpha Tech Nutrition Supplements",
+          url: promotedProduct ? `${siteUrl}/products/${promotedProduct.id}` : `${siteUrl}/products`,
         },
       },
       {

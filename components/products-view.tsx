@@ -237,11 +237,11 @@ export function ProductsView() {
               </h3>
             </div>
             <span className="text-xs font-mono text-white/50">
-              {AUTHORIZED_DISTRIBUTORS.length} Verified Partner Store
+              {AUTHORIZED_DISTRIBUTORS.length} Verified Partner Stores (Thane & Nashik)
             </span>
           </div>
 
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {AUTHORIZED_DISTRIBUTORS.map((distributor) => (
               <DistributorCard key={distributor.id} distributor={distributor} />
             ))}

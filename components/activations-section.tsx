@@ -56,14 +56,14 @@ export function ActivationsSection() {
           </motion.p>
         </motion.div>
 
-        {/* Featured Authorized Store / Distributor Card: Bhiwandi */}
+        {/* Featured Authorized Stores / Distributor Cards: Bhiwandi & Nashik */}
         <div>
-          <div className="flex items-center gap-2 mb-3 text-xs font-mono font-bold uppercase tracking-wider text-[#10163A]">
+          <div className="flex items-center gap-2 mb-4 text-xs font-mono font-bold uppercase tracking-wider text-[#10163A]">
             <Store className="w-4 h-4 text-blue-600" />
-            <span>Official Regional Retailer Bhiwandi</span>
+            <span>Official Regional Retail Outlets ({AUTHORIZED_DISTRIBUTORS.length} Verified Stores)</span>
           </div>
 
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {AUTHORIZED_DISTRIBUTORS.map((distributor) => (
               <DistributorCard key={distributor.id} distributor={distributor} />
             ))}

@@ -38,6 +38,25 @@ export const AUTHORIZED_DISTRIBUTORS: Distributor[] = [
     operatingHours: "10:00 AM - 10:00 PM (Mon - Sun)",
     googleMapsQuery: "Dynamic Fitness Nutrition Santkrupa Complex Ambadi Naka Bhiwandi 421302",
   },
+  {
+    id: "bajrangi-supplements-sinnar",
+    shopName: "Bajrangi Supplements - The Perfect Nutrition Store",
+    ownerName: "Ankit Kumavat",
+    phone: "+91 74999 74503",
+    displayPhone: "+91 74999 74503",
+    whatsappPhone: "917499974503",
+    city: "Sinnar",
+    taluka: "Sinnar",
+    district: "Nashik",
+    pincode: "422103",
+    address: "Back side of cafe 11.11, devi road, Ganesh society, Sinnar, Nashik - 422103",
+    landmark: "Back side of cafe 11.11, Devi Road, Ganesh Society",
+    logo: "/images/distributors/bajrangi-supplements-sinnar-nashik.png",
+    tagline: "The Perfect Nutrition Store",
+    badge: "Official Regional Retailer Sinnar, Nashik",
+    operatingHours: "All day 10:00 AM to 8:30 PM",
+    googleMapsQuery: "Bajrangi Supplements Devi Road Ganesh Society Sinnar Nashik 422103",
+  },
 ]
 
 /**
@@ -47,7 +66,7 @@ export function getDistributorWhatsAppUrl(
   distributor: Distributor,
   product?: { name: string; flavor?: string; weight?: string; mrp?: string; quantity?: number }
 ): string {
-  let message = `Hello ${distributor.ownerName} / ${distributor.shopName} (Bhiwandi),\nI saw your shop listed on the official Alpha Tech Nutrition website.`
+  let message = `Hello ${distributor.ownerName} / ${distributor.shopName} (${distributor.city}),\nI saw your shop listed on the official Alpha Tech Nutrition website.`
 
   if (product) {
     message += `\n\nI want to purchase:\n- Product: *${product.name}*`
@@ -55,9 +74,9 @@ export function getDistributorWhatsAppUrl(
     if (product.weight) message += `\n- Size: ${product.weight}`
     if (product.quantity && product.quantity > 1) message += `\n- Quantity: ${product.quantity}`
     if (product.mrp) message += `\n- Price: ${product.mrp}`
-    message += `\n\nPlease confirm stock availability at your Ambadi Naka shop or local delivery in Bhiwandi!`
+    message += `\n\nPlease confirm stock availability at your ${distributor.city} store or local delivery!`
   } else {
-    message += `\n\nI would like to inquire about Alpha Tech Nutrition supplements available at your store.`
+    message += `\n\nI would like to inquire about Alpha Tech Nutrition supplements available at your ${distributor.city} store.`
   }
 
   return `https://wa.me/${distributor.whatsappPhone}?text=${encodeURIComponent(message)}`

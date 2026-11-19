@@ -65,7 +65,7 @@ export function Footer() {
         { name: `WhatsApp Orders (${WHATSAPP_DISPLAY_PHONE})`, href: "https://wa.me/918380889935" },
         { name: `Instagram (@${INSTAGRAM_HANDLE})`, href: INSTAGRAM_URL },
         { name: "Email: alphatechnutrition.in@gmail.com", href: "mailto:alphatechnutrition.in@gmail.com" },
-        { name: "Authorized Distributors (Bhiwandi)", href: "/#distributors" },
+        { name: "Authorized Distributors (Bhiwandi & Nashik)", href: "/#distributors" },
       ],
     },
     {

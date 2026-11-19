@@ -123,6 +123,9 @@ const jsonLd = {
         { "@type": "City", name: "Shahapur" },
         { "@type": "City", name: "Vasind" },
         { "@type": "City", name: "Asangaon" },
+        { "@type": "City", name: "Bhiwandi" },
+        { "@type": "City", name: "Sinnar" },
+        { "@type": "City", name: "Nashik" },
         { "@type": "Country", name: "India" },
       ],
       contactPoint: [
@@ -130,7 +133,7 @@ const jsonLd = {
           "@type": "ContactPoint",
           telephone: "+91-83808-89935",
           contactType: "customer service",
-          areaServed: ["IN", "Shahapur", "Vasind", "Asangaon", "Maharashtra"],
+          areaServed: ["IN", "Shahapur", "Vasind", "Asangaon", "Bhiwandi", "Sinnar", "Nashik", "Maharashtra"],
           availableLanguage: ["English", "Hindi", "Marathi"],
         },
       ],
